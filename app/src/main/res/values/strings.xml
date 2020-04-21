@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Gakko</string>
+
+    //SignIn
+    <string name="login_title">Login to your account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="go_to_sign_up">Not a Member? <b> Sign Up </b></string>
+    <string name="alternative_login">or log in with </string>
+    <string name="google">Google</string>
+
 </resources>
