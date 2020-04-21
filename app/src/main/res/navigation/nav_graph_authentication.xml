@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_authentication"
+    app:startDestination="@id/signIn">
+
+    <fragment
+        android:id="@+id/signIn"
+        android:name="com.benrostudios.gakko.ui.auth.signin.SignIn"
+        android:label="sign_in_fragment"
+        tools:layout="@layout/sign_in_fragment" >
+        <action
+            android:id="@+id/action_signIn_to_userSetUp"
+            app:destination="@id/userSetUp" />
+    </fragment>
+    <fragment
+        android:id="@+id/userSetUp"
+        android:name="com.benrostudios.gakko.ui.auth.setup.UserSetUp"
+        android:label="user_set_up_fragment"
+        tools:layout="@layout/user_set_up_fragment" />
+</navigation>
