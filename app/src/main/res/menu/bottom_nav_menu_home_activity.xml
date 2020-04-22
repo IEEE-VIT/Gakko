@@ -2,12 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/threadsFragment"
         android:icon="@drawable/theads_icon"
         android:title="Threads" />
     <item
+        android:id="@+id/pinboardFragment"
         android:icon="@drawable/pinboard_icon"
         android:title="Pinboard" />
     <item
+        android:id="@+id/membersFragment"
         android:icon="@drawable/member_icon"
         android:title="Member" />
 </menu>

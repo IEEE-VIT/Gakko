@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph_home">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_home"
+    app:startDestination="@id/threadsFragment">
 
+    <fragment
+        android:id="@+id/threadsFragment"
+        android:name="com.benrostudios.gakko.ui.home.threads.ThreadsFragment"
+        android:label="threads_fragment"
+        tools:layout="@layout/threads_fragment" />
+    <fragment
+        android:id="@+id/pinboardFragment"
+        android:name="com.benrostudios.gakko.ui.home.pinboard.PinboardFragment"
+        android:label="pinboard_fragment"
+        tools:layout="@layout/pinboard_fragment" />
+    <fragment
+        android:id="@+id/membersFragment"
+        android:name="com.benrostudios.gakko.ui.home.member.MembersFragment"
+        android:label="members_fragment"
+        tools:layout="@layout/members_fragment" />
 </navigation>
