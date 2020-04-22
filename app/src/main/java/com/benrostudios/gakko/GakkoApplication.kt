@@ -6,6 +6,7 @@ import com.benrostudios.gakko.data.repository.AuthRepositoryImpl
 import com.benrostudios.gakko.data.repository.FirebaseRepository
 import com.benrostudios.gakko.data.repository.FirebaseRepositoryImpl
 import com.benrostudios.gakko.internal.Utils
+import com.benrostudios.gakko.ui.auth.setup.UserSetUpViewModelFactory
 import com.benrostudios.gakko.ui.auth.signin.SignInViewModelFactory
 import com.benrostudios.gakko.ui.splash.SplashActivity
 import com.benrostudios.gakko.ui.splash.SplashViewModelFactory
@@ -26,6 +27,7 @@ class GakkoApplication : Application(), KodeinAware {
         bind() from singleton { Utils(instance()) }
         bind() from provider { SplashViewModelFactory(instance())}
         bind() from provider { SignInViewModelFactory(instance(),instance()) }
+        bind() from provider { UserSetUpViewModelFactory(instance()) }
 
     }
 }

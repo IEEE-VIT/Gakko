@@ -15,7 +15,6 @@ class FirebaseRepositoryImpl : FirebaseRepository {
 
 
 
-
     override fun checkUser(phone: String) {
         firebaseDatabase = Firebase.database.getReference("/users/" + phone)
         val userChecker = object : ValueEventListener {
@@ -38,6 +37,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         get() = _response
 
     override suspend fun registerUser(user: User) {
-
+        firebaseDatabase = Firebase.database.getReference("/users")
+        firebaseDatabase.child(user.id).setValue(user)
     }
 }

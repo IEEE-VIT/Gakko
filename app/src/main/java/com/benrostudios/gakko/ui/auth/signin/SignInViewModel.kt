@@ -3,6 +3,7 @@ package com.benrostudios.gakko.ui.auth.signin
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.benrostudios.gakko.data.models.User
 import com.benrostudios.gakko.data.repository.AuthRepository
 import com.benrostudios.gakko.data.repository.FirebaseRepository
 import com.google.firebase.auth.PhoneAuthCredential
@@ -31,6 +32,7 @@ class SignInViewModel(
     fun getUser(phone: String){
         firebaseRepository.checkUser(phone)
     }
+
 
 
 }
