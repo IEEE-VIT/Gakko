@@ -8,8 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.benrostudios.gakko.R
+import com.benrostudios.gakko.ui.base.ScopedFragment
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
 
-class UserSetUp : Fragment() {
+class UserSetUp : ScopedFragment(),KodeinAware {
+    override val kodein: Kodein by closestKodein()
 
     companion object {
         fun newInstance() = UserSetUp()

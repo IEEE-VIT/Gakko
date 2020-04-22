@@ -5,5 +5,5 @@ import com.google.firebase.auth.PhoneAuthCredential
 
 interface AuthRepository {
     suspend fun signIn(credential: PhoneAuthCredential)
-    fun getAuthStatus(): LiveData<Boolean>
+    val getAuthStatus: LiveData<Boolean>
 }

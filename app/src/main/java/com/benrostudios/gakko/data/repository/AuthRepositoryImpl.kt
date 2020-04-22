@@ -12,7 +12,7 @@ class AuthRepositoryImpl :
     AuthRepository {
     private val auth = FirebaseAuth.getInstance()
     private val AUTH_REPO_TAG = "AuthRepo"
-    private val response = MutableLiveData<Boolean>()
+    private val _response = MutableLiveData<Boolean>()
 
     override suspend fun signIn(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential)
@@ -20,18 +20,18 @@ class AuthRepositoryImpl :
                 if (task.isSuccessful) {
                     Log.d(AUTH_REPO_TAG, "signInWithCredential:success")
                     val user = task.result?.user
-                    response.postValue(true)
+                    _response.postValue(true)
                 } else {
                     Log.w(AUTH_REPO_TAG, "signInWithCredential:failure", task.exception)
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
-                        response.postValue(false)
+                        _response.postValue(false)
                     }
                 }
             }
     }
 
-    override fun getAuthStatus(): LiveData<Boolean> {
-        return response
-    }
+    override val getAuthStatus: LiveData<Boolean>
+        get() = _response
+
 }

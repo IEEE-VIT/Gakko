@@ -1,6 +1,7 @@
 package com.benrostudios.gakko.ui.auth.signin
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.navigation.Navigation
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
+import com.benrostudios.gakko.ui.classroom.ClassroomActivity
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -150,12 +152,25 @@ class SignIn : ScopedFragment(), KodeinAware {
     }
 
     private fun getAuthStatus() = launch {
-        viewModel.getAuthStatus().observe(viewLifecycleOwner, Observer {
+        viewModel.response.observe(viewLifecycleOwner, Observer {
             if (it) {
-                navController.navigate(R.id.action_signIn_to_userSetUp)
-                utils.saveMobile(phoneNumber)
+                getUserResponse()
             } else {
                 Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun getUserResponse() = launch {
+        viewModel.getUser(phoneNumber)
+        viewModel.userResponse.observe(viewLifecycleOwner, Observer {check ->
+            if(!check){
+                navController.navigate(R.id.action_signIn_to_userSetUp)
+                utils.saveMobile(phoneNumber)
+            }else{
+                //Code To Go to Classroom
+                val intent = Intent(context,ClassroomActivity::class.java)
+                startActivity(intent)
             }
         })
     }
