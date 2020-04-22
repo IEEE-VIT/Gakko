@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/theads_icon"
+        android:title="Threads" />
+    <item
+        android:icon="@drawable/pinboard_icon"
+        android:title="Pinboard" />
+    <item
+        android:icon="@drawable/member_icon"
+        android:title="Member" />
+</menu>
