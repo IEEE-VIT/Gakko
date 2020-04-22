@@ -3,6 +3,7 @@ package com.benrostudios.gakko
 import android.app.Application
 import com.benrostudios.gakko.data.repository.AuthRepository
 import com.benrostudios.gakko.data.repository.AuthRepositoryImpl
+import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.auth.signin.SignInViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -17,6 +18,7 @@ class GakkoApplication : Application(), KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
         import(androidXModule(this@GakkoApplication))
         bind<AuthRepository>() with singleton { AuthRepositoryImpl() }
+        bind() from singleton { Utils(instance()) }
         bind() from provider { SignInViewModelFactory(instance()) }
     }
 }

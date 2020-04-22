@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.benrostudios.gakko.R
+import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -28,13 +29,14 @@ import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
 class SignIn : ScopedFragment(), KodeinAware {
-    private var verificationInProgress: Boolean? = false
+    private var verificationInProgress: Boolean = false
     private val SIGN_IN_FRAG = "SignInFragment"
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
-    private lateinit var verificationToken: String
-
+    private  var verificationToken: String? = null
+    private lateinit var phoneNumber: String
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: SignInViewModelFactory by instance()
+    private val utils: Utils by instance()
 
     companion object {
         fun newInstance() = SignIn()
@@ -56,11 +58,13 @@ class SignIn : ScopedFragment(), KodeinAware {
         sign_in_button.setOnClickListener {
             if (validatePhoneNumber()) {
                 getAuthStatus()
-                initiateSignIn(phone_input.text.toString())
+                initiateSignIn(phoneNumber)
             }
         }
         verification_button.setOnClickListener {
-            verifyPhoneNumberWithCode(otp_input.text.toString())
+            if(verificationToken!=null) {
+                verifyPhoneNumberWithCode(otp_input.text.toString())
+            }
         }
     }
 
@@ -69,20 +73,23 @@ class SignIn : ScopedFragment(), KodeinAware {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(SignInViewModel::class.java)
 
-        verificationInProgress = savedInstanceState?.getBoolean(SIGN_IN_FRAG)
+        if (savedInstanceState != null) {
+            verificationInProgress = savedInstanceState.getBoolean(SIGN_IN_FRAG)
+        }
+
 
     }
 
     override fun onStart() {
         super.onStart()
-        if (verificationInProgress!! && validatePhoneNumber()) {
+        if (verificationInProgress && validatePhoneNumber()) {
             initiateSignIn(phone_input.text.toString())
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(SIGN_IN_FRAG, verificationInProgress ?: false)
+        outState.putBoolean(SIGN_IN_FRAG, verificationInProgress)
     }
 
     var callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -146,6 +153,7 @@ class SignIn : ScopedFragment(), KodeinAware {
         viewModel.getAuthStatus().observe(viewLifecycleOwner, Observer {
             if (it) {
                 navController.navigate(R.id.action_signIn_to_userSetUp)
+                utils.saveMobile(phoneNumber)
             } else {
                 Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
             }
@@ -153,7 +161,7 @@ class SignIn : ScopedFragment(), KodeinAware {
     }
 
     private fun verifyPhoneNumberWithCode(code: String) {
-        val credential = PhoneAuthProvider.getCredential(verificationToken, code)
+        val credential = PhoneAuthProvider.getCredential(verificationToken!!, code)
         signInWithFirebase(credential)
     }
 
@@ -172,7 +180,7 @@ class SignIn : ScopedFragment(), KodeinAware {
     }
 
     private fun validatePhoneNumber(): Boolean {
-        val phoneNumber = phone_input.text.toString()
+        phoneNumber = phone_input.text.toString()
         if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length < 13) {
             phone_input.error = "Invalid phone number."
             return false
