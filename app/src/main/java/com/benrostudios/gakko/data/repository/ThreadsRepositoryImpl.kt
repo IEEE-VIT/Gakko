@@ -33,12 +33,12 @@ class ThreadsRepositoryImpl : ThreadsRepository {
         databaseReference.addValueEventListener(valueEventListener)
     }
 
-    override suspend fun postThreads(thread: Threads, threadId: String) {
+    override suspend fun postThread(thread: Threads, threadId: String) {
         databaseReference = FirebaseDatabase.getInstance().getReference("/Threads/$threadId/")
         databaseReference.push().setValue(thread)
     }
 
-    override suspend fun postComments(comment: Comments, threadId: String, specificThreadId: String) {
+    override suspend fun postComment(comment: Comments, threadId: String, specificThreadId: String) {
         databaseReference = FirebaseDatabase.getInstance().getReference("Threads/$threadId/$specificThreadId/comments")
         databaseReference.push().setValue(comment)
     }
