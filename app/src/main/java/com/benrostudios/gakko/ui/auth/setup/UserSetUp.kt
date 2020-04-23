@@ -1,9 +1,7 @@
 package com.benrostudios.gakko.ui.auth.setup
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 import com.benrostudios.gakko.R
-import com.benrostudios.gakko.data.models.Classroom
 import com.benrostudios.gakko.data.models.User
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment

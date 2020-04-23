@@ -9,7 +9,6 @@ import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.benrostudios.gakko.R
-import com.benrostudios.gakko.data.repository.FirebaseRepository
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.auth.AuthActivity
 import com.benrostudios.gakko.ui.classroom.ClassroomActivity
