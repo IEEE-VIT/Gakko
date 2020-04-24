@@ -163,10 +163,10 @@ class SignIn : ScopedFragment(), KodeinAware {
 
     private fun getUserResponse() = launch {
         viewModel.getUser(phoneNumber)
+        utils.saveMobile(phoneNumber)
         viewModel.userResponse.observe(viewLifecycleOwner, Observer {check ->
             if(!check){
                 navController.navigate(R.id.action_signIn_to_userSetUp)
-                utils.saveMobile(phoneNumber)
             }else{
                 //Code To Go to Classroom
                 val intent = Intent(context,ClassroomActivity::class.java)

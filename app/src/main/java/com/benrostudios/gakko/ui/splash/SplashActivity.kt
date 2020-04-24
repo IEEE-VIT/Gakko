@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.lifecycle.Observer
@@ -53,12 +54,15 @@ class SplashActivity : AppCompatActivity(), KodeinAware {
         val phone = utils.retrieveMobile()
         if (phone == null) {
             unAutenticatedUser()
+            Log.d("Splash","Unauthenticated User")
         } else {
             viewModel.getUser(phone)
             viewModel.userResponse.observe(this, Observer {
                 if (it) {
+                    Log.d("Splash","Authenticated User")
                     authenticatedUser()
                 } else {
+                    Log.d("Splash","Form UnFilled Authenticated User")
                     firebaseAuth.signOut()
                     unAutenticatedUser()
                 }

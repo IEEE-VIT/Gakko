@@ -44,12 +44,14 @@ class ClassroomRepositoryImpl(
         classroomIds.add(value)
         for(ids in classroomIds){
             databaseReference = Firebase.database.getReference("/classrooms/$ids")
+            Log.d("classroom fetcher",ids)
             val classroomLoader = object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
                 }
                 override fun onDataChange(p0: DataSnapshot) {
                     val classroom = p0.getValue(Classroom::class.java)
+                    Log.d("classroom fetcher",classroom.toString())
                     classList.add(classroom!!)
                     _classrooms.postValue(classList)
                 }
