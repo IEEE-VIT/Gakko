@@ -11,7 +11,7 @@ class ThreadsViewModel(private val threadsRepository: ThreadsRepository) : ViewM
 
     private val _threads = MutableLiveData<List<Threads>>()
 
-    private val threads: LiveData<List<Threads>>
+    val threads: LiveData<List<Threads>>
         get() = _threads
 
     init {

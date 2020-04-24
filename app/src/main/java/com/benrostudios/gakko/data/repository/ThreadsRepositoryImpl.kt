@@ -7,8 +7,10 @@ import com.benrostudios.gakko.data.models.Threads
 import com.google.firebase.database.*
 
 class ThreadsRepositoryImpl : ThreadsRepository {
-    private val _threads = MutableLiveData<List<Threads>>()
+
+    private var _threads = MutableLiveData<List<Threads>>()
     private lateinit var databaseReference: DatabaseReference
+    val threadList = mutableListOf<Threads>()
 
     override val threads: LiveData<List<Threads>>
         get() = _threads
@@ -22,12 +24,12 @@ class ThreadsRepositoryImpl : ThreadsRepository {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                lateinit var threads: MutableList<Threads>
+                threadList.clear()
                 for(child: DataSnapshot in p0.children) {
-                    threads.add(child.value as Threads)
+                    val thread = child.getValue(Threads :: class.java)!!
+                    threadList.add(thread)
                 }
-                _threads.postValue(threads)
-                threads.clear()
+                _threads.postValue(threadList)
             }
         }
         databaseReference.addValueEventListener(valueEventListener)
