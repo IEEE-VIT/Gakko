@@ -4,16 +4,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.classroom.classroomdisplay.ClassroomDisplay">
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/classroom_display_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/classrooms_toolbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/classroom_display_item"
+         />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/classrooms_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/classroom_display_title"
+        app:titleTextAppearance="@style/TitleText" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/add_classroom_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:contentDescription="@string/add_class_btn_access"
+        android:text="@string/add_class_btn"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/primary_green"
+        app:cornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/classrooms_toolbar"
+        app:layout_constraintVertical_bias="0.925"
+        app:shapeAppearanceOverlay="@style/AddClassroomOverlay"
+         />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/create_classroom_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:contentDescription="@string/add_class_btn"
+        android:text="@string/create_class_btn"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/primary_green"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/classrooms_toolbar"
+        app:layout_constraintVertical_bias="0.925"
+        app:shapeAppearanceOverlay="@style/CreateClassroomOverlay" />
+
+    <View
+        android:id="@+id/line_division"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toTopOf="@+id/create_classroom_btn"
+        app:layout_constraintEnd_toEndOf="@+id/join_classroom_btn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/join_classroom_btn" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/join_classroom_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:contentDescription="@string/add_class_btn"
+        android:text="@string/join_class_btn"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/primary_green"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/line_division"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/JoinClassroomOverlay"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

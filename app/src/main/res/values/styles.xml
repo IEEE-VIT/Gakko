@@ -8,12 +8,35 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:fontFamily">@font/avenir_regular</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
     </style>
 
     <style name="TitleText" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/avenir_regular</item>
         <item name="android:textSize">34sp</item>
         <item name="color">@color/black</item>
+    </style>
+
+    <style name="AddClassroomOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">14dp</item>
+        <item name="cornerSizeTopRight">14dp</item>
+        <item name="cornerSizeBottomRight">14dp</item>
+        <item name="cornerSizeBottomLeft">14dp</item>
+    </style>
+    <style name="CreateClassroomOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">14dp</item>
+        <item name="cornerSizeBottomLeft">14dp</item>
+    </style>
+    <style name="JoinClassroomOverlay" parent="">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
 </resources>

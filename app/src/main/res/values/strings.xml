@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">Gakko</string>
+
+    //HomeActivity
+    //ThreadsFragment
     <string name="threads_default_title">Start a conversation with your class</string>
     <string name="threads_title">Threads</string>
+
+    //ClassroomActivity
+    //ClassroomDisplay
+    <string name="classroom_display_title">Classrooms</string>
+    <string name="add_class_btn">+ Add Class</string>
+    <string name="join_class_btn">Join Class</string>
+    <string name="create_class_btn">Create Class</string>
+
+    //Content Descriptions[Accessibility]
+    <string name="add_class_btn_access">Add Class</string>
 </resources>

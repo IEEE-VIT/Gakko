@@ -1,5 +1,7 @@
 package com.benrostudios.gakko.adapters
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,15 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Classroom
 import com.benrostudios.gakko.internal.Utils
-import kotlinx.android.synthetic.main.clasroom_display_item.view.*
+import com.benrostudios.gakko.ui.home.HomeActivity
+import kotlinx.android.synthetic.main.classroom_display_item.view.*
 
 class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
     RecyclerView.Adapter<ClassroomDisplayAdapter.ClassroomDisplayViewHolder>() {
 
     private lateinit var utils: Utils
+    private lateinit var mContext: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassroomDisplayViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.clasroom_display_item,parent,false)
-        utils = Utils(parent.context)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.classroom_display_item,parent,false)
+        mContext = parent.context
+        utils = Utils(mContext)
         return ClassroomDisplayViewHolder(view)
     }
 
@@ -27,10 +32,12 @@ class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
         holder.background.setImageResource(randomizeImage())
         holder.cardContainer.setOnClickListener {
             utils.saveCurrentClassroom(classrooms[position].classroomID)
+            val intent = Intent(mContext , HomeActivity::class.java)
+            mContext.startActivity(intent)
         }
     }
 
-    fun randomizeImage(): Int{
+    private fun randomizeImage(): Int{
         val image = (1..2).random()
         return if(image == 1){
             R.drawable.clasroom_display_bg_1
