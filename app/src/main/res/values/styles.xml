@@ -10,4 +10,10 @@
         <item name="android:fontFamily">@font/avenir_regular</item>
     </style>
 
+    <style name="TitleText" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/avenir_regular</item>
+        <item name="android:textSize">34sp</item>
+        <item name="color">@color/black</item>
+    </style>
+
 </resources>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Gakko</string>
+    <string name="threads_default_title">Start a conversation with your class</string>
+    <string name="threads_title">Threads</string>
 </resources>
