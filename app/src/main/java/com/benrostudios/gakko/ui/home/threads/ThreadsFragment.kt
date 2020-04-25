@@ -1,29 +1,31 @@
 package com.benrostudios.gakko.ui.home.threads
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
-import com.benrostudios.gakko.data.repository.ThreadsRepository
+import com.benrostudios.gakko.adapters.ThreadsDisplayAdapter
+import com.benrostudios.gakko.data.models.Classroom
+import com.benrostudios.gakko.data.models.Threads
 import com.benrostudios.gakko.ui.base.ScopedFragment
+import kotlinx.android.synthetic.main.threads_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-class ThreadsFragment : ScopedFragment(), KodeinAware{
-
+class ThreadsFragment : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
-    private val viewModelFactory: ThreadsViewModelFactory by instance()
-    private lateinit var viewModel: ThreadsViewModel
+    private val threadsViewModelFactory: ThreadsViewModelFactory by instance()
+    private lateinit var threadsViewModel: ThreadsViewModel
+    private var threadList = listOf<Threads>()
+    private var threadClassroom = Classroom()
+    private lateinit var adapter: ThreadsDisplayAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,16 +36,42 @@ class ThreadsFragment : ScopedFragment(), KodeinAware{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ThreadsViewModel::class.java)
-        getUserResponse()
+        threadsViewModel = ViewModelProvider(this, threadsViewModelFactory).get(ThreadsViewModel::class.java)
     }
 
-    private fun getUserResponse() = launch {
-        viewModel.getThreads("-sihshidv213")
-        viewModel.threads.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT)
-                .show()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getThreadsList("-sihshidv213")
+    }
+
+    private fun getThreadsList(threadId: String) = launch {
+        threadsViewModel.getThreads(threadId)
+        threadsViewModel.threads.observe(viewLifecycleOwner, Observer {
+            threadList = it
+            getThreadClassroom("1587710681410")
         })
     }
 
+    private fun getThreadClassroom(classroomId: String) = launch {
+        threadsViewModel.getThreadClassroom(classroomId)
+        threadsViewModel.threadClassroom.observe(viewLifecycleOwner, Observer {
+            updateUI(threadList, it, threadsViewModel)
+        })
+    }
+
+    private fun updateUI(threadList: List<Threads>, threadClassroom: Classroom, threadsViewModel: ThreadsViewModel) {
+        if(threadList.isEmpty()) {
+            threads_recycler_view.visibility = View.GONE
+            threads_default_image_background.visibility = View.VISIBLE
+            threads_default_text_view.visibility = View.VISIBLE
+        }
+        else {
+            threads_recycler_view.visibility = View.VISIBLE
+            threads_default_image_background.visibility = View.GONE
+            threads_default_text_view.visibility = View.GONE
+            adapter = ThreadsDisplayAdapter(threadList, threadClassroom)
+            threads_recycler_view.layoutManager = LinearLayoutManager(context)
+            threads_recycler_view.adapter = adapter
+        }
+    }
 }
