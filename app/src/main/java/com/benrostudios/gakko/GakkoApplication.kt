@@ -11,6 +11,7 @@ import com.benrostudios.gakko.ui.auth.setup.UserSetUpViewModelFactory
 import com.benrostudios.gakko.ui.auth.signin.SignInViewModelFactory
 import com.benrostudios.gakko.ui.classroom.classroomdisplay.ClassroomDisplayViewModelFactory
 import com.benrostudios.gakko.data.repository.*
+import com.benrostudios.gakko.ui.classroom.createclassroom.CreateClassroomViewModelFactory
 import com.benrostudios.gakko.ui.home.threads.ThreadsViewModelFactory
 import com.benrostudios.gakko.ui.splash.SplashViewModelFactory
 import org.kodein.di.Kodein
@@ -35,5 +36,6 @@ class GakkoApplication : Application(), KodeinAware {
         bind() from provider { UserSetUpViewModelFactory(instance()) }
         bind() from provider {ClassroomDisplayViewModelFactory(instance())}
         bind() from provider { ThreadsViewModelFactory(instance())}
+        bind() from provider{CreateClassroomViewModelFactory(instance())}
     }
 }

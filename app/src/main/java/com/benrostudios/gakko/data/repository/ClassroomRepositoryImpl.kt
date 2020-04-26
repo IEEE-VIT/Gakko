@@ -43,13 +43,16 @@ class ClassroomRepositoryImpl(
             }
 
             override fun onDataChange(p0: DataSnapshot) {
+                classroomIds = mutableListOf()
+                classList = mutableListOf<Classroom>()
                 for (x in p0.children) {
+                    classroomIds.add(x.value.toString())
+                    Log.d("ClassroomIDS", classroomIds.toString())
                     classroomLoader(x.value.toString())
                 }
             }
         }
-        databaseReference.addListenerForSingleValueEvent(classroomFetcher)
-
+        databaseReference.addValueEventListener(classroomFetcher)
     }
 
     override suspend fun fetchClassroomId() {
@@ -57,25 +60,29 @@ class ClassroomRepositoryImpl(
         _fetchedClassroomId.postValue(fetchClassroomId.body())
     }
 
-    fun classroomLoader(value: String) {
-        classroomIds.add(value)
-        for (ids in classroomIds) {
-            databaseReference = Firebase.database.getReference("/classrooms/$ids")
-            Log.d("classroom fetcher", ids)
-            val classroomLoader = object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
+    override suspend fun createClassroom(classroom: Classroom) {
+        databaseReference = Firebase.database.reference
+        databaseReference.child("classrooms").child(classroom.classroomID).setValue(classroom)
+        databaseReference = Firebase.database.getReference("/users/${utils.retrieveMobile()}")
+        classroomIds.add(classroom.classroomID)
+        databaseReference.child("classrooms").setValue(classroomIds)
+    }
 
-                }
+    fun classroomLoader(ids: String) {
+        databaseReference = Firebase.database.getReference("/classrooms/$ids")
+        Log.d("classroom fetcher", ids)
+        val classroomLoader = object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
 
-                override fun onDataChange(p0: DataSnapshot) {
-                    val classroom = p0.getValue(Classroom::class.java)
-                    Log.d("classroom fetcher", classroom.toString())
-                    classList.add(classroom!!)
-                    _classrooms.postValue(classList)
-                }
             }
-            databaseReference.addListenerForSingleValueEvent(classroomLoader)
-        }
 
+            override fun onDataChange(p0: DataSnapshot) {
+                val classroom = p0.getValue(Classroom::class.java)
+                Log.d("classroom fetcher", classroom.toString())
+                classList.add(classroom!!)
+                _classrooms.postValue(classList)
+            }
+        }
+        databaseReference.addListenerForSingleValueEvent(classroomLoader)
     }
 }

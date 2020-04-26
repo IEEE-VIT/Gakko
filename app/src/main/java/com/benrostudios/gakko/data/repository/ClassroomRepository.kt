@@ -9,5 +9,7 @@ interface ClassroomRepository {
     val createClassroomId: LiveData<GetClassroomIdResponse>
     suspend fun getClassrooms()
     suspend fun fetchClassroomId()
+    suspend fun createClassroom(classroom: Classroom)
+
 
 }

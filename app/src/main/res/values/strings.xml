@@ -12,7 +12,14 @@
     <string name="add_class_btn">+ Add Class</string>
     <string name="join_class_btn">Join Class</string>
     <string name="create_class_btn">Create Class</string>
+    //CreateClassroom
+    <string name="create_classroom_title">Create Classroom</string>
+    <string name="create_classroom_class_name">Classroom Title</string>
+    <string name="create_classroom_class_coursecode">Course Code (Optional)</string>
+    <string name="create_classroom_class_private">Private Classroom</string>
+    <string name="create_classroom_class_create">Create</string>
 
     //Content Descriptions[Accessibility]
     <string name="add_class_btn_access">Add Class</string>
+
 </resources>

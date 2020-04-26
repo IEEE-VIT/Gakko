@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.ClassroomDisplayAdapter
@@ -29,6 +31,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ClassroomDisplayViewModelFactory by instance()
     private lateinit var adapter: ClassroomDisplayAdapter
+    private lateinit var navController: NavController
     private var showClassroomButtonOptions: Boolean = true
 
     companion object {
@@ -60,11 +63,20 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
             }
         }
 
+        join_classroom_btn.setOnClickListener {
+            navController.navigate(R.id.action_classroomDisplay_to_joinClassroom)
+        }
+
+        create_classroom_btn.setOnClickListener {
+            navController.navigate(R.id.action_classroomDisplay_to_createClassroom)
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchClassrooms()
+        navController = Navigation.findNavController(view)
     }
 
     private fun fetchClassrooms() = launch {
