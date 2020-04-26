@@ -3,12 +3,14 @@ package com.benrostudios.gakko.ui.classroom.classroomdisplay
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.app.Dialog
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.ClassroomDisplayAdapter
 import com.benrostudios.gakko.ui.base.ScopedFragment
+import com.benrostudios.gakko.ui.classroom.createclassroom.CreateClassroom
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
 import kotlinx.android.synthetic.main.classroom_display_fragment.*
@@ -68,7 +71,10 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
         }
 
         create_classroom_btn.setOnClickListener {
-            navController.navigate(R.id.action_classroomDisplay_to_createClassroom)
+            //navController.navigate(R.id.action_classroomDisplay_to_createClassroom)
+            val bottomSheetFragment = CreateClassroom()
+            bottomSheetFragment.show(activity?.supportFragmentManager!!, bottomSheetFragment.tag)
+
         }
 
     }

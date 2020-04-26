@@ -1,21 +1,25 @@
 package com.benrostudios.gakko.ui.classroom.createclassroom
 
-import androidx.lifecycle.ViewModelProviders
+
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.lifecycle.lifecycleScope
+
 
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Classroom
 import com.benrostudios.gakko.internal.Utils
-import com.benrostudios.gakko.ui.base.ScopedFragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.create_classroom_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -23,21 +27,14 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-class CreateClassroom : ScopedFragment(), KodeinAware {
+class CreateClassroom() : BottomSheetDialogFragment(), KodeinAware{
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: CreateClassroomViewModelFactory by instance()
     private val utils: Utils by instance()
-    private lateinit var navController: NavController
-
+    private lateinit var viewModel: CreateClassroomViewModel
 
     companion object {
         fun newInstance() = CreateClassroom()
-    }
-
-    private lateinit var viewModel: CreateClassroomViewModel
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        navController = Navigation.findNavController(view)
     }
 
     override fun onCreateView(
@@ -67,7 +64,7 @@ class CreateClassroom : ScopedFragment(), KodeinAware {
         }
     }
 
-    private fun fetchClassroomId() = launch {
+    private fun fetchClassroomId() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.fetchNewClassroomId()
         viewModel.fetchClassroomIdResponse.observe(viewLifecycleOwner, Observer {
             if (it.classroomId.isNotEmpty()) {
@@ -84,7 +81,7 @@ class CreateClassroom : ScopedFragment(), KodeinAware {
         })
     }
 
-    private fun createClassroom(classTitle: String , classCourseCode: String, classPrivate: Boolean,newClassroomId: String) = launch{
+    private fun createClassroom(classTitle: String , classCourseCode: String, classPrivate: Boolean,newClassroomId: String) = viewLifecycleOwner.lifecycleScope.launch{
         if(newClassroomId.isNotEmpty()){
             val newClassroom = Classroom(newClassroomId,classCourseCode,utils.retrieveMobile()?:"",classTitle,"",classPrivate, emptyList(),
                 listOf(utils.retrieveMobile()?:""), emptyMap())
@@ -92,7 +89,7 @@ class CreateClassroom : ScopedFragment(), KodeinAware {
         }
         viewModel.createClassroomResponse.observe(viewLifecycleOwner, Observer {
             if(it){
-                navController.navigateUp()
+                dismiss()
             }
         })
     }
