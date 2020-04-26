@@ -1,6 +1,7 @@
 package com.benrostudios.gakko
 
 import android.app.Application
+import com.benrostudios.gakko.data.network.service.CreateClassroomService
 import com.benrostudios.gakko.data.repository.AuthRepository
 import com.benrostudios.gakko.data.repository.AuthRepositoryImpl
 import com.benrostudios.gakko.data.repository.ClassroomRepository
@@ -27,7 +28,8 @@ class GakkoApplication : Application(), KodeinAware {
         bind<AuthRepository>() with singleton { AuthRepositoryImpl() }
         bind<ThreadsRepository>() with singleton { ThreadsRepositoryImpl() }
         bind() from singleton { Utils(instance()) }
-        bind<ClassroomRepository>() with singleton{ClassroomRepositoryImpl(instance())}
+        bind() from singleton { CreateClassroomService() }
+        bind<ClassroomRepository>() with singleton{ClassroomRepositoryImpl(instance(),instance())}
         bind() from provider { SplashViewModelFactory(instance())}
         bind() from provider { SignInViewModelFactory(instance()) }
         bind() from provider { UserSetUpViewModelFactory(instance()) }

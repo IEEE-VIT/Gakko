@@ -69,4 +69,9 @@ dependencies {
 
     //Firebase Database
     implementation 'com.google.firebase:firebase-database-ktx:19.2.1'
+
+    //RetroFit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:okhttp:4.3.1"
 }
