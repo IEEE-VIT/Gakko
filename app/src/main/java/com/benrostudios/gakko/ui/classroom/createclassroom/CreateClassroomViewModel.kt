@@ -1,5 +1,6 @@
 package com.benrostudios.gakko.ui.classroom.createclassroom
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.benrostudios.gakko.data.models.Classroom
@@ -16,22 +17,22 @@ class CreateClassroomViewModel(
     init {
         classroomRepository.createClassroomId.observeForever {
             fetchClassroomIdResponse.postValue(it)
+            Log.d("FetchIdResponse",it.classroomId)
         }
-        classroomRepository.classrooms.observeForever {
-            for(classrooms in it){
-                if(classrooms.classroomID == newClassroomId){
-                    createClassroomResponse.postValue(true)
-                }
+        classroomRepository.userClassroomIds.observeForever {
+            if (it.contains(newClassroomId)) {
+                createClassroomResponse.postValue(true)
+                Log.d("createResponse",it.toString())
             }
         }
     }
 
-    suspend fun createClassroom(newClassroom : Classroom){
+    suspend fun createClassroom(newClassroom: Classroom) {
         classroomRepository.createClassroom(newClassroom)
         newClassroomId = newClassroom.classroomID
     }
 
-    suspend fun fetchNewClassroomId(){
+    suspend fun fetchNewClassroomId() {
         classroomRepository.fetchClassroomId()
     }
 

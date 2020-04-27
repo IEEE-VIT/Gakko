@@ -18,6 +18,10 @@
     <string name="create_classroom_class_coursecode">Course Code (Optional)</string>
     <string name="create_classroom_class_private">Private Classroom</string>
     <string name="create_classroom_class_create">Create</string>
+    //JoinClassroom
+    <string name="join_classroom_title">Join Classroom</string>
+    <string name="join_classroom_class_code">Classroom Code</string>
+    <string name="join_classroom_class_join_btn">Join</string>
 
     //Content Descriptions[Accessibility]
     <string name="add_class_btn_access">Add Class</string>

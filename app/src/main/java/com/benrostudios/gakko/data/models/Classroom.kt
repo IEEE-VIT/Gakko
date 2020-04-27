@@ -9,10 +9,10 @@ data class Classroom (
     val privacy: Boolean ,
     val students: List<String>,
     val teachers: List<String>,
-    val requests: Map<String,String>
+    val requests: List<Map<String,String>>
 ){
     constructor(): this("","",  "","","",false,
         emptyList(),
         emptyList(),
-        emptyMap())
+        emptyList())
 }

@@ -84,7 +84,8 @@ class CreateClassroom() : BottomSheetDialogFragment(), KodeinAware{
     private fun createClassroom(classTitle: String , classCourseCode: String, classPrivate: Boolean,newClassroomId: String) = viewLifecycleOwner.lifecycleScope.launch{
         if(newClassroomId.isNotEmpty()){
             val newClassroom = Classroom(newClassroomId,classCourseCode,utils.retrieveMobile()?:"",classTitle,"",classPrivate, emptyList(),
-                listOf(utils.retrieveMobile()?:""), emptyMap())
+                listOf(utils.retrieveMobile()?:""), emptyList()
+            )
             viewModel.createClassroom(newClassroom)
         }
         viewModel.createClassroomResponse.observe(viewLifecycleOwner, Observer {
