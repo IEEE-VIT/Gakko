@@ -38,4 +38,9 @@
     //Content Descriptions[Accessibility]
     <string name="add_class_btn_access">Add Class</string>
 
+    //BottomNavigationBar
+    <string name="classes_title">Classes</string>
+    <string name="to_do_title">To-Do</string>
+    <string name="notifications_title">Notifications</string>
+
 </resources>
