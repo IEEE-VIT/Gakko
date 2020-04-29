@@ -1,6 +1,7 @@
 package com.benrostudios.gakko.ui.home.threads
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.ThreadsDisplayAdapter
 import com.benrostudios.gakko.data.models.Classroom
 import com.benrostudios.gakko.data.models.Threads
+import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.threads_fragment.*
 import kotlinx.coroutines.launch
@@ -23,6 +25,7 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val threadsViewModelFactory: ThreadsViewModelFactory by instance()
     private lateinit var threadsViewModel: ThreadsViewModel
+    private val utils: Utils by instance()
     private var threadList = listOf<Threads>()
     private var threadClassroom = Classroom()
     private lateinit var adapter: ThreadsDisplayAdapter
@@ -48,7 +51,7 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
         threadsViewModel.getThreads(threadId)
         threadsViewModel.threads.observe(viewLifecycleOwner, Observer {
             threadList = it
-            getThreadClassroom("1587710681410")
+            getThreadClassroom(utils.retrieveCurrentClassroom() ?: "")
         })
     }
 

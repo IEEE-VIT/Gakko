@@ -7,4 +7,6 @@ data class User(
     val name: String,
     val online: Boolean,
     val profileImage: String
-)
+){
+    constructor():this(emptyList(),"","","",false,"")
+}

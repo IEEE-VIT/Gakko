@@ -17,6 +17,9 @@
     //ThreadsFragment
     <string name="threads_default_title">Start a conversation with your class</string>
     <string name="threads_title">Threads</string>
+    //MembersFragment
+    <string name="teachers_title">Teachers</string>
+    <string name="students_title">Students</string>
 
     //ClassroomActivity
     //ClassroomDisplay

@@ -1,9 +1,8 @@
 package com.benrostudios.gakko.adapters
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.benrostudios.gakko.ui.home.member.MembersFragment
+import com.benrostudios.gakko.ui.home.members.MembersFragment
 import com.benrostudios.gakko.ui.home.pinboard.PinboardFragment
 import com.benrostudios.gakko.ui.home.threads.ThreadsFragment
 
