@@ -3,21 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_home"
-    app:startDestination="@id/threadsFragment">
-
+    app:startDestination="@id/homeHostFragment">
     <fragment
-        android:id="@+id/threadsFragment"
-        android:name="com.benrostudios.gakko.ui.home.threads.ThreadsFragment"
-        android:label="threads_fragment"
-        tools:layout="@layout/threads_fragment" />
+        android:id="@+id/homeHostFragment"
+        android:name="com.benrostudios.gakko.ui.home.homehost.HomeHostFragment"
+        android:label="HomeHostFragment" />
     <fragment
-        android:id="@+id/pinboardFragment"
-        android:name="com.benrostudios.gakko.ui.home.pinboard.PinboardFragment"
-        android:label="pinboard_fragment"
-        tools:layout="@layout/pinboard_fragment" />
+        android:id="@+id/notifications"
+        android:name="com.benrostudios.gakko.ui.home.notifications.Notifications"
+        android:label="notifications_fragment"
+        tools:layout="@layout/notifications_fragment" />
     <fragment
-        android:id="@+id/membersFragment"
-        android:name="com.benrostudios.gakko.ui.home.member.MembersFragment"
-        android:label="members_fragment"
-        tools:layout="@layout/members_fragment" />
+        android:id="@+id/todo"
+        android:name="com.benrostudios.gakko.ui.home.todo.Todo"
+        android:label="todo_fragment"
+        tools:layout="@layout/todo_fragment" />
 </navigation>
