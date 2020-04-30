@@ -1,28 +1,35 @@
 package com.benrostudios.gakko.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
-import com.benrostudios.gakko.data.models.Classroom
 import com.benrostudios.gakko.data.models.Threads
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.benrostudios.gakko.data.models.User
+import com.bumptech.glide.Glide
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashMap
 
 class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
-                            private val threadClassroom: Classroom):
+                            private val teachersList: List<String>,
+                            private val map: HashMap<String, User>):
     RecyclerView.Adapter<ThreadsDisplayAdapter.ThreadsDisplayViewHolder>() {
 
-    private val classCommentsTitle: String = "Add class comments"
-    private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("users")
-    private val studentInClassroom: List<String> = threadClassroom.students
-    private val teachersInClassroom: List<String> = threadClassroom.teachers
+    private lateinit var context: Context
+    private lateinit var designation: String
+    private lateinit var numberOfComments: String
+    private var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd/mm/yyyy")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThreadsDisplayViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.thread_list_item, parent, false)
+        context = parent.context
         return ThreadsDisplayViewHolder(view)
     }
 
@@ -32,25 +39,33 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
 
     override fun onBindViewHolder(holder: ThreadsDisplayViewHolder, position: Int) {
         val thread: Threads = threadsList[position]
+        val threadUser: User = map[thread.user] ?: User(emptyList(), "", "", "", false, "")
 
+        designation = if(teachersList.contains(threadUser.id)) {
+            "Teacher"
+        } else {
+            "Student"
+        }
+
+        numberOfComments = if(thread.comments.isEmpty()) {
+            "Add Class Comments"
+        } else {
+            thread.comments.size.toString() + " Class Comment"
+        }
+
+        Glide.with(context)
+            .load(threadUser.profileImage)
+            .centerCrop()
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .into(holder.profilePicture)
+
+        holder.personName.text = threadUser.name
+        holder.designation.text = designation
+        holder.day.text = dateFormatter.format(Date(thread.timestamp))
         holder.threadBody.text = thread.body
-        if(thread.comments.isEmpty()) {
-            holder.threadComments.text = classCommentsTitle
-        }
-        else {
-            holder.threadComments.text = thread.comments.size.toString() + " class comment"
-        }
-
-        if(studentInClassroom.contains(thread.user.toString())) {
-            holder.designation.text = "Student"
-        }
-        else {
-            holder.designation.text = "Teacher"
-        }
+        holder.threadComments.text = numberOfComments
 
     }
-
-
 
     class ThreadsDisplayViewHolder(view: View): RecyclerView.ViewHolder(view){
         val profilePicture: ImageView = view.findViewById(R.id.threads_person_image_view)
@@ -59,5 +74,6 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
         val day: TextView = view.findViewById(R.id.threads_day_text_view)
         val threadBody: TextView = view.findViewById(R.id.threads_body_text_view)
         val threadComments: TextView = view.findViewById(R.id.threads_comments_text_view)
+        val cardView: CardView = view.findViewById(R.id.thread_list_item_card_view)
     }
 }

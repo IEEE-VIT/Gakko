@@ -54,13 +54,13 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/thread_edit_text"
+        android:id="@+id/textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         app:boxCornerRadiusBottomEnd="4dp"
         app:endIconDrawable="@drawable/send_thread_arrow"
         app:endIconMode="custom"
@@ -72,6 +72,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/thread_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -81,12 +82,13 @@
         android:id="@+id/threads_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/thread_edit_text"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/thread_list_item" />
+        tools:listitem="@layout/thread_list_item">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -67,6 +67,7 @@ class ThreadsRepositoryImpl : ThreadsRepository {
                 _threadUser.postValue(p0.getValue(User::class.java))
             }
         }
+        databaseReference.addValueEventListener(valueEventListener)
     }
 
 
