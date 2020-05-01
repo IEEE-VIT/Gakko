@@ -12,6 +12,7 @@ import com.benrostudios.gakko.ui.auth.signin.SignInViewModelFactory
 import com.benrostudios.gakko.ui.classroom.classroomdisplay.ClassroomDisplayViewModelFactory
 import com.benrostudios.gakko.data.repository.*
 import com.benrostudios.gakko.ui.auth.verification.VerificationViewModelFactory
+import com.benrostudios.gakko.ui.chat.chatdisplay.ChatInterfaceViewModelFactory
 import com.benrostudios.gakko.ui.classroom.createclassroom.CreateClassroomViewModelFactory
 import com.benrostudios.gakko.ui.classroom.joinclassroom.JoinClassroomViewModelFactory
 import com.benrostudios.gakko.ui.home.members.MembersViewModelFactory
@@ -33,16 +34,23 @@ class GakkoApplication : Application(), KodeinAware {
         bind<ThreadsRepository>() with singleton { ThreadsRepositoryImpl() }
         bind() from singleton { Utils(instance()) }
         bind() from singleton { CreateClassroomService() }
-        bind<ClassroomRepository>() with singleton{ClassroomRepositoryImpl(instance(),instance())}
-        bind<MembersRepository>() with singleton{MembersRepositoryImpl()}
-        bind() from provider { SplashViewModelFactory(instance())}
+        bind<ClassroomRepository>() with singleton {
+            ClassroomRepositoryImpl(
+                instance(),
+                instance()
+            )
+        }
+        bind<MembersRepository>() with singleton { MembersRepositoryImpl() }
+        bind<ChatRepository>() with singleton { ChatRepositoryImpl(instance()) }
+        bind() from provider { SplashViewModelFactory(instance()) }
         bind() from provider { VerificationViewModelFactory(instance()) }
         bind() from provider { SignInViewModelFactory(instance()) }
         bind() from provider { UserSetUpViewModelFactory(instance()) }
-        bind() from provider {ClassroomDisplayViewModelFactory(instance())}
-        bind() from provider { ThreadsViewModelFactory(instance())}
-        bind() from provider{CreateClassroomViewModelFactory(instance())}
-        bind() from provider{ JoinClassroomViewModelFactory(instance()) }
-        bind() from provider{ MembersViewModelFactory(instance(),instance()) }
+        bind() from provider { ClassroomDisplayViewModelFactory(instance()) }
+        bind() from provider { ThreadsViewModelFactory(instance()) }
+        bind() from provider { CreateClassroomViewModelFactory(instance()) }
+        bind() from provider { JoinClassroomViewModelFactory(instance()) }
+        bind() from provider { MembersViewModelFactory(instance(), instance()) }
+        bind() from provider { ChatInterfaceViewModelFactory(instance()) }
     }
 }

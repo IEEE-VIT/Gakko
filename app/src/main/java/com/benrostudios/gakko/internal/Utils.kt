@@ -17,6 +17,7 @@ class Utils(
     companion object {
         const val SHARED_PREFERENCE_MOBILE = "mobile"
         const val SHARED_PREFERENCE_CURRENT_CLASSROOM = "currentClassroom"
+        const val SHARED_PREFERENCE_CURRENT_CHAT = "currentChat"
     }
 
     fun saveMobile(mobile: String) = editor.putString(SHARED_PREFERENCE_MOBILE, mobile).commit()
@@ -27,6 +28,10 @@ class Utils(
     fun saveCurrentClassroom(classroom: String) = editor.putString(SHARED_PREFERENCE_CURRENT_CLASSROOM,classroom).commit()
 
     fun retrieveCurrentClassroom(): String? = sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_CLASSROOM,null)
+
+    fun saveCurrentChat(mobileNumber: String) = editor.putString(SHARED_PREFERENCE_CURRENT_CHAT,mobileNumber).commit()
+
+    fun retrieveCurrentChat(): String? = sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_CHAT,null)
 
 }
 
