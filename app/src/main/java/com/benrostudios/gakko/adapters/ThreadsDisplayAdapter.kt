@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Threads
 import com.benrostudios.gakko.data.models.User
+import com.benrostudios.gakko.ui.home.HomeActivity
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
@@ -64,7 +63,9 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
         holder.day.text = dateFormatter.format(Date(thread.timestamp))
         holder.threadBody.text = thread.body
         holder.threadComments.text = numberOfComments
+        holder.threadComments.setOnClickListener {
 
+        }
     }
 
     class ThreadsDisplayViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -74,6 +75,5 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
         val day: TextView = view.findViewById(R.id.threads_day_text_view)
         val threadBody: TextView = view.findViewById(R.id.threads_body_text_view)
         val threadComments: TextView = view.findViewById(R.id.threads_comments_text_view)
-        val cardView: CardView = view.findViewById(R.id.thread_list_item_card_view)
     }
 }

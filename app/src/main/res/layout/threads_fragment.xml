@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:fontFamily="@font/avenir_regular"
+        android:fontFamily="@font/latoregular"
         android:text="@string/threads_default_title"
         android:textColor="@color/light_green"
         android:textSize="16sp"
@@ -37,20 +37,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/threads_default_image_background" />
-
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/threads_toolbar"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/white"-->
-<!--        android:elevation="2dp"-->
-<!--        android:minHeight="?attr/actionBarSize"-->
-<!--        android:theme="?attr/actionBarTheme"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:title="@string/threads_title"-->
-<!--        app:titleTextAppearance="@style/TitleText" />-->
 
 
     <com.google.android.material.textfield.TextInputLayout

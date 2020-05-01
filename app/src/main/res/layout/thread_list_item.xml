@@ -6,7 +6,6 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/thread_list_item_card_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -22,6 +21,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/thread_list_item_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/grey_box_border">
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/avenir_regular"
+                android:fontFamily="@font/latoregular"
                 android:text="Ajmal Sheikh"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
-                android:fontFamily="@font/avenir_regular"
+                android:fontFamily="@font/latoregular"
                 android:text="Teacher"
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -74,7 +74,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
-                android:fontFamily="@font/avenir_regular"
+                android:fontFamily="@font/latoregular"
                 android:text="Today"
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -92,7 +92,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/avenir_regular"
+                android:fontFamily="@font/latoregular"
                 android:lineSpacingMultiplier="1.2"
                 android:padding="4dp"
                 android:text="A paragraph is a self-contained unit of a discourse in writing dealing with a particular point or idea. A paragraph consists of one or more sentences. Though not required by the syntax of any language, paragraphs are usually an expected part of formal writing, used to organize longer prose."

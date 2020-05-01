@@ -106,7 +106,6 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
         threadsViewModel.getThreadClassroom(classroomId)
         threadsViewModel.threadClassroom.observe(viewLifecycleOwner, Observer {
             teachersList = it.teachers as MutableList<String>
-            studentsList = it.students as MutableList<String>
             updateUI(threadList, teachersList, map)
         })
     }
