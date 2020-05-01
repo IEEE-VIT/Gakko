@@ -11,4 +11,5 @@
     <color name="primary_green">#7AAA49</color>
     <color name="secondary_green">#ADC497</color>
     <color name="light_green">#CAD6BE</color>
+    <color name="toolbar_gray">#92f8f8f8</color>
 </resources>

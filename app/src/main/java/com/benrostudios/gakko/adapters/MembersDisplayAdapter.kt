@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.contentValuesOf
 import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Members
@@ -19,10 +21,12 @@ class MembersDisplayAdapter(private val membersList: List<Members>) :
 
 
     private lateinit var mContext: Context
+    private lateinit var utils:Utils
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembersViewHolder {
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.members_list_item, parent, false)
         mContext = parent.context
+        utils = Utils(mContext)
         return MembersViewHolder(view)
     }
 
@@ -35,10 +39,13 @@ class MembersDisplayAdapter(private val membersList: List<Members>) :
             .into(holder.image)
 
         holder.cardHolder.setOnClickListener {
+            if (membersList[position].phoneNumber != utils.retrieveMobile()){
             val intent = Intent(mContext, Chat::class.java)
-            var utils = Utils(mContext)
             utils.saveCurrentChat(membersList[position].phoneNumber)
             mContext.startActivity(intent)
+        }else{
+                Toast.makeText(mContext,"Sorry , you cant chat with yourself!",Toast.LENGTH_SHORT).show()
+            }
         }
         Log.d("members", membersList[position].name)
     }

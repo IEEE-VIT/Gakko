@@ -36,12 +36,13 @@ class ChatRepositoryImpl(
 
     override suspend fun receiveMessage() {
         formLink()
-        usrChats = mutableListOf<ChatMessage>()
+
         databaseReference = Firebase.database.getReference("/chats/$currentClassroom/$chatLink")
         var chatReceiver = object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onDataChange(p0: DataSnapshot) {
+                usrChats = mutableListOf<ChatMessage>()
                 for(messages in p0.children){
                     var chatMessage = messages.getValue(ChatMessage::class.java)
                     usrChats.add(chatMessage!!)

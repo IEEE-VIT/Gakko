@@ -1,6 +1,7 @@
 package com.benrostudios.gakko.ui.home.threads
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -92,7 +93,8 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
                    counter++
                }
                 if(counter == threadList.size) {
-                    getThreadClassroom("-sihshidv213")
+                    getThreadClassroom(utils.retrieveCurrentClassroom()?:"")
+                    Log.d("CurrentClass",utils.retrieveCurrentClassroom())
                 }
             })
         }
