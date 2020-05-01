@@ -123,6 +123,7 @@ class Verification : ScopedFragment(), KodeinAware {
             }else{
                 //Code To Go to Classroom
                 val intent = Intent(context, ClassroomActivity::class.java)
+                activity?.finish()
                 startActivity(intent)
             }
             navController.popBackStack()
