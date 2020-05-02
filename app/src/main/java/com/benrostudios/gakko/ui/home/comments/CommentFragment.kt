@@ -3,11 +3,14 @@ package com.benrostudios.gakko.ui.home.comments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
+import com.benrostudios.gakko.adapters.CommentsDisplayAdapter
 import com.benrostudios.gakko.data.models.Comments
 import com.benrostudios.gakko.data.models.Threads
 import com.benrostudios.gakko.data.models.User
@@ -33,6 +36,7 @@ class CommentFragment : ScopedFragment(), KodeinAware {
     private val viewModelFactory: CommentViewModelFactory by instance()
     private val utils: Utils by instance()
     private val map: HashMap<String, User> = HashMap()
+    private lateinit var adapter: CommentsDisplayAdapter
     @SuppressLint("SimpleDateFormat")
     private var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
 
@@ -52,6 +56,29 @@ class CommentFragment : ScopedFragment(), KodeinAware {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getClassroom(utils.retrieveCurrentClassroom() ?: "")
+
+        comments_edit_text.setOnTouchListener { v, event ->
+            val DRAWABLE_LEFT = 0
+            val DRAWABLE_TOP = 1
+            val DRAWABLE_RIGHT = 2
+            val DRAWABLE_BOTTOM = 3
+
+            if(event.action == MotionEvent.ACTION_UP) {
+                if(event.rawX >= (comments_edit_text.right - comments_edit_text.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
+                    if(comments_edit_text.text.toString().isNotEmpty()) {
+                        postComment(comments_edit_text.text.toString())
+                        comments_edit_text.text = null
+                    }
+                    return@setOnTouchListener true
+                }
+            }
+            return@setOnTouchListener false
+        }
+    }
+
+    private fun postComment(commentBody: String) = launch {
+        val comment: Comments = Comments(commentBody, System.currentTimeMillis(), utils.retrieveMobile()!!.toLong())
+        commentsViewModel.postComment(comment, utils.retrieveCurrentClassroom() ?: "", "ckdnkdndjksn")
     }
 
     private fun getClassroom(classroomId: String) = launch {
@@ -102,7 +129,9 @@ class CommentFragment : ScopedFragment(), KodeinAware {
         comments_fragment_person_designation.text = if(teacherList.contains(threadUser.id)) "Teacher" else "Student"
         comments_fragment_person_day.text = dateFormatter.format(Date(currentThread.timestamp))
         comments_fragment_thread_body.text = currentThread.body
-
+        adapter = CommentsDisplayAdapter(currentThread.comments, map)
+        comments_recycler_view.adapter = adapter
+        comments_recycler_view.layoutManager = LinearLayoutManager(requireContext())
     }
 
 }

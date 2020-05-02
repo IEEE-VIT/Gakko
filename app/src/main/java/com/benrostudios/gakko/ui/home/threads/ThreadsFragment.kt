@@ -56,7 +56,7 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
             val DRAWABLE_BOTTOM = 3
 
             if(event.action == MotionEvent.ACTION_UP) {
-                if(event.rawX >= (thread_edit_text.getRight() - thread_edit_text.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
+                if(event.rawX >= (thread_edit_text.right - thread_edit_text.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
                     if(thread_edit_text.text.toString().isNotEmpty()) {
                         postThread(thread_edit_text.text.toString())
                         thread_edit_text.text = null
