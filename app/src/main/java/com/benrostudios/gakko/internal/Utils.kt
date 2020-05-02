@@ -18,6 +18,7 @@ class Utils(
         const val SHARED_PREFERENCE_MOBILE = "mobile"
         const val SHARED_PREFERENCE_CURRENT_CLASSROOM = "currentClassroom"
         const val SHARED_PREFERENCE_CURRENT_CHAT = "currentChat"
+        const val SHARED_PREFERNCE_TEACHERLIST = "TeacherList"
     }
 
     fun saveMobile(mobile: String) = editor.putString(SHARED_PREFERENCE_MOBILE, mobile).commit()
@@ -25,13 +26,25 @@ class Utils(
 
     fun retrieveMobile(): String? = sharedPreferences.getString(SHARED_PREFERENCE_MOBILE, null)
 
-    fun saveCurrentClassroom(classroom: String) = editor.putString(SHARED_PREFERENCE_CURRENT_CLASSROOM,classroom).commit()
+    fun saveCurrentClassroom(classroom: String) =
+        editor.putString(SHARED_PREFERENCE_CURRENT_CLASSROOM, classroom).commit()
 
-    fun retrieveCurrentClassroom(): String? = sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_CLASSROOM,null)
+    fun retrieveCurrentClassroom(): String? =
+        sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_CLASSROOM, null)
 
-    fun saveCurrentChat(mobileNumber: String) = editor.putString(SHARED_PREFERENCE_CURRENT_CHAT,mobileNumber).commit()
+    fun saveCurrentChat(mobileNumber: String) =
+        editor.putString(SHARED_PREFERENCE_CURRENT_CHAT, mobileNumber).commit()
 
-    fun retrieveCurrentChat(): String? = sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_CHAT,null)
+    fun retrieveCurrentChat(): String? =
+        sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_CHAT, null)
+
+
+    fun saveTeacherList(teacherList: MutableSet<String>) =
+        editor.putStringSet(SHARED_PREFERNCE_TEACHERLIST, teacherList)
+
+    fun retrieveTeachersList(): MutableSet<String>? =
+        sharedPreferences.getStringSet(SHARED_PREFERNCE_TEACHERLIST, null)
 
 }
+
 

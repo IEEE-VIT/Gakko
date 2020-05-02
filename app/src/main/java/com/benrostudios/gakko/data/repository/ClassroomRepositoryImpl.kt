@@ -112,6 +112,7 @@ class ClassroomRepositoryImpl(
     fun classroomLoader(ids: String) {
         databaseReference = Firebase.database.getReference("/classrooms/$ids")
         Log.d("classroom fetcher", ids)
+        val teachersList = utils.retrieveTeachersList() ?: mutableSetOf<String>()
         val classroomLoader = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -120,6 +121,11 @@ class ClassroomRepositoryImpl(
             override fun onDataChange(p0: DataSnapshot) {
                 val classroom = p0.getValue(Classroom::class.java)
                 Log.d("classroom fetcher", classroom.toString())
+                if(classroom?.teachers?.contains(utils.retrieveMobile()) == true && classroom.privacy){
+                    teachersList.add(classroom.classroomID)
+                    utils.saveTeacherList(teachersList)
+                    Log.d("classroom fetcher","teacher of: ${classroom.classroomID}")
+                }
                 classList.add(classroom!!)
                 _classrooms.postValue(classList)
             }

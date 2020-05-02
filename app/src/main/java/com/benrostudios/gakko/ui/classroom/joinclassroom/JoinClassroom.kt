@@ -85,10 +85,10 @@ class JoinClassroom : BottomSheetDialogFragment(), KodeinAware {
         viewModel.usrJoinClassroomResponse.observe(viewLifecycleOwner, Observer {
             if(it){
                 Toast.makeText(context,"You have been enrolled into this class successfully!", Toast.LENGTH_LONG).show()
-                dismiss()
             }else{
                 Toast.makeText(context,"You request to join this classroom has been sent!",Toast.LENGTH_LONG).show()
             }
+            dismiss()
         })
     }
 
