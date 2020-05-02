@@ -15,6 +15,7 @@ import com.benrostudios.gakko.ui.auth.verification.VerificationViewModelFactory
 import com.benrostudios.gakko.ui.chat.chatdisplay.ChatInterfaceViewModelFactory
 import com.benrostudios.gakko.ui.classroom.createclassroom.CreateClassroomViewModelFactory
 import com.benrostudios.gakko.ui.classroom.joinclassroom.JoinClassroomViewModelFactory
+import com.benrostudios.gakko.ui.home.comments.CommentViewModelFactory
 import com.benrostudios.gakko.ui.home.members.MembersViewModelFactory
 import com.benrostudios.gakko.ui.home.threads.ThreadsViewModelFactory
 import com.benrostudios.gakko.ui.splash.SplashViewModelFactory
@@ -32,6 +33,7 @@ class GakkoApplication : Application(), KodeinAware {
         import(androidXModule(this@GakkoApplication))
         bind<AuthRepository>() with singleton { AuthRepositoryImpl() }
         bind<ThreadsRepository>() with singleton { ThreadsRepositoryImpl() }
+        bind<CommentsRepository>() with singleton { CommentsRepositoryImpl() }
         bind() from singleton { Utils(instance()) }
         bind() from singleton { CreateClassroomService() }
         bind<ClassroomRepository>() with singleton {
@@ -52,5 +54,6 @@ class GakkoApplication : Application(), KodeinAware {
         bind() from provider { JoinClassroomViewModelFactory(instance()) }
         bind() from provider { MembersViewModelFactory(instance(), instance()) }
         bind() from provider { ChatInterfaceViewModelFactory(instance()) }
+        bind() from provider { CommentViewModelFactory(instance(), instance())}
     }
 }

@@ -42,7 +42,7 @@ class ThreadsViewModel(private val threadsRepository: ThreadsRepository) : ViewM
         threadsRepository.getThreadsClassroom(classroomId)
     }
 
-    fun getThreadUser(userId: String) {
+    suspend fun getThreadUser(userId: String) {
         threadsRepository.getThreadUser(userId)
     }
 
@@ -50,7 +50,4 @@ class ThreadsViewModel(private val threadsRepository: ThreadsRepository) : ViewM
         threadsRepository.postThread(thread, threadsId)
     }
 
-    suspend fun postComment(comment: Comments, threadsId: String, specificThreadsId: String) {
-        threadsRepository.postComment(comment, threadsId, specificThreadsId)
-    }
 }

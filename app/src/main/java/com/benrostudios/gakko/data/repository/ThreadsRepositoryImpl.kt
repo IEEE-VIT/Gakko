@@ -57,7 +57,7 @@ class ThreadsRepositoryImpl : ThreadsRepository {
     }
 
 
-    override fun getThreadUser(userID: String) {
+    override suspend fun getThreadUser(userID: String) {
         databaseReference = FirebaseDatabase.getInstance().getReference("/users/$userID/")
         val valueEventListener: ValueEventListener = object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -76,9 +76,4 @@ class ThreadsRepositoryImpl : ThreadsRepository {
         databaseReference.push().setValue(thread)
     }
 
-
-    override suspend fun postComment(comment: Comments, threadId: String, specificThreadId: String) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("Threads/$threadId/$specificThreadId/comments")
-        databaseReference.push().setValue(comment)
-    }
 }

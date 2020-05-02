@@ -1,5 +1,6 @@
 package com.benrostudios.gakko.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Threads
 import com.benrostudios.gakko.data.models.User
+import com.benrostudios.gakko.internal.GlideApp
 import com.benrostudios.gakko.ui.home.HomeActivity
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
@@ -24,7 +26,8 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
     private lateinit var context: Context
     private lateinit var designation: String
     private lateinit var numberOfComments: String
-    private var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd/mm/yyyy")
+    @SuppressLint("SimpleDateFormat")
+    private var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThreadsDisplayViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.thread_list_item, parent, false)
@@ -52,7 +55,7 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
             thread.comments.size.toString() + " Class Comment"
         }
 
-        Glide.with(context)
+        GlideApp.with(context)
             .load(threadUser.profileImage)
             .centerCrop()
             .placeholder(R.drawable.ic_defualt_profile_pic)

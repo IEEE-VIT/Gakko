@@ -12,7 +12,6 @@ interface ThreadsRepository {
     val threadUser: LiveData<User>
     suspend fun getThreads(threadId: String)
     suspend fun getThreadsClassroom(classroomId: String)
-    fun getThreadUser(userID: String)
+    suspend fun getThreadUser(userID: String)
     suspend fun postThread(thread:Threads, threadId: String)
-    suspend fun postComment(comment:Comments, threadId: String, specificThreadId: String)
 }
