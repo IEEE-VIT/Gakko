@@ -7,6 +7,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.benrostudios.gakko.R
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_home_activty.*
 
 class HomeActivity : AppCompatActivity() {
@@ -16,9 +18,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_activty)
-
         navController = findNavController(R.id.nav_host_fragment_home_activity)
-
         bottom_navigation_view_home_activity.setupWithNavController(navController)
     }
 }

@@ -18,7 +18,7 @@ class NotificationsRepoImpl : NotificationsRepo {
 
     private val _requests = MutableLiveData<List<ClassroomJoinRequest>>()
     private val _response = MutableLiveData<Boolean>()
-    private val _requestBuffer = mutableListOf<ClassroomJoinRequest>()
+    private var _requestBuffer = mutableListOf<ClassroomJoinRequest>()
     private lateinit var databaseReference: DatabaseReference
 
     override val requests: LiveData<List<ClassroomJoinRequest>>
@@ -27,33 +27,41 @@ class NotificationsRepoImpl : NotificationsRepo {
         get() = _response
 
     override suspend fun getRequests(classList: List<String>) {
+
         for (classroom in classList) {
-            databaseReference = Firebase.database.getReference("/classrooms/$classroom/requests")
+            databaseReference = Firebase.database.getReference("/classrooms/$classroom")
             var requestFetcher = object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
+                    _requestBuffer = mutableListOf<ClassroomJoinRequest>()
                     if (p0.exists()) {
-                        for (x in p0.children) {
-                            var incomingObj: Map<String, String> = x.value as Map<String, String>
-                            var realTimeObj = incomingObj.toList()
-                            userFetcher(
-                                classroom,
-                                realTimeObj[0].first,
-                                realTimeObj[0].second.toLong()
-                            )
+                        var fetchedclassroom = p0.getValue(Classroom::class.java)
+                        if (fetchedclassroom!!.requests.isNullOrEmpty()) {
+                            _requests.postValue(emptyList())
+                        } else {
+                            for (x in fetchedclassroom!!.requests) {
+                                var incomingObj: Map<String, String> = x
+                                var realTimeObj = incomingObj.toList()
+                                userFetcher(
+                                    classroom,
+                                    realTimeObj[0].first,
+                                    realTimeObj[0].second.toLong(),
+                                    fetchedclassroom.name
+                                )
+                            }
                         }
                     }
                 }
 
             }
-            databaseReference.addListenerForSingleValueEvent(requestFetcher)
+            databaseReference.addValueEventListener(requestFetcher)
         }
     }
 
-    fun userFetcher(classroomId: String, phone: String, timeStamp: Long) {
+    fun userFetcher(classroomId: String, phone: String, timeStamp: Long, classroomName: String) {
         databaseReference = Firebase.database.getReference("/users/$phone")
         var userFetcherObj = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -67,7 +75,8 @@ class NotificationsRepoImpl : NotificationsRepo {
                     user?.displayName ?: "User",
                     phone,
                     timeStamp,
-                    user?.profileImage ?: ""
+                    user?.profileImage ?: "",
+                    classroomName
                 )
                 Log.d("Notification Fetcher", "Formed Class : ${classroomJoinRequest}")
                 _requestBuffer.add(classroomJoinRequest)

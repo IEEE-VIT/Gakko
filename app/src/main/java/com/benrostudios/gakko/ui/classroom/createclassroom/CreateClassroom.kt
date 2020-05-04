@@ -60,6 +60,7 @@ class CreateClassroom() : BottomSheetDialogFragment(), KodeinAware{
             validation = false
         }
         if (validation) {
+            create_classroom_progress.visibility = View.VISIBLE
             fetchClassroomId()
         }
     }

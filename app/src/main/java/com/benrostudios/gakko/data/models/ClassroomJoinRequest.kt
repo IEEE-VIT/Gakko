@@ -5,5 +5,6 @@ data class ClassroomJoinRequest(
     var name: String,
     var phone: String,
     var timestamp: Long,
-    var profileImageLink: String
+    var profileImageLink: String,
+    var classroomName: String
 )

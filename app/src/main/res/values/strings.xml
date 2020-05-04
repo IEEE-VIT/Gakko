@@ -28,6 +28,10 @@
     //CommentsFragment
     <string name="class_comments_title">Class Comments</string>
     <string name="comments_title_text">Comments</string>
+    //NotificationFragment
+    <string name="accept_request">Accept</string>
+    <string name="decline_request">Decline</string>
+    <string name="title">Notifications</string>
 
     //ClassroomActivity
     //ClassroomDisplay
@@ -35,6 +39,7 @@
     <string name="add_class_btn">+ Add Class</string>
     <string name="join_class_btn">Join Class</string>
     <string name="create_class_btn">Create Class</string>
+    <string name="not_part_of_class_title">You aren\'t part of any class yet.</string>
     //CreateClassroom
     <string name="create_classroom_title">Create Classroom</string>
     <string name="create_classroom_class_name">Classroom Title</string>

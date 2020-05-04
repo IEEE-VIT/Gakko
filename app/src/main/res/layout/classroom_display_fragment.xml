@@ -10,30 +10,16 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/classroom_display_recycler"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/classrooms_toolbar"
-        app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/classroom_display_item"
-         />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/classrooms_toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="2dp"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/classroom_display_title"
-        app:titleTextAppearance="@style/TitleText" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        tools:listitem="@layout/classroom_display_item" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_classroom_btn"
@@ -52,10 +38,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/classrooms_toolbar"
-        app:layout_constraintVertical_bias="0.925"
-        app:shapeAppearanceOverlay="@style/AddClassroomOverlay"
-         />
+        app:layout_constraintTop_toTopOf="@+id/classroom_display_recycler"
+        app:layout_constraintVertical_bias="0.923"
+        app:shapeAppearanceOverlay="@style/AddClassroomOverlay" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/create_classroom_btn"
@@ -70,15 +55,15 @@
         android:textColor="@color/primary_green"
         android:textSize="16sp"
         android:visibility="invisible"
-        tools:visibility="visible"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/classrooms_toolbar"
-        app:layout_constraintVertical_bias="0.925"
-        app:shapeAppearanceOverlay="@style/CreateClassroomOverlay" />
+        app:layout_constraintTop_toTopOf="@+id/classroom_display_recycler"
+        app:layout_constraintVertical_bias="0.923"
+        app:shapeAppearanceOverlay="@style/CreateClassroomOverlay"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/line_division"
@@ -111,5 +96,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:shapeAppearanceOverlay="@style/JoinClassroomOverlay"
         tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/gakko"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/not_part_of_any_class_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/empty_inbox"
+        app:layout_constraintBottom_toBottomOf="@+id/classroom_display_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/not_part_of_class_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/not_part_of_class_title"
+        android:textColor="@color/primary_green"
+        app:layout_constraintEnd_toEndOf="@+id/not_part_of_any_class_image"
+        app:layout_constraintStart_toStartOf="@+id/not_part_of_any_class_image"
+        app:layout_constraintTop_toBottomOf="@+id/not_part_of_any_class_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

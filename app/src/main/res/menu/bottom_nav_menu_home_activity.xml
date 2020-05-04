@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeHostFragment"
+        android:id="@+id/classroomDisplay"
         android:icon="@drawable/theads_icon"
         android:title="@string/classes_title" />
     <item

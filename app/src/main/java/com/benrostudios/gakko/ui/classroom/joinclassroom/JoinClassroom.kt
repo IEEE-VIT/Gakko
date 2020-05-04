@@ -59,6 +59,7 @@ class JoinClassroom : BottomSheetDialogFragment(), KodeinAware {
             validation = false
         }
         if (validation) {
+            join_progress.visibility = View.VISIBLE
             checkEligibility(classCode)
         }
     }

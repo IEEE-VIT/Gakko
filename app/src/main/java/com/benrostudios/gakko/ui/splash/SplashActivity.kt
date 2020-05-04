@@ -14,6 +14,8 @@ import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.auth.AuthActivity
 import com.benrostudios.gakko.ui.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -32,6 +34,7 @@ class SplashActivity : AppCompatActivity(), KodeinAware {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(SplashViewModel::class.java)
         initialize()
+        Firebase.database.setPersistenceEnabled(true)
         firebaseAuth = FirebaseAuth.getInstance()
 
     }

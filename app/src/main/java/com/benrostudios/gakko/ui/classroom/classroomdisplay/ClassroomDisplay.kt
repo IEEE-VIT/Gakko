@@ -5,11 +5,13 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -67,6 +69,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
             }
         }
 
+
         join_classroom_btn.setOnClickListener {
             val bottomSheetFragment = JoinClassroom()
             bottomSheetFragment.show(activity?.supportFragmentManager!!, bottomSheetFragment.tag)
@@ -91,10 +94,13 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
         viewModel.test()
         viewModel.classroom.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
+                not_part_of_any_class_image.visibility = View.GONE
+                not_part_of_class_title.visibility = View.GONE
                 adapter = ClassroomDisplayAdapter(it)
                 populateUI(adapter)
             } else {
-                Toast.makeText(context, "No Class Found", Toast.LENGTH_SHORT).show()
+                not_part_of_any_class_image.visibility = View.VISIBLE
+                not_part_of_class_title.visibility = View.VISIBLE
             }
         })
 
@@ -152,4 +158,5 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
 
         }
     }
+
 }
