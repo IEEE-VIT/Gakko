@@ -40,7 +40,7 @@ class Utils(
 
 
     fun saveTeacherList(teacherList: MutableSet<String>) =
-        editor.putStringSet(SHARED_PREFERNCE_TEACHERLIST, teacherList)
+        editor.putStringSet(SHARED_PREFERNCE_TEACHERLIST, teacherList).commit()
 
     fun retrieveTeachersList(): MutableSet<String>? =
         sharedPreferences.getStringSet(SHARED_PREFERNCE_TEACHERLIST, null)

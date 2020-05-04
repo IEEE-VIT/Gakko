@@ -26,6 +26,7 @@ class ClassroomRepositoryImpl(
     private lateinit var databaseReference: DatabaseReference
     private var classroomIds = mutableListOf<String>()
     private var classList = mutableListOf<Classroom>()
+    private val teachersList = utils.retrieveTeachersList() ?: mutableSetOf<String>()
 
 
     override val classrooms: LiveData<List<Classroom>>
@@ -112,7 +113,7 @@ class ClassroomRepositoryImpl(
     fun classroomLoader(ids: String) {
         databaseReference = Firebase.database.getReference("/classrooms/$ids")
         Log.d("classroom fetcher", ids)
-        val teachersList = utils.retrieveTeachersList() ?: mutableSetOf<String>()
+
         val classroomLoader = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
