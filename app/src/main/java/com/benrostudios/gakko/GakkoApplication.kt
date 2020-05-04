@@ -34,7 +34,7 @@ class GakkoApplication : Application(), KodeinAware {
 
     override val kodein: Kodein = Kodein.lazy {
         import(androidXModule(this@GakkoApplication))
-        bind<AuthRepository>() with singleton { AuthRepositoryImpl() }
+        bind<AuthRepository>() with singleton { AuthRepositoryImpl(instance()) }
         bind<ThreadsRepository>() with singleton { ThreadsRepositoryImpl() }
         bind<CommentsRepository>() with singleton { CommentsRepositoryImpl() }
         bind<MaterialsRepository>() with singleton { MaterialsRepositoryImpl() }

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -60,7 +61,7 @@ class Verification : ScopedFragment(), KodeinAware {
         }
         if(!verificationInProgress){
             initiateSignIn(phoneNumber)
-            getUserResponse()
+            getAuthResponse()
             didnt_receive_sms.setOnClickListener {
                 resendVerificationCode(phoneNumber,resendToken)
             }
@@ -68,6 +69,7 @@ class Verification : ScopedFragment(), KodeinAware {
         verification_button.setOnClickListener {
             if (verificationToken != null) {
                 verifyPhoneNumberWithCode(otp_input.text.toString())
+                verfication_progress.visibility = View.VISIBLE
             }
         }
 
@@ -118,14 +120,27 @@ class Verification : ScopedFragment(), KodeinAware {
         viewModel.userResponse.observe(viewLifecycleOwner, Observer {check ->
             if(!check){
                 navController.navigate(R.id.action_verification_to_userSetUp)
-
+                Toast.makeText(context,"You have been authenticated!",Toast.LENGTH_LONG).show()
             }else{
                 //Code To Go to Classroom
+                Toast.makeText(context,"You have been authenticated!",Toast.LENGTH_LONG).show()
                 val intent = Intent(context, HomeActivity::class.java)
                 activity?.finish()
                 startActivity(intent)
+
             }
             navController.popBackStack()
+        })
+    }
+
+    private fun getAuthResponse() = launch {
+        viewModel.response.observe(viewLifecycleOwner, Observer {
+            if(it){
+                getUserResponse()
+            }else{
+                Toast.makeText(context,"Invalid OTP!",Toast.LENGTH_LONG).show()
+                verfication_progress.visibility = View.GONE
+            }
         })
     }
 
@@ -165,6 +180,21 @@ class Verification : ScopedFragment(), KodeinAware {
                 // The SMS quota for the project has been exceeded
                 // ...
             }
+
+        }
+        override fun onCodeSent(
+            verificationId: String,
+            token: PhoneAuthProvider.ForceResendingToken
+        ) {
+            // The SMS verification code has been sent to the provided phone number, we
+            // now need to ask the user to enter the code and then construct a credential
+            // by combining the code with a verification ID.
+            Log.d(VERIFICATION_FRAG, "onCodeSent:$verificationId")
+
+            // Save verification ID and resending token so we can use them later
+            verificationToken = verificationId
+            resendToken = token
+
 
         }
     }

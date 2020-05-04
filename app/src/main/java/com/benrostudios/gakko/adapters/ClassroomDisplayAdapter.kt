@@ -18,6 +18,7 @@ class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
 
     private lateinit var utils: Utils
     private lateinit var mContext: Context
+    private var imagePicker = true
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassroomDisplayViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.classroom_display_item,parent,false)
         mContext = parent.context
@@ -30,20 +31,19 @@ class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
     override fun onBindViewHolder(holder: ClassroomDisplayViewHolder, position: Int) {
         holder.title.text = classrooms[position].name
         holder.courseCode.text = classrooms[position].courseCode
-        holder.background.setImageResource(randomizeImage())
+        holder.background.setImageResource(alternateImage())
         holder.cardContainer.setOnClickListener {
             utils.saveCurrentClassroom(classrooms[position].classroomID)
-//            val intent = Intent(mContext , HomeActivity::class.java)
-//            mContext.startActivity(intent)
             Navigation.findNavController(it).navigate(R.id.action_classroomDisplay2_to_homeHostFragment)
         }
     }
 
-    private fun randomizeImage(): Int{
-        val image = (1..2).random()
-        return if(image == 1){
+    private fun alternateImage(): Int{
+        return if(imagePicker){
+            imagePicker = !imagePicker
             R.drawable.clasroom_display_bg_1
         }else{
+            imagePicker = !imagePicker
             R.drawable.clasroom_display_bg_2
         }
     }

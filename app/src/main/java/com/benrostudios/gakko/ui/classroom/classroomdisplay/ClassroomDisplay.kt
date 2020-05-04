@@ -20,9 +20,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.ClassroomDisplayAdapter
+import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import com.benrostudios.gakko.ui.classroom.createclassroom.CreateClassroom
 import com.benrostudios.gakko.ui.classroom.joinclassroom.JoinClassroom
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
 import kotlinx.android.synthetic.main.classroom_display_fragment.*
@@ -36,6 +39,7 @@ import org.kodein.di.generic.instance
 class ClassroomDisplay : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ClassroomDisplayViewModelFactory by instance()
+    private val utils: Utils by instance()
     private lateinit var adapter: ClassroomDisplayAdapter
     private lateinit var navController: NavController
     private var showClassroomButtonOptions: Boolean = true
@@ -68,6 +72,17 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
                 true
             }
         }
+
+        var options: RequestOptions = RequestOptions()
+            .error(R.drawable.ic_defualt_profile_pic)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .circleCrop()
+
+        Glide.with(this)
+            .load(utils.retrieveProfilePic())
+            .apply(options)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .into(usr_profile_pic)
 
 
         join_classroom_btn.setOnClickListener {

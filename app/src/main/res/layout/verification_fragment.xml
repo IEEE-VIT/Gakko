@@ -39,8 +39,9 @@
             android:id="@+id/otp_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:textColor="@color/black" />
+            android:inputType="numberSigned"
+            android:maxLength="6"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -107,5 +108,17 @@
         app:layout_constraintBottom_toTopOf="@+id/verification_button"
         app:layout_constraintEnd_toEndOf="@+id/verification_button"
         app:layout_constraintStart_toStartOf="@+id/verification_button" />
+
+    <ProgressBar
+        android:id="@+id/verfication_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true"
+        android:layout_width="0dp"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/outlinedTextField"
+        app:layout_constraintStart_toStartOf="@+id/outlinedTextField"
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextField" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

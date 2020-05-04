@@ -20,6 +20,7 @@ class Utils(
         const val SHARED_PREFERENCE_CURRENT_CHAT = "currentChat"
         const val SHARED_PREFERNCE_TEACHERLIST = "TeacherList"
         const val SHARED_PREFERENCE_MATERIAL_TYPE = "materialType"
+        const val SHARED_PREFERENCE_PROFILE_PIC_URL = "profilePic"
     }
 
     fun saveMobile(mobile: String) = editor.putString(SHARED_PREFERENCE_MOBILE, mobile).commit()
@@ -47,6 +48,13 @@ class Utils(
 
     fun retrieveTeachersList(): MutableSet<String>? =
         sharedPreferences.getStringSet(SHARED_PREFERNCE_TEACHERLIST, null)
+
+    fun saveProfilePicUrl(url: String){
+        editor.putString(SHARED_PREFERENCE_PROFILE_PIC_URL,url).commit()
+    }
+
+    fun retrieveProfilePic(): String? = sharedPreferences.getString(
+        SHARED_PREFERENCE_PROFILE_PIC_URL,null)
 
 }
 

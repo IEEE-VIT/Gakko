@@ -12,6 +12,12 @@
     <string name="didnt_receive_sms">Didn\'t receive SMS? <b>Resend Code</b></string>
     <string name="verify_btn">Verify</string>
     <string name="otp_hint">Enter OTP</string>
+    //UserSetUp
+    <string name="user_setup">User Profile Setup</string>
+    <string name="user_setup_subtitle">Welcome to Gakko! Please fill in the details to continue</string>
+    <string name="username">Name</string>
+    <string name="display_name">Display Name</string>
+    <string name="setup">Done</string>
 
     //HomeActivity
     //ThreadsFragment

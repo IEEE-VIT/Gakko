@@ -13,7 +13,10 @@ import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.RequestsAdapter
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.notifications_fragment.*
+import kotlinx.android.synthetic.main.user_set_up_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -45,6 +48,17 @@ class Notifications : ScopedFragment(), KodeinAware {
         request_recycler.layoutManager = LinearLayoutManager(context)
         fetchRequestsList()
         listenRequestsList()
+
+        var options: RequestOptions = RequestOptions()
+            .error(R.drawable.ic_defualt_profile_pic)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .circleCrop()
+
+        Glide.with(this)
+            .load(utils.retrieveProfilePic())
+            .apply(options)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .into(usr_image)
 
     }
 

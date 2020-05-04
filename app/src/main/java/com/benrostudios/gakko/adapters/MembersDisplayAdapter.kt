@@ -14,6 +14,7 @@ import com.benrostudios.gakko.data.models.Members
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.chat.Chat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.members_list_item.view.*
 
 class MembersDisplayAdapter(private val membersList: List<Members>) :
@@ -21,7 +22,7 @@ class MembersDisplayAdapter(private val membersList: List<Members>) :
 
 
     private lateinit var mContext: Context
-    private lateinit var utils:Utils
+    private lateinit var utils: Utils
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembersViewHolder {
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.members_list_item, parent, false)
@@ -34,18 +35,27 @@ class MembersDisplayAdapter(private val membersList: List<Members>) :
 
     override fun onBindViewHolder(holder: MembersViewHolder, position: Int) {
         holder.name.text = membersList[position].name
+
+        var options: RequestOptions = RequestOptions()
+            .error(R.drawable.ic_defualt_profile_pic)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .circleCrop()
+
         Glide.with(mContext)
             .load(membersList[position].profileImgLink)
+            .apply(options)
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .into(holder.image)
 
+
         holder.cardHolder.setOnClickListener {
-            if (membersList[position].phoneNumber != utils.retrieveMobile()){
-            val intent = Intent(mContext, Chat::class.java)
-            utils.saveCurrentChat(membersList[position].phoneNumber)
-            mContext.startActivity(intent)
-        }else{
-                Toast.makeText(mContext,"Sorry , you cant chat with yourself!",Toast.LENGTH_SHORT).show()
+            if (membersList[position].phoneNumber != utils.retrieveMobile()) {
+                val intent = Intent(mContext, Chat::class.java)
+                utils.saveCurrentChat(membersList[position].phoneNumber)
+                mContext.startActivity(intent)
+            } else {
+                Toast.makeText(mContext, "Sorry , you cant chat with yourself!", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
         Log.d("members", membersList[position].name)
