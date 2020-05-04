@@ -20,7 +20,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-class Notifications : ScopedFragment(),KodeinAware {
+class Notifications : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: NotificationsViewModelFactory by instance()
     private val utils: Utils by instance()
@@ -40,38 +40,47 @@ class Notifications : ScopedFragment(),KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this,viewModelFactory).get(NotificationsViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, viewModelFactory).get(NotificationsViewModel::class.java)
         request_recycler.layoutManager = LinearLayoutManager(context)
         fetchRequestsList()
         listenRequestsList()
 
     }
 
-    private fun fetchRequestsList() = launch{
+    private fun fetchRequestsList() = launch {
         viewModel.fetchRequestList(utils.retrieveTeachersList()?.toList() ?: emptyList())
-        Log.d("melo",utils.retrieveTeachersList().toString())
     }
 
     private fun listenRequestsList() = launch {
         viewModel.requestList.observe(viewLifecycleOwner, Observer {
-            request_recycler.adapter = RequestsAdapter(it, object: RequestsAdapter.ClickListener{
-                override fun acceptTrigger(posistion: Int) {
-                    acceptRequest(it[posistion].classroomId,it[posistion].phone)
-                }
-                override fun declineTrigger(posistion: Int) {
-                    declineRequest(it[posistion].classroomId,it[posistion].phone)
-                }
-            })
+            if (it.isNullOrEmpty()) {
+                no_notification_image.visibility = View.VISIBLE
+                no_notification_title.visibility = View.VISIBLE
+            } else {
+                no_notification_image.visibility = View.GONE
+                no_notification_title.visibility = View.GONE
+                request_recycler.adapter =
+                    RequestsAdapter(it, object : RequestsAdapter.ClickListener {
+                        override fun acceptTrigger(posistion: Int) {
+                            acceptRequest(it[posistion].classroomId, it[posistion].phone)
+                        }
+
+                        override fun declineTrigger(posistion: Int) {
+                            declineRequest(it[posistion].classroomId, it[posistion].phone)
+                        }
+                    })
+            }
         })
     }
 
     private fun declineRequest(classroomId: String, person: String) = launch {
-        viewModel.declineRequests(classroomId,person)
+        viewModel.declineRequests(classroomId, person)
 
     }
 
     private fun acceptRequest(clasroomId: String, person: String) = launch {
-        viewModel.acceptRequest(clasroomId,person)
+        viewModel.acceptRequest(clasroomId, person)
     }
 
 }

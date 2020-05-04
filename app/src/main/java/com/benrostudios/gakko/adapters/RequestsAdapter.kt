@@ -1,11 +1,13 @@
 package com.benrostudios.gakko.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.ClassroomJoinRequest
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.request_list_item.view.*
 
 class RequestsAdapter(private val requestList: List<ClassroomJoinRequest>, private var itemClick: ClickListener ): RecyclerView.Adapter<RequestsAdapter.requestViewHolder>(){
@@ -14,9 +16,10 @@ class RequestsAdapter(private val requestList: List<ClassroomJoinRequest>, priva
         fun acceptTrigger(posistion: Int)
         fun declineTrigger(posistion: Int)
     }
-
+    private lateinit var mContext: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): requestViewHolder {
         var view: View = LayoutInflater.from(parent.context).inflate(R.layout.request_list_item,parent,false)
+        mContext = parent.context
         return requestViewHolder(view)
     }
 
@@ -31,6 +34,10 @@ class RequestsAdapter(private val requestList: List<ClassroomJoinRequest>, priva
         holder.declineButton.setOnClickListener{
             itemClick.declineTrigger(position)
         }
+        Glide.with(mContext)
+            .load(requestList[position].profileImageLink)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .into(holder.requestImage)
     }
 
 

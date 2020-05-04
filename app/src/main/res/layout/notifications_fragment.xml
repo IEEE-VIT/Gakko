@@ -40,4 +40,29 @@
         app:layout_constraintTop_toTopOf="@+id/textView13"
         tools:src="@tools:sample/avatars" />
 
+    <ImageView
+        android:id="@+id/no_notification_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:backgroundTint="@color/primary_green"
+        android:src="@drawable/ic_no_notifications"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
+
+    <TextView
+        android:id="@+id/no_notification_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/no_notification_title"
+        android:textColor="@color/primary_green"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/no_notification_image"
+        app:layout_constraintStart_toStartOf="@+id/no_notification_image"
+        app:layout_constraintTop_toBottomOf="@+id/no_notification_image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

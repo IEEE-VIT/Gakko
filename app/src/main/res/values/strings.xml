@@ -32,6 +32,7 @@
     <string name="accept_request">Accept</string>
     <string name="decline_request">Decline</string>
     <string name="title">Notifications</string>
+    <string name="no_notification_title">You are all caught up!</string>
 
     //ClassroomActivity
     //ClassroomDisplay

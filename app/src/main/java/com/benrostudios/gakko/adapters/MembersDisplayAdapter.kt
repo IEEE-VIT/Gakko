@@ -35,7 +35,8 @@ class MembersDisplayAdapter(private val membersList: List<Members>) :
     override fun onBindViewHolder(holder: MembersViewHolder, position: Int) {
         holder.name.text = membersList[position].name
         Glide.with(mContext)
-            .load(R.drawable.ic_defualt_profile_pic)
+            .load(membersList[position].profileImgLink)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
             .into(holder.image)
 
         holder.cardHolder.setOnClickListener {
