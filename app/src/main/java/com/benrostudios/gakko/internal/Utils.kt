@@ -18,11 +18,8 @@ class Utils(
         const val SHARED_PREFERENCE_MOBILE = "mobile"
         const val SHARED_PREFERENCE_CURRENT_CLASSROOM = "currentClassroom"
         const val SHARED_PREFERENCE_CURRENT_CHAT = "currentChat"
-<<<<<<< HEAD
         const val SHARED_PREFERNCE_TEACHERLIST = "TeacherList"
-=======
         const val SHARED_PREFERENCE_MATERIAL_TYPE = "materialType"
->>>>>>> Materials fragment done
     }
 
     fun saveMobile(mobile: String) = editor.putString(SHARED_PREFERENCE_MOBILE, mobile).commit()
