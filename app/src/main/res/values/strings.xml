@@ -54,4 +54,11 @@
     <string name="to_do_title">To-Do</string>
     <string name="notifications_title">Notifications</string>
 
+    //MaterialFragment
+    <string name="new_material_type_demo">New Assignment</string>
+    <string name="material_title_hint">Title</string>
+    <string name="material_due_date_hint">Due Date (dd/mm/yyyy)</string>
+    <string name="material_topic_hint">Topic</string>
+
+
 </resources>

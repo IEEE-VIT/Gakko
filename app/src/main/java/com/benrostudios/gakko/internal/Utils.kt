@@ -18,16 +18,22 @@ class Utils(
         const val SHARED_PREFERENCE_MOBILE = "mobile"
         const val SHARED_PREFERENCE_CURRENT_CLASSROOM = "currentClassroom"
         const val SHARED_PREFERENCE_CURRENT_CHAT = "currentChat"
+<<<<<<< HEAD
         const val SHARED_PREFERNCE_TEACHERLIST = "TeacherList"
+=======
+        const val SHARED_PREFERENCE_MATERIAL_TYPE = "materialType"
+>>>>>>> Materials fragment done
     }
 
     fun saveMobile(mobile: String) = editor.putString(SHARED_PREFERENCE_MOBILE, mobile).commit()
 
-
     fun retrieveMobile(): String? = sharedPreferences.getString(SHARED_PREFERENCE_MOBILE, null)
 
-    fun saveCurrentClassroom(classroom: String) =
-        editor.putString(SHARED_PREFERENCE_CURRENT_CLASSROOM, classroom).commit()
+    fun saveCurrentClassroom(classroom: String) = editor.putString(SHARED_PREFERENCE_CURRENT_CLASSROOM, classroom).commit()
+
+    fun saveMaterialType(type: String) = editor.putString(SHARED_PREFERENCE_MATERIAL_TYPE, type).commit()
+
+    fun retrieveMaterialType(): String? = sharedPreferences.getString(SHARED_PREFERENCE_MATERIAL_TYPE, null)
 
     fun retrieveCurrentClassroom(): String? =
         sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_CLASSROOM, null)
