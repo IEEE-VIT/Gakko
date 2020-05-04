@@ -13,7 +13,7 @@ import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.User
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
-import com.benrostudios.gakko.ui.classroom.ClassroomActivity
+import com.benrostudios.gakko.ui.home.HomeActivity
 import kotlinx.android.synthetic.main.user_set_up_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -77,7 +77,7 @@ class UserSetUp : ScopedFragment(),KodeinAware {
     private fun isSuccessfulListener() = launch {
         viewModel.response.observe(viewLifecycleOwner, Observer {
             if(!it){
-                val i = Intent(requireActivity(),ClassroomActivity::class.java)
+                val i = Intent(requireActivity(),HomeActivity::class.java)
                 startActivity(i)
                 activity?.finish()
             }else{

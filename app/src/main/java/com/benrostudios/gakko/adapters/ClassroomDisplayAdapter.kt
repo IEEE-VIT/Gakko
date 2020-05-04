@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Classroom
@@ -32,8 +33,9 @@ class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
         holder.background.setImageResource(randomizeImage())
         holder.cardContainer.setOnClickListener {
             utils.saveCurrentClassroom(classrooms[position].classroomID)
-            val intent = Intent(mContext , HomeActivity::class.java)
-            mContext.startActivity(intent)
+//            val intent = Intent(mContext , HomeActivity::class.java)
+//            mContext.startActivity(intent)
+            Navigation.findNavController(it).navigate(R.id.action_classroomDisplay2_to_homeHostFragment)
         }
     }
 

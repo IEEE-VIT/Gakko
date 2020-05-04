@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_home"
-    app:startDestination="@id/homeHostFragment">
+    app:startDestination="@id/classroomDisplay">
     <fragment
         android:id="@+id/homeHostFragment"
         android:name="com.benrostudios.gakko.ui.home.homehost.HomeHostFragment"
@@ -18,4 +18,13 @@
         android:name="com.benrostudios.gakko.ui.home.todo.Todo"
         android:label="todo_fragment"
         tools:layout="@layout/todo_fragment" />
+    <fragment
+        android:id="@+id/classroomDisplay"
+        android:name="com.benrostudios.gakko.ui.classroom.classroomdisplay.ClassroomDisplay"
+        android:label="classroom_display_fragment"
+        tools:layout="@layout/classroom_display_fragment" >
+        <action
+            android:id="@+id/action_classroomDisplay2_to_homeHostFragment"
+            app:destination="@id/homeHostFragment" />
+    </fragment>
 </navigation>

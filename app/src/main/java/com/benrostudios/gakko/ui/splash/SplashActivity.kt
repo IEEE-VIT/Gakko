@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.auth.AuthActivity
-import com.benrostudios.gakko.ui.classroom.ClassroomActivity
+import com.benrostudios.gakko.ui.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -77,7 +77,7 @@ class SplashActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun authenticatedUser() {
-        val i = Intent(this, ClassroomActivity::class.java)
+        val i = Intent(this, HomeActivity::class.java)
         startActivity(i)
         finish()
     }

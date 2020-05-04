@@ -14,13 +14,12 @@ import androidx.navigation.Navigation
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
-import com.benrostudios.gakko.ui.classroom.ClassroomActivity
+import com.benrostudios.gakko.ui.home.HomeActivity
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import kotlinx.android.synthetic.main.sign_in_fragment.*
 import kotlinx.android.synthetic.main.verification_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -122,7 +121,7 @@ class Verification : ScopedFragment(), KodeinAware {
 
             }else{
                 //Code To Go to Classroom
-                val intent = Intent(context, ClassroomActivity::class.java)
+                val intent = Intent(context, HomeActivity::class.java)
                 activity?.finish()
                 startActivity(intent)
             }
