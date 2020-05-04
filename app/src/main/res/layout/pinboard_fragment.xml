@@ -7,6 +7,17 @@
     tools:context=".ui.home.pinboard.PinboardFragment">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pinboard_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/pinboard_list_item" />
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extendedFloatingActionButton"
         android:layout_width="315dp"

@@ -97,10 +97,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_vector"
+        android:src="@drawable/assignment_vector_icon"
         app:layout_constraintBottom_toBottomOf="@+id/upload_material_image_view"
         app:layout_constraintEnd_toStartOf="@+id/upload_material_image_view"
-        app:layout_constraintTop_toTopOf="@+id/upload_material_image_view" />
+        app:layout_constraintTop_toTopOf="@+id/upload_material_image_view"
+        app:srcCompat="@drawable/choose_file_icon" />
 
     <ProgressBar
         android:id="@+id/material_uploading_progress_bar"

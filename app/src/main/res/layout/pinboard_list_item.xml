@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/material_icon_list_item"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/assignment_vector_icon" />
+
+    <TextView
+        android:id="@+id/material_type_text_view_list_item"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Material"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/material_icon_list_item"
+        app:layout_constraintTop_toTopOf="@+id/material_icon_list_item" />
+
+    <TextView
+        android:id="@+id/material_title_text_view_list_item"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Essay Writing"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/material_type_text_view_list_item"
+        app:layout_constraintEnd_toStartOf="@+id/material_download_icon_list_item"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/material_type_text_view_list_item"
+        app:layout_constraintTop_toTopOf="@+id/material_type_text_view_list_item"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/material_posting_date_text_view_list_item"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="Posted on 20 April, 4:20 PM"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/material_icon_list_item"
+        app:layout_constraintEnd_toStartOf="@+id/material_download_icon_list_item"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/material_icon_list_item"
+        app:layout_constraintTop_toBottomOf="@+id/material_type_text_view_list_item" />
+
+    <ImageView
+        android:id="@+id/material_download_icon_list_item"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_file_download_black_24dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
