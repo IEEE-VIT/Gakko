@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/homeHostFragment"
         android:name="com.benrostudios.gakko.ui.home.homehost.HomeHostFragment"
-        android:label="HomeHostFragment" />
+        android:label="HomeHostFragment" >
+        <action
+            android:id="@+id/action_homeHostFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notifications"
         android:name="com.benrostudios.gakko.ui.home.notifications.Notifications"
@@ -27,4 +31,9 @@
             android:id="@+id/action_classroomDisplay2_to_homeHostFragment"
             app:destination="@id/homeHostFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.benrostudios.gakko.ui.home.comments.CommentFragment"
+        android:label="comment_fragment"
+        tools:layout="@layout/comment_fragment" />
 </navigation>

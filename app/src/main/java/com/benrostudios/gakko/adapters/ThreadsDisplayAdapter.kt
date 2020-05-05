@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Threads
@@ -67,7 +68,7 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
         holder.threadBody.text = thread.body
         holder.threadComments.text = numberOfComments
         holder.threadComments.setOnClickListener {
-
+            Navigation.findNavController(it).navigate(R.id.action_homeHostFragment_to_commentFragment)
         }
     }
 
