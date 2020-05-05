@@ -1,7 +1,6 @@
 package com.benrostudios.gakko.ui.home.threads
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -47,13 +46,12 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getThreadsList("-sihshidv213")
+
+        threads_progress_bar.visibility = View.VISIBLE
+        getThreadsList(utils.retrieveCurrentClassroom()!!)
 
         thread_edit_text.setOnTouchListener { v, event ->
-            val DRAWABLE_LEFT = 0
-            val DRAWABLE_TOP = 1
             val DRAWABLE_RIGHT = 2
-            val DRAWABLE_BOTTOM = 3
 
             if(event.action == MotionEvent.ACTION_UP) {
                 if(event.rawX >= (thread_edit_text.right - thread_edit_text.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
@@ -69,8 +67,8 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun postThread(threadBody: String) = launch {
-        val thread: Threads = Threads(threadBody, emptyList(), utils.retrieveMobile() ?: "", System.currentTimeMillis()/1000)
-        threadsViewModel.postThread(thread,  "-sihshidv213")
+        val thread: Threads = Threads(threadBody, emptyMap(), utils.retrieveMobile() ?: "", System.currentTimeMillis(), "")
+        threadsViewModel.postThread(thread,  utils.retrieveCurrentClassroom()!!)
     }
 
     private fun getThreadsList(threadId: String) = launch {
@@ -78,7 +76,14 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
         threadsViewModel.getThreads(threadId)
         threadsViewModel.threads.observe(viewLifecycleOwner, Observer {
             threadList = it as MutableList<Threads>
-            getThreadUsers(threadList)
+            if(threadList.isNotEmpty()) {
+                getThreadUsers(threadList)
+            } else {
+                threads_recycler_view.visibility = View.GONE
+                threads_default_image_background.visibility = View.VISIBLE
+                threads_default_text_view.visibility = View.VISIBLE
+                threads_progress_bar.visibility = View.GONE
+            }
         })
     }
 
@@ -94,7 +99,6 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
                }
                 if(counter == threadList.size) {
                     getThreadClassroom(utils.retrieveCurrentClassroom()?:"")
-                    Log.d("CurrentClass",utils.retrieveCurrentClassroom())
                 }
             })
         }
@@ -115,14 +119,16 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
             threads_recycler_view.visibility = View.GONE
             threads_default_image_background.visibility = View.VISIBLE
             threads_default_text_view.visibility = View.VISIBLE
+            threads_progress_bar.visibility = View.GONE
         }
         else {
             threads_recycler_view.visibility = View.VISIBLE
             threads_default_image_background.visibility = View.GONE
             threads_default_text_view.visibility = View.GONE
-            adapter = ThreadsDisplayAdapter(threadList, teachersList, map)
+            adapter = ThreadsDisplayAdapter(threadList, teachersList, map, utils)
             threads_recycler_view.layoutManager = LinearLayoutManager(context)
             threads_recycler_view.adapter = adapter
+            threads_progress_bar.visibility = View.GONE
         }
     }
 }

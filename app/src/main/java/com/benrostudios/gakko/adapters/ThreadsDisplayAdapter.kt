@@ -13,6 +13,7 @@ import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Threads
 import com.benrostudios.gakko.data.models.User
 import com.benrostudios.gakko.internal.GlideApp
+import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.home.HomeActivity
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
@@ -21,7 +22,8 @@ import kotlin.collections.HashMap
 
 class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
                             private val teachersList: List<String>,
-                            private val map: HashMap<String, User>):
+                            private val map: HashMap<String, User>,
+                            private val utils: Utils):
     RecyclerView.Adapter<ThreadsDisplayAdapter.ThreadsDisplayViewHolder>() {
 
     private lateinit var context: Context
@@ -68,6 +70,7 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
         holder.threadBody.text = thread.body
         holder.threadComments.text = numberOfComments
         holder.threadComments.setOnClickListener {
+            utils.saveThread(thread.threadId)
             Navigation.findNavController(it).navigate(R.id.action_homeHostFragment_to_commentFragment)
         }
     }

@@ -112,6 +112,7 @@
                 android:background="@drawable/grey_box_border_unrounded"
                 android:padding="12dp"
                 android:text="@string/demo_number_of_comments"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

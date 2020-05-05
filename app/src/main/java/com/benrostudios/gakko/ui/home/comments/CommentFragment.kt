@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.CommentsDisplayAdapter
@@ -25,6 +28,7 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class CommentFragment : ScopedFragment(), KodeinAware {
@@ -39,6 +43,7 @@ class CommentFragment : ScopedFragment(), KodeinAware {
     private lateinit var adapter: CommentsDisplayAdapter
     @SuppressLint("SimpleDateFormat")
     private var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+    private lateinit var navController: NavController
 
 
     override fun onCreateView(
@@ -55,14 +60,17 @@ class CommentFragment : ScopedFragment(), KodeinAware {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        navController = view.findNavController()
+        comments_progress_bar.visibility = View.VISIBLE
         getClassroom(utils.retrieveCurrentClassroom() ?: "")
 
-        comments_edit_text.setOnTouchListener { v, event ->
-            val DRAWABLE_LEFT = 0
-            val DRAWABLE_TOP = 1
-            val DRAWABLE_RIGHT = 2
-            val DRAWABLE_BOTTOM = 3
+        back_to_threads_arrow_image.setOnClickListener {
+            navController.popBackStack()
+        }
 
+        comments_edit_text.setOnTouchListener { v, event ->
+            val DRAWABLE_RIGHT = 2
             if(event.action == MotionEvent.ACTION_UP) {
                 if(event.rawX >= (comments_edit_text.right - comments_edit_text.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
                     if(comments_edit_text.text.toString().isNotEmpty()) {
@@ -77,15 +85,15 @@ class CommentFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun postComment(commentBody: String) = launch {
-        val comment: Comments = Comments(commentBody, System.currentTimeMillis(), utils.retrieveMobile()!!.toLong())
-        commentsViewModel.postComment(comment, utils.retrieveCurrentClassroom() ?: "", "ckdnkdndjksn")
+        val comment: Comments = Comments(commentBody, System.currentTimeMillis(), utils.retrieveMobile()!!)
+        commentsViewModel.postComment(comment, utils.retrieveCurrentClassroom() ?: "", utils.retrieveThread()!!)
     }
 
     private fun getClassroom(classroomId: String) = launch {
         teacherList.clear()
         commentsViewModel.commentsClassroom.observe(viewLifecycleOwner, Observer {
             teacherList = it.teachers as MutableList<String>
-            getThread(classroomId, "hhbchbdb")
+            getThread(classroomId, utils.retrieveThread()!!)
         })
     }
 
@@ -93,25 +101,44 @@ class CommentFragment : ScopedFragment(), KodeinAware {
         commentsViewModel.getSpecificThread(threadId, specificThreadId)
         commentsViewModel.specificThread.observe(viewLifecycleOwner, Observer {
             currentThread = it
-            getThreadUser(it.user, it.comments)
+            val commitsList: List<Comments> = ArrayList<Comments>(it.comments.values)
+            getThreadUser(it.user, commitsList)
         })
     }
 
     private fun getThreadUser(userId: String, comments: List<Comments>) = launch {
         commentsViewModel.getCommentUser(userId)
         commentsViewModel.commenter.observe(viewLifecycleOwner, Observer {
-            threadUser = it
-            getCommenters(comments)
+            if(it != null) {
+                threadUser = it
+                if(!comments.isNullOrEmpty()) {
+                    getCommenters(comments)
+                }
+                else {
+                    GlideApp.with(requireContext())
+                        .load(threadUser.profileImage)
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_defualt_profile_pic)
+                        .into(comments_fragment_profile_picture)
+                    comments_fragment_person_name.text = threadUser.name
+                    comments_fragment_person_designation.text = if(teacherList.contains(threadUser.id)) "Teacher" else "Student"
+                    comments_fragment_person_day.text = dateFormatter.format(Date(currentThread.timestamp))
+                    comments_fragment_thread_body.text = currentThread.body
+                    comments_progress_bar.visibility = View.GONE
+                }
+            }
         })
     }
 
     private fun getCommenters(comments: List<Comments>) = launch {
-        var counter: Int = 0
+        var counter = 0
         for(comment: Comments in comments) {
             commentsViewModel.getCommentUser(comment.user.toString())
             commentsViewModel.commenter.observe(viewLifecycleOwner, Observer {
-                map[it.id] = it
-                counter++
+                if(it != null) {
+                    map[it.id] = it
+                    counter++
+                }
             })
             if(counter == comments.size) {
                 updateUI()
@@ -129,9 +156,10 @@ class CommentFragment : ScopedFragment(), KodeinAware {
         comments_fragment_person_designation.text = if(teacherList.contains(threadUser.id)) "Teacher" else "Student"
         comments_fragment_person_day.text = dateFormatter.format(Date(currentThread.timestamp))
         comments_fragment_thread_body.text = currentThread.body
-        adapter = CommentsDisplayAdapter(currentThread.comments, map)
+        adapter = CommentsDisplayAdapter(ArrayList<Comments>(currentThread.comments.values), map)
         comments_recycler_view.adapter = adapter
         comments_recycler_view.layoutManager = LinearLayoutManager(requireContext())
+        comments_progress_bar.visibility = View.GONE
     }
 
 }

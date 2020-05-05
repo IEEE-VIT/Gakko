@@ -33,7 +33,7 @@ class ThreadsRepositoryImpl : ThreadsRepository {
             override fun onDataChange(p0: DataSnapshot) {
                 threadList.clear()
                 for(child: DataSnapshot in p0.children) {
-                    val thread = child.getValue(Threads :: class.java)!!
+                    val thread = child.getValue(Threads::class.java)!!
                     threadList.add(thread)
                 }
                 _threads.postValue(threadList)
@@ -73,7 +73,9 @@ class ThreadsRepositoryImpl : ThreadsRepository {
 
     override suspend fun postThread(thread: Threads, threadId: String) {
         databaseReference = FirebaseDatabase.getInstance().getReference("/Threads/$threadId/")
-        databaseReference.push().setValue(thread)
+        val pushID: String = databaseReference.push().key!!
+        thread.threadId = pushID
+        databaseReference.child(pushID).setValue(thread)
     }
 
 }
