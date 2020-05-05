@@ -21,6 +21,7 @@ import com.benrostudios.gakko.ui.home.members.MembersViewModelFactory
 import com.benrostudios.gakko.ui.home.notifications.NotificationsViewModelFactory
 import com.benrostudios.gakko.ui.home.pinboard.PinboardViewModelFactory
 import com.benrostudios.gakko.ui.home.threads.ThreadsViewModelFactory
+import com.benrostudios.gakko.ui.home.todo.TodoViewModelFactory
 import com.benrostudios.gakko.ui.splash.SplashViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -39,6 +40,7 @@ class GakkoApplication : Application(), KodeinAware {
         bind<CommentsRepository>() with singleton { CommentsRepositoryImpl() }
         bind<MaterialsRepository>() with singleton { MaterialsRepositoryImpl() }
         bind<PinboardRepository>() with singleton { PinboardRepositoryImpl() }
+        bind<TodoRepository>() with singleton { TodoRepositoryImpl() }
         bind() from singleton { Utils(instance()) }
         bind() from singleton { CreateClassroomService() }
         bind<ClassroomRepository>() with singleton {
@@ -51,6 +53,7 @@ class GakkoApplication : Application(), KodeinAware {
         bind<ChatRepository>() with singleton { ChatRepositoryImpl(instance()) }
         bind<NotificationsRepo>() with singleton { NotificationsRepoImpl() }
         bind() from provider { SplashViewModelFactory(instance()) }
+        bind() from provider { TodoViewModelFactory(instance()) }
         bind() from provider { PinboardViewModelFactory(instance()) }
         bind() from provider { VerificationViewModelFactory(instance()) }
         bind() from provider { SignInViewModelFactory(instance()) }

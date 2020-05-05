@@ -15,7 +15,7 @@
         tools:layout="@layout/notifications_fragment" />
     <fragment
         android:id="@+id/todo"
-        android:name="com.benrostudios.gakko.ui.home.todo.Todo"
+        android:name="com.benrostudios.gakko.ui.home.todo.TodoFragment"
         android:label="todo_fragment"
         tools:layout="@layout/todo_fragment" />
     <fragment
