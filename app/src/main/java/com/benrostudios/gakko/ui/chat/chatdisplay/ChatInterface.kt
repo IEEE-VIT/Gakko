@@ -22,6 +22,8 @@ import com.benrostudios.gakko.adapters.ChatAdapter
 import com.benrostudios.gakko.data.models.ChatMessage
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.chat_interface_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -50,13 +52,19 @@ class ChatInterface : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,viewModelFactory).get(ChatInterfaceViewModel::class.java)
-        chat_recipient_image.setImageResource(R.drawable.ic_defualt_profile_pic)
+
         receiveMessages()
+        retriveRecipientUser()
         chat_display_recycler.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,true)
         message_edit_text_layout.setEndIconOnClickListener {
             sendMessage()
         }
-        Toast.makeText(context,utils.retrieveCurrentChat(),Toast.LENGTH_SHORT).show()
+        chat_back.setOnClickListener {
+            activity?.finish()
+        }
+        chat_recipient_image.setOnClickListener {
+            activity?.finish()
+        }
     }
     private fun receiveMessages() = launch {
         viewModel.receiveMessages()
@@ -72,5 +80,19 @@ class ChatInterface : ScopedFragment(), KodeinAware {
         val chatMessage = ChatMessage("text","",usr_message_text.text.toString(),utils.retrieveCurrentClassroom()!!,utils.retrieveCurrentChat()!!,false,utils.retrieveMobile()!!,true,unixTime)
         viewModel.sendMessage(chatMessage)
         usr_message_text.setText("")
+    }
+
+    private fun retriveRecipientUser() = launch {
+        viewModel.recipientUser.observe(viewLifecycleOwner, Observer {
+            var options: RequestOptions = RequestOptions()
+                .error(R.drawable.ic_defualt_profile_pic)
+                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .circleCrop()
+            Glide.with(requireContext())
+                .load(it.profileImage)
+                .apply(options)
+                .into(chat_recipient_image)
+            chat_recipient_name.text = it.name
+        })
     }
 }

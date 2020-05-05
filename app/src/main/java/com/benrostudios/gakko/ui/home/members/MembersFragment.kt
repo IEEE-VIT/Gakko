@@ -1,9 +1,6 @@
 package com.benrostudios.gakko.ui.home.members
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +45,7 @@ class MembersFragment : ScopedFragment(),KodeinAware {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,viewModelFactory).get(MembersViewModel::class.java)
         fetchClassroom()
-        emmebrs_students_recycler.layoutManager = LinearLayoutManager(context)
+        memebrs_students_recycler.layoutManager = LinearLayoutManager(context)
         members_teacher_recycler.layoutManager = LinearLayoutManager(context)
     }
 
@@ -65,7 +62,8 @@ class MembersFragment : ScopedFragment(),KodeinAware {
         viewModel.getStudentsList(classroom.students)
         viewModel.studentsList.observe(viewLifecycleOwner, Observer {
             studentsAdapter = MembersDisplayAdapter(it)
-            emmebrs_students_recycler.adapter = studentsAdapter
+            memebrs_students_recycler.adapter = studentsAdapter
+            populateUI()
         })
     }
     private fun getTeachers() = launch {
@@ -73,8 +71,17 @@ class MembersFragment : ScopedFragment(),KodeinAware {
         viewModel.teachersList.observe(viewLifecycleOwner, Observer {
             teachersAdapter = MembersDisplayAdapter(it)
             members_teacher_recycler.adapter = teachersAdapter
+            populateUI()
         })
 
+    }
+
+    private fun populateUI(){
+        members_progress.visibility = View.GONE
+        members_teacher_recycler.visibility = View.VISIBLE
+        members_students_title.visibility = View.VISIBLE
+        members_teacher_title.visibility = View.VISIBLE
+        memebrs_students_recycler.visibility = View.VISIBLE
     }
 
 }

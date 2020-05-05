@@ -9,43 +9,35 @@
     android:paddingTop="8dp">
 
     <TextView
-        android:id="@+id/text_message_name"
+        android:id="@+id/received_message_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="John Doe"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/received_message_body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/chat"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/incoming_message"
         android:backgroundTint="@color/gray"
         android:fontFamily="@font/sfprotet_regular"
         android:maxWidth="240dp"
-        android:padding="8dp"
+        android:padding="10dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="10dp"
         android:text="hi man, how are you?"
         android:textColor="@color/black"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_message_name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/received_message_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="11:40"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/received_message_body"
         app:layout_constraintLeft_toRightOf="@+id/sent_message_body"
-        app:layout_constraintStart_toEndOf="@+id/received_message_body"
-        app:layout_constraintTop_toTopOf="@+id/received_message_body"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toEndOf="@+id/received_message_body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
