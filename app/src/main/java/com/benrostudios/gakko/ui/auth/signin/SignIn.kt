@@ -55,6 +55,7 @@ class SignIn : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        phone_input.setSelection(3)
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(SignInViewModel::class.java)
     }

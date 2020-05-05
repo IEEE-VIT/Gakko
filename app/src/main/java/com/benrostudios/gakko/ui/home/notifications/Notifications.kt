@@ -71,7 +71,9 @@ class Notifications : ScopedFragment(), KodeinAware {
             if (it.isNullOrEmpty()) {
                 no_notification_image.visibility = View.VISIBLE
                 no_notification_title.visibility = View.VISIBLE
+                request_recycler.visibility = View.GONE
             } else {
+                request_recycler.visibility = View.VISIBLE
                 no_notification_image.visibility = View.GONE
                 no_notification_title.visibility = View.GONE
                 request_recycler.adapter =

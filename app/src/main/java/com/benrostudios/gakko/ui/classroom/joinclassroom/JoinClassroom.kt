@@ -74,6 +74,8 @@ class JoinClassroom : BottomSheetDialogFragment(), KodeinAware {
             if(eligible){
                 joinClassroomResponseListener()
                 joinClassroom(classCode)
+            }else{
+                dismiss()
             }
         })
     }

@@ -34,7 +34,6 @@ class SplashActivity : AppCompatActivity(), KodeinAware {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(SplashViewModel::class.java)
         initialize()
-        Firebase.database.setPersistenceEnabled(true)
         firebaseAuth = FirebaseAuth.getInstance()
 
     }

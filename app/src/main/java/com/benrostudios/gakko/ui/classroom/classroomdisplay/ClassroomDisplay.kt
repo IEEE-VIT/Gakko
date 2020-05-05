@@ -60,6 +60,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(ClassroomDisplayViewModel::class.java)
 
@@ -87,15 +88,22 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
 
         join_classroom_btn.setOnClickListener {
             val bottomSheetFragment = JoinClassroom()
-            bottomSheetFragment.show(activity?.supportFragmentManager!!, bottomSheetFragment.tag)
+            bottomSheetFragment.show(
+                activity?.supportFragmentManager!!,
+                bottomSheetFragment.tag
+            )
         }
 
         create_classroom_btn.setOnClickListener {
             //navController.navigate(R.id.action_classroomDisplay_to_createClassroom)
             val bottomSheetFragment = CreateClassroom()
-            bottomSheetFragment.show(activity?.supportFragmentManager!!, bottomSheetFragment.tag)
+            bottomSheetFragment.show(
+                activity?.supportFragmentManager!!,
+                bottomSheetFragment.tag
+            )
 
         }
+
 
     }
 
@@ -134,7 +142,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
         val animationPos: Float
         if (showClassroomButtonOptions) {
             animationPos = (join_classroom_btn.top.toFloat() - add_classroom_btn.bottom.toFloat())
-            ObjectAnimator.ofFloat(add_classroom_btn, "translationY",  animationPos).apply {
+            ObjectAnimator.ofFloat(add_classroom_btn, "translationY", animationPos).apply {
                 duration = 100
                 start()
                 addListener(object : AnimatorListenerAdapter() {
@@ -152,7 +160,8 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
             line_division.visibility = View.VISIBLE
             create_classroom_btn.visibility = View.VISIBLE
         } else {
-            animationPos = (add_classroom_btn.bottom.toFloat() - create_classroom_btn.bottom.toFloat())
+            animationPos =
+                (add_classroom_btn.bottom.toFloat() - create_classroom_btn.bottom.toFloat())
             ObjectAnimator.ofFloat(add_classroom_btn, "translationY", animationPos).apply {
                 duration = 100
                 start()

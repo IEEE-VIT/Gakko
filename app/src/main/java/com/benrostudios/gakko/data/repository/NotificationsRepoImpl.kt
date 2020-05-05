@@ -12,7 +12,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import okhttp3.internal.EMPTY_REQUEST
 
 class NotificationsRepoImpl : NotificationsRepo {
 
@@ -94,16 +93,34 @@ class NotificationsRepoImpl : NotificationsRepo {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
-
             override fun onDataChange(p0: DataSnapshot) {
                 var classList = p0.value as MutableList<String>
                 classList.add(classroom)
                 databaseReference = Firebase.database.getReference("/users/$person/classrooms")
                 databaseReference.setValue(classList)
             }
-
         }
         databaseReference.addListenerForSingleValueEvent(userClassroomUpdater)
+        updateStudentsList(classroom, person)
+    }
+
+
+    private fun updateStudentsList(classroom: String, person: String){
+        var dataReference = Firebase.database.getReference("/classrooms/$classroom")
+        var classroomStudentsUpdate = object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                var classroomObject = p0.getValue(Classroom::class.java)
+                var studentsList: MutableList<String> = classroomObject?.students?.toMutableList() ?: mutableListOf()
+                studentsList.add(person)
+                dataReference.child("students").setValue(studentsList)
+            }
+
+        }
+        dataReference.addListenerForSingleValueEvent(classroomStudentsUpdate)
     }
 
     override suspend fun rejectRequest(classroom: String, person: String) {
