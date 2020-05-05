@@ -19,16 +19,17 @@
         tools:listitem="@layout/pinboard_list_item" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extendedFloatingActionButton"
+        android:id="@+id/add_work_button"
         android:layout_width="315dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:text="+ Add Work"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:backgroundTint="@color/primary_green"
         app:cornerRadius="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/material_type_assignment_button"
+        app:layout_constraintBottom_toBottomOf="@+id/pinboard_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:shapeAppearanceOverlay="@style/AddClassroomOverlay" />
@@ -44,11 +45,11 @@
         android:textAllCaps="false"
         android:textColor="@color/primary_green"
         android:textSize="16sp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/material_type_question_button"
-        app:layout_constraintEnd_toEndOf="@+id/extendedFloatingActionButton"
-        app:layout_constraintStart_toStartOf="@+id/extendedFloatingActionButton"
+        app:layout_constraintEnd_toEndOf="@+id/add_work_button"
+        app:layout_constraintStart_toStartOf="@+id/add_work_button"
         app:shapeAppearanceOverlay="@style/JoinClassroomOverlay"
         tools:visibility="visible" />
 
@@ -62,7 +63,7 @@
         android:textAllCaps="false"
         android:textColor="@color/primary_green"
         android:textSize="16sp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/material_type_material_button"
         app:layout_constraintEnd_toEndOf="@+id/material_type_assignment_button"
@@ -81,13 +82,13 @@
         android:textAllCaps="false"
         android:textColor="@color/primary_green"
         android:textSize="16sp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/material_type_question_button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/material_type_question_button"
-        app:shapeAppearanceOverlay="@style/JoinClassroomOverlay"
+        app:shapeAppearanceOverlay="@style/CreateClassroomOverlay"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

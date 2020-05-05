@@ -1,7 +1,11 @@
 package com.benrostudios.gakko.ui.home.pinboard
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +22,8 @@ import com.benrostudios.gakko.data.models.Material
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import com.benrostudios.gakko.ui.home.material.MaterialFragment
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
 import kotlinx.android.synthetic.main.pinboard_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -32,6 +38,7 @@ class PinboardFragment : ScopedFragment(), KodeinAware {
     private val viewModelFactory: PinboardViewModelFactory by instance()
     private lateinit var viewModel: PinboardViewModel
     private val bottomSheetFragment = MaterialFragment()
+    private var showPinboardButtonOptions: Boolean = true
 
     companion object {
         fun newInstance() = PinboardFragment()
@@ -53,6 +60,16 @@ class PinboardFragment : ScopedFragment(), KodeinAware {
         super.onViewCreated(view, savedInstanceState)
 
         getMaterials(utils.retrieveCurrentClassroom()!!)
+
+        add_work_button.setOnClickListener {
+            showPinboardButtonOptions = if (showPinboardButtonOptions) {
+                revealOptions()
+                false
+            } else {
+                revealOptions()
+                true
+            }
+        }
 
         material_type_assignment_button.setOnClickListener {
             utils.saveMaterialType("Assignment")
@@ -82,5 +99,53 @@ class PinboardFragment : ScopedFragment(), KodeinAware {
         pinboard_recycler_view.adapter = adapter
         pinboard_recycler_view.addItemDecoration(DividerItemDecoration(requireActivity(), LinearLayout.VERTICAL))
         pinboard_recycler_view.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun revealOptions(){
+        val fourteenDp = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 14f,
+            context?.resources?.displayMetrics
+        )
+        val animationPos: Float
+        if (showPinboardButtonOptions) {
+            animationPos = (material_type_assignment_button.top.toFloat() - add_work_button.bottom.toFloat())
+            ObjectAnimator.ofFloat(add_work_button, "translationY", animationPos).apply {
+                duration = 100
+                start()
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        add_work_button.shapeAppearanceModel = ShapeAppearanceModel().toBuilder()
+                            .setTopLeftCorner(CornerFamily.ROUNDED, fourteenDp)
+                            .setTopRightCorner(CornerFamily.ROUNDED, fourteenDp)
+                            .setBottomLeftCorner(CornerFamily.CUT, 0f)
+                            .setBottomRightCorner(CornerFamily.CUT, 0f)
+                            .build()
+                    }
+                })
+            }
+            material_type_assignment_button.visibility = View.VISIBLE
+            material_type_material_button.visibility = View.VISIBLE
+            material_type_question_button.visibility = View.VISIBLE
+        } else {
+            animationPos =
+                (add_work_button.bottom.toFloat() - material_type_material_button.bottom.toFloat())
+            ObjectAnimator.ofFloat(add_work_button, "translationY", animationPos).apply {
+                duration = 100
+                start()
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        add_work_button.shapeAppearanceModel = ShapeAppearanceModel().toBuilder()
+                            .setTopLeftCorner(CornerFamily.ROUNDED, fourteenDp)
+                            .setTopRightCorner(CornerFamily.ROUNDED, fourteenDp)
+                            .setBottomLeftCorner(CornerFamily.ROUNDED, fourteenDp)
+                            .setBottomRightCorner(CornerFamily.ROUNDED, fourteenDp)
+                            .build()
+                    }
+                })
+            }
+            material_type_material_button.visibility = View.INVISIBLE
+            material_type_assignment_button.visibility = View.GONE
+            material_type_question_button.visibility = View.INVISIBLE
+        }
     }
 }
