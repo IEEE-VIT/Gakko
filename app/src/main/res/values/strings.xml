@@ -72,5 +72,8 @@
     <string name="material_due_date_hint">Due Date (dd/mm/yyyy)</string>
     <string name="material_topic_hint">Topic</string>
 
+    //Pinboard Fragment
+    <string name="demo_pinboard_text">No work have been created yet</string>
+
 
 </resources>

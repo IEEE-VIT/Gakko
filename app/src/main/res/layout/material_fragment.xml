@@ -25,6 +25,7 @@
             android:id="@+id/material_title_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,6 +44,7 @@
             android:id="@+id/material_due_date_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,6 +66,7 @@
             android:id="@+id/material_topic_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,17 +95,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
-    <ImageView
-        android:id="@+id/choose_material_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/assignment_vector_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/upload_material_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/upload_material_image_view"
-        app:layout_constraintTop_toTopOf="@+id/upload_material_image_view"
-        app:srcCompat="@drawable/choose_file_icon" />
-
     <ProgressBar
         android:id="@+id/material_uploading_progress_bar"
         style="?android:attr/progressBarStyle"
@@ -114,6 +106,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/choose_material_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/choose_file_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/upload_material_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/upload_material_image_view"
+        app:layout_constraintTop_toTopOf="@+id/upload_material_image_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

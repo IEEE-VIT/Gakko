@@ -23,6 +23,7 @@
             android:id="@+id/back_to_threads_arrow_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             app:srcCompat="@drawable/ic_arrow"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="28dp" />

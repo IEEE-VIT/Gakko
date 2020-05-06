@@ -22,12 +22,17 @@ class Utils(
         const val SHARED_PREFERENCE_MATERIAL_TYPE = "materialType"
         const val SHARED_PREFERENCE_PROFILE_PIC_URL = "profilePic"
         const val SHARED_PREFERENCE_CURRENT_THREAD = "currentThread"
+        const val SHARED_PREFERENCE_CURRENT_TEACHER = "currentTeacher"
 
     }
 
     fun saveMobile(mobile: String) = editor.putString(SHARED_PREFERENCE_MOBILE, mobile).commit()
 
     fun retrieveMobile(): String? = sharedPreferences.getString(SHARED_PREFERENCE_MOBILE, null)
+
+    fun saveTeacher(teacherId: String) = editor.putString(SHARED_PREFERENCE_CURRENT_TEACHER, teacherId).commit()
+
+    fun retrieveCurrentTeacher(): String? = sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_TEACHER, null)
 
     fun saveThread(threadId: String) = editor.putString(SHARED_PREFERENCE_CURRENT_THREAD, threadId).commit()
 

@@ -52,7 +52,7 @@ class PinboardDisplayAdapter(private val materialsList: List<Material>): Recycle
                     .into(holder.icon)
             }
         }
-        holder.type.text = material.type
+        holder.type.text = material.type + ":"
         holder.title.text = material.name
         holder.datePosted.text = "Posted on " + sdf.format(Date(material.uploadedOn))
         GlideApp.with(context)

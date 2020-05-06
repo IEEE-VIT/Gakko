@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,7 +105,7 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
                 material_due_date_edit_text.isFocusable = true
                 material_title_edit_text.isFocusable = true
                 material_topic_edit_text.isFocusable = true
-                dismiss()
+                dismissFunction()
             }
         })
     }
@@ -123,7 +124,7 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
         material_due_date_edit_text.isFocusable = true
         material_title_edit_text.isFocusable = true
         material_topic_edit_text.isFocusable = true
-        dismiss()
+        dismissFunction()
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -143,6 +144,16 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
         return answer
     }
 
+    private fun dismissFunction() {
+        stringUri = null
+        dismiss()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissFunction()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null && data.data != null) { //if a file is selected
@@ -157,22 +168,20 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
                     try {
                         cursor = activity?.contentResolver?.query(uri, null, null, null, null)
                         if (cursor != null && cursor.moveToFirst()) {
-                            displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                            displayName =
+                                cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
                         }
                     } finally {
                         cursor?.close();
                     }
-                }
-                else if (stringUri!!.startsWith("file://")) {
+                } else if (stringUri!!.startsWith("file://")) {
                     displayName = myFile.name;
                 }
-                Toast.makeText(requireContext(), "$displayName file chosen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "$displayName file chosen", Toast.LENGTH_SHORT)
+                    .show()
             }
-        }
-        else {
+        } else {
             Toast.makeText(requireContext(), "No file chosen", Toast.LENGTH_LONG).show()
         }
     }
-
-
 }

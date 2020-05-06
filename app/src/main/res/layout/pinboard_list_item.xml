@@ -33,7 +33,7 @@
         style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:text="Essay Writing"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/material_type_text_view_list_item"

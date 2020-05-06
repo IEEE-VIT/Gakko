@@ -34,6 +34,7 @@ class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
         holder.background.setImageResource(alternateImage())
         holder.cardContainer.setOnClickListener {
             utils.saveCurrentClassroom(classrooms[position].classroomID)
+            utils.saveTeacher(classrooms[position].createdBy)
             Navigation.findNavController(it).navigate(R.id.action_classroomDisplay2_to_homeHostFragment)
         }
     }

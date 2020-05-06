@@ -54,12 +54,18 @@ class PinboardFragment : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(PinboardViewModel::class.java)
+        if(utils.retrieveCurrentTeacher() == utils.retrieveMobile()) {
+            add_work_button.visibility = View.VISIBLE
+        } else {
+            add_work_button.visibility = View.GONE
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         getMaterials(utils.retrieveCurrentClassroom()!!)
+        pinboard_progress_bar.visibility = View.VISIBLE
 
         add_work_button.setOnClickListener {
             showPinboardButtonOptions = if (showPinboardButtonOptions) {
@@ -95,10 +101,21 @@ class PinboardFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun updateUI(materialsList: List<Material>) {
-        val adapter: PinboardDisplayAdapter = PinboardDisplayAdapter(materialsList)
-        pinboard_recycler_view.adapter = adapter
-        pinboard_recycler_view.addItemDecoration(DividerItemDecoration(requireActivity(), LinearLayout.VERTICAL))
-        pinboard_recycler_view.layoutManager = LinearLayoutManager(requireContext())
+        if(materialsList.isNullOrEmpty()) {
+            default_pinboard_image_view.visibility = View.VISIBLE
+            default_pinboard_text_view.visibility = View.VISIBLE
+            pinboard_recycler_view.visibility = View.GONE
+            pinboard_progress_bar.visibility = View.GONE
+        } else {
+            default_pinboard_image_view.visibility = View.GONE
+            default_pinboard_text_view.visibility = View.GONE
+            pinboard_recycler_view.visibility = View.VISIBLE
+            val adapter = PinboardDisplayAdapter(materialsList)
+            pinboard_recycler_view.adapter = adapter
+            pinboard_recycler_view.addItemDecoration(DividerItemDecoration(requireActivity(), LinearLayout.VERTICAL))
+            pinboard_recycler_view.layoutManager = LinearLayoutManager(requireContext())
+            pinboard_progress_bar.visibility = View.GONE
+        }
     }
 
     private fun revealOptions(){
