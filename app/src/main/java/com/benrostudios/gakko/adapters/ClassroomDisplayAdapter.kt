@@ -35,6 +35,7 @@ class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
         holder.cardContainer.setOnClickListener {
             utils.saveCurrentClassroom(classrooms[position].classroomID)
             utils.saveTeacher(classrooms[position].createdBy)
+            utils.saveSubject(classrooms[position].name)
             Navigation.findNavController(it).navigate(R.id.action_classroomDisplay2_to_homeHostFragment)
         }
     }

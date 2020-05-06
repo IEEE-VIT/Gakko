@@ -10,14 +10,14 @@ import com.google.firebase.database.*
 class TodoRepositoryImpl : TodoRepository {
     private val _user = MutableLiveData<User>()
     private val _classroom = MutableLiveData<Classroom>()
-    private val _todo = MutableLiveData<Material>()
+    private val _todo = MutableLiveData<List<Material>>()
     private lateinit var databaseReference: DatabaseReference
 
     override val user: LiveData<User>
         get() = _user
     override val classroom: LiveData<Classroom>
         get() = _classroom
-    override val todo: LiveData<Material>
+    override val todo: LiveData<List<Material>>
         get() = _todo
 
     override suspend fun getUser(userId: String) {
@@ -57,7 +57,11 @@ class TodoRepositoryImpl : TodoRepository {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                _todo.postValue(p0.getValue(Material::class.java))
+                val materialList = mutableListOf<Material>()
+                for(x: DataSnapshot in p0.children) {
+                    materialList.add(x.getValue(Material::class.java)!!)
+                }
+                _todo.postValue(materialList)
             }
         }
         databaseReference.addValueEventListener(valueEventListener)

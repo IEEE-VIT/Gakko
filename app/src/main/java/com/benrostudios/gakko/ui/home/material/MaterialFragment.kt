@@ -26,6 +26,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import java.io.File
+import java.sql.Timestamp
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -115,8 +116,8 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
         val strDate: String = material_due_date_edit_text.text.toString()
         val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
         val date = formatter.parse(strDate)
-        val material: Material = Material("pdf", date!!.time, material_title_edit_text.text.toString(),
-            utils.retrieveMaterialType()!!, utils.retrieveMobile()!!, System.currentTimeMillis(), stringUri!!)
+        val material: Material = Material("pdf",date!!.time / 1000, material_title_edit_text.text.toString(),
+            utils.retrieveMaterialType()!!, utils.retrieveMobile()!!, System.currentTimeMillis(), stringUri!!, utils.retrieveCurrentSubject()!!)
 
         viewModel.uploadMaterialInformation(material, utils.retrieveCurrentClassroom()!!)
         Toast.makeText(requireContext(), "Material Submitted", Toast.LENGTH_SHORT).show()

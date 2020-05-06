@@ -8,7 +8,7 @@ import com.benrostudios.gakko.data.models.User
 interface TodoRepository {
     val user: LiveData<User>
     val classroom: LiveData<Classroom>
-    val todo: LiveData<Material>
+    val todo: LiveData<List<Material>>
 
     suspend fun getUser(userId: String)
     suspend fun getClassrooms(classId: String)

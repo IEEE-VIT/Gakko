@@ -11,13 +11,13 @@ import com.benrostudios.gakko.data.repository.TodoRepository
 class TodoViewModel(private val todoRepository: TodoRepository) : ViewModel() {
     private val _user = MutableLiveData<User>()
     private val _classroom = MutableLiveData<Classroom>()
-    private val _todo = MutableLiveData<Material>()
+    private val _todo = MutableLiveData<List<Material>>()
 
     val user: LiveData<User>
         get() = _user
     val classroom: LiveData<Classroom>
         get() = _classroom
-    val todo: LiveData<Material>
+    val todo: LiveData<List<Material>>
         get() = _todo
 
     init {

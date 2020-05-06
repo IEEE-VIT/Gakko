@@ -7,5 +7,6 @@ data class Material(
     val type: String = "",
     val uploadedBy: String = "",
     val uploadedOn: Long = 0L,
-    val url: String = ""
+    val url: String = "",
+    val classroomName: String = ""
 )
