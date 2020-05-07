@@ -121,6 +121,7 @@ class ProfileFragment : ScopedFragment(), KodeinAware {
         }
         if(validation){
             updateProfilePic(name ,displayname)
+            profile_progress.visibility = View.VISIBLE
         }
 
     }
@@ -135,11 +136,30 @@ class ProfileFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun updateProfilePic(name: String, displayname: String) = launch {
+        var imageUploadTask = false
         if(!uriString.isNullOrEmpty()){
+            imageUploadTask = true
             viewModel.uploadProfilePic(uri, utils.retrieveMobile() ?: "")
         }
+        if(imageUploadTask){
+            viewModel.response.observe(viewLifecycleOwner, Observer {
+                if(it){
+                    profileUpdater(name , displayname)
+                }else{
+                    Toast.makeText(context,"There was a error uploading your picture!", Toast.LENGTH_SHORT).show()
+                    profile_progress.visibility = View.GONE
+                }
+            })
+        }else{
+           profileUpdater(name , displayname)
+        }
+
+    }
+
+    private fun profileUpdater(name: String,displayname: String) = launch {
         viewModel.updateProfile(name,displayname,utils.retrieveMobile()?: "")
         Toast.makeText(context,"Your Profile has been updated!",Toast.LENGTH_SHORT).show()
+        profile_progress.visibility = View.GONE
         profile_name_input.isEnabled = false
         profile_name_input.isEnabled = false
     }

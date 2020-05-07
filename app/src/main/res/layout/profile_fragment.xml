@@ -186,5 +186,16 @@
         app:layout_constraintStart_toStartOf="@+id/update_profile_button"
         app:layout_constraintTop_toBottomOf="@+id/update_profile_button" />
 
+    <ProgressBar
+        android:id="@+id/profile_progress"
+        android:indeterminate = "true"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

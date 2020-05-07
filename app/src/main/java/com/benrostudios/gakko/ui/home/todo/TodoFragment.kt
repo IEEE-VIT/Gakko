@@ -18,6 +18,8 @@ import com.benrostudios.gakko.adapters.TodoDisplayAdapter
 import com.benrostudios.gakko.data.models.Material
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.todo_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -56,6 +58,17 @@ class TodoFragment : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(TodoViewModel::class.java)
+
+        var options: RequestOptions = RequestOptions()
+            .error(R.drawable.ic_defualt_profile_pic)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .circleCrop()
+
+        Glide.with(this)
+            .load(utils.retrieveProfilePic())
+            .apply(options)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .into(todo_fragment_profile_picture)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -11,10 +11,14 @@ class ProfileViewModel(
 ) : ViewModel() {
 
     val userObject = MutableLiveData<User>()
+    val response = MutableLiveData<Boolean>()
 
     init{
         profileRepository.user.observeForever {
             userObject.postValue(it)
+        }
+        profileRepository.response.observeForever {
+            response.postValue(it)
         }
     }
 

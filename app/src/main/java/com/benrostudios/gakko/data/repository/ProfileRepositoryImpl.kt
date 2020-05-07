@@ -38,6 +38,7 @@ class ProfileRepositoryImpl(
                 profilePicUploader.downloadUrl.addOnCompleteListener {task ->
                     utils.saveProfilePicUrl(task.result.toString())
                     newImageLink = task.result.toString()
+                    _response.postValue(true)
                 }
             }
         }
@@ -63,6 +64,6 @@ class ProfileRepositoryImpl(
         databaseReference = Firebase.database.getReference("/users/$person")
         databaseReference.child("name").setValue(name)
         databaseReference.child("displayName").setValue(displayName)
-        databaseReference.child("profileImage").setValue(newImageLink)
+        databaseReference.child("profileImage").setValue(utils.retrieveProfilePic())
     }
 }
