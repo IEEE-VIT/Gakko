@@ -78,6 +78,7 @@ class ChatInterface : ScopedFragment(), KodeinAware {
     private fun sendMessage() = launch {
         val unixTime = System.currentTimeMillis() / 1000L
         val chatMessage = ChatMessage("text","",usr_message_text.text.toString(),utils.retrieveCurrentClassroom()!!,utils.retrieveCurrentChat()!!,false,utils.retrieveMobile()!!,true,unixTime)
+        Log.d("Time","The chat time is $unixTime")
         viewModel.sendMessage(chatMessage)
         usr_message_text.setText("")
     }

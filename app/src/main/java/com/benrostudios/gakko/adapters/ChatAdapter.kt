@@ -76,7 +76,7 @@ class ChatAdapter(private val chats: List<ChatMessage>,
         }
         fun dateParser(inputUnix: Long): String{
             val sdf = SimpleDateFormat("hh:mm")
-            val date= Date(inputUnix)
+            val date= Date(inputUnix*1000L)
             return sdf.format(date)
         }
     }
@@ -90,7 +90,7 @@ class ChatAdapter(private val chats: List<ChatMessage>,
         }
         fun dateParser(inputUnix: Long): String{
             val sdf = SimpleDateFormat("hh:mm")
-            val date= Date(inputUnix)
+            val date= Date(inputUnix*1000L)
             return sdf.format(date)
         }
 
