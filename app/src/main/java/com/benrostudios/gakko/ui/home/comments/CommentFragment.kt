@@ -20,6 +20,8 @@ import com.benrostudios.gakko.data.models.User
 import com.benrostudios.gakko.internal.GlideApp
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.comment_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -147,16 +149,22 @@ class CommentFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun updateUI() {
-        GlideApp.with(requireContext())
-            .load(threadUser.profileImage)
-            .centerCrop()
+        val options: RequestOptions = RequestOptions()
+            .error(R.drawable.ic_defualt_profile_pic)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .circleCrop()
+
+        Glide.with(this)
+            .load(utils.retrieveProfilePic())
+            .apply(options)
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .into(comments_fragment_profile_picture)
+
         comments_fragment_person_name.text = threadUser.name
         comments_fragment_person_designation.text = if(teacherList.contains(threadUser.id)) "Teacher" else "Student"
         comments_fragment_person_day.text = dateFormatter.format(Date(currentThread.timestamp))
         comments_fragment_thread_body.text = currentThread.body
-        adapter = CommentsDisplayAdapter(ArrayList<Comments>(currentThread.comments.values), map)
+        adapter = CommentsDisplayAdapter(ArrayList<Comments>(currentThread.comments.values), map, utils)
         comments_recycler_view.adapter = adapter
         comments_recycler_view.layoutManager = LinearLayoutManager(requireContext())
         comments_progress_bar.visibility = View.GONE

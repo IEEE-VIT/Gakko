@@ -12,10 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Threads
 import com.benrostudios.gakko.data.models.User
-import com.benrostudios.gakko.internal.GlideApp
 import com.benrostudios.gakko.internal.Utils
-import com.benrostudios.gakko.ui.home.HomeActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -58,9 +57,14 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
             thread.comments.size.toString() + " Class Comment"
         }
 
-        GlideApp.with(context)
-            .load(threadUser.profileImage)
-            .centerCrop()
+        val options: RequestOptions = RequestOptions()
+            .error(R.drawable.ic_defualt_profile_pic)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .circleCrop()
+
+        Glide.with(context)
+            .load(utils.retrieveProfilePic())
+            .apply(options)
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .into(holder.profilePicture)
 

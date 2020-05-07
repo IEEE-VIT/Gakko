@@ -12,12 +12,15 @@ import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Comments
 import com.benrostudios.gakko.data.models.User
 import com.benrostudios.gakko.internal.GlideApp
+import com.benrostudios.gakko.internal.Utils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.specific_comment_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
-class CommentsDisplayAdapter(private val comments: List<Comments>, private val map: HashMap<String, User>)
+class CommentsDisplayAdapter(private val comments: List<Comments>, private val map: HashMap<String, User>, private val utils: Utils)
     : RecyclerView.Adapter<CommentsDisplayAdapter.CommentsViewHolder>() {
 
     private lateinit var context: Context
@@ -36,11 +39,17 @@ class CommentsDisplayAdapter(private val comments: List<Comments>, private val m
         val comment: Comments = comments[position]
         val user: User = map[comment.user.toString()] ?: User(emptyList(), "", "", "", false, "")
 
-        GlideApp.with(context)
-            .load(user.profileImage)
-            .centerCrop()
+        val options: RequestOptions = RequestOptions()
+            .error(R.drawable.ic_defualt_profile_pic)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .circleCrop()
+
+        Glide.with(context)
+            .load(utils.retrieveProfilePic())
+            .apply(options)
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .into(holder.profilePicture)
+
         holder.userName.text = user.name
         holder.time.text = dateFormatter.format(Date(comment.timestamp))
         holder.comment.text = comment.body
