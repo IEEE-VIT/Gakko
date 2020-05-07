@@ -22,6 +22,7 @@ class ProfileRepositoryImpl(
     private val _user = MutableLiveData<User>()
     var storageReference: StorageReference = FirebaseStorage.getInstance().reference
     private lateinit var databaseReference: DatabaseReference
+    private var newImageLink: String = "null"
 
 
     override val response: LiveData<Boolean>
@@ -36,6 +37,7 @@ class ProfileRepositoryImpl(
             if(it.isSuccessful && it.isComplete){
                 profilePicUploader.downloadUrl.addOnCompleteListener {task ->
                     utils.saveProfilePicUrl(task.result.toString())
+                    newImageLink = task.result.toString()
                 }
             }
         }
@@ -61,5 +63,6 @@ class ProfileRepositoryImpl(
         databaseReference = Firebase.database.getReference("/users/$person")
         databaseReference.child("name").setValue(name)
         databaseReference.child("displayName").setValue(displayName)
+        databaseReference.child("profileImage").setValue(newImageLink)
     }
 }
