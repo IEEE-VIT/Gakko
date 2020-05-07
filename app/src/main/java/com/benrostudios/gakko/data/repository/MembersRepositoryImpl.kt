@@ -28,38 +28,39 @@ class MembersRepositoryImpl : MembersRepository {
         var member: Members
         val teachers = mutableListOf<Members>()
         val students = mutableListOf<Members>()
-        for (phoneNumbers in phoneList) {
-            databaseReference = Firebase.database.getReference("/users/$phoneNumbers")
-            val memberLoader = object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                }
+        if(phoneList.isNullOrEmpty()){
+            if(type == "teacher"){
+                _teacherList.postValue(emptyList())
+            }else if(type == "student"){
+                _studentsList.postValue(emptyList())
+            }
+        }else{
+            for (phoneNumbers in phoneList) {
+                databaseReference = Firebase.database.getReference("/users/$phoneNumbers")
+                val memberLoader = object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
 
-                override fun onDataChange(p0: DataSnapshot) {
-                    val user = p0.getValue(User::class.java)
-                    member = Members(user!!.name, user.profileImage, user.id)
-                    if (type == "teacher") {
-                        if (!teachers.contains(member)) {
-                            teachers.add(member)
-                            _teacherList.postValue(teachers)
-                        } else {
-                        }
-                    } else {
-                        if (!students.contains(member)) {
-                            students.add(member)
-                            _studentsList.postValue(students)
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val user = p0.getValue(User::class.java)
+                        member = Members(user!!.name, user.profileImage, user.id)
+                        if (type == "teacher") {
+                            if (!teachers.contains(member)) {
+                                teachers.add(member)
+                                _teacherList.postValue(teachers)
+                            } else {
+                            }
+                        } else if (type == "student") {
+                            if (!students.contains(member)) {
+                                students.add(member)
+                                _studentsList.postValue(students)
+                            }
                         }
                     }
                 }
+                databaseReference.addValueEventListener(memberLoader)
             }
+        }
 
-            databaseReference.addValueEventListener(memberLoader)
-        }
-        if (phoneList.isNullOrEmpty()) {
-            if (type == "teacher") {
-                _teacherList.postValue(emptyList())
-            } else {
-                _studentsList.postValue(emptyList())
-            }
-        }
     }
 }

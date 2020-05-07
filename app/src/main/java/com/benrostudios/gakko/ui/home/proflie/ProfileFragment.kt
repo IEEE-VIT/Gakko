@@ -25,6 +25,8 @@ import com.benrostudios.gakko.ui.auth.AuthActivity
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.profile_fragment.*
 import kotlinx.android.synthetic.main.user_set_up_fragment.*
 import kotlinx.coroutines.launch
@@ -64,7 +66,8 @@ class ProfileFragment : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ProfileViewModel::class.java)
-
+        var storageReference: StorageReference = FirebaseStorage.getInstance().reference
+        val profilePicUploader = storageReference.child("dp/${utils.retrieveMobile()}/dp.jpg")
         fetchUser()
 
         var options: RequestOptions = RequestOptions()
@@ -72,11 +75,19 @@ class ProfileFragment : ScopedFragment(), KodeinAware {
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .circleCrop()
 
-        Glide.with(this)
-            .load(utils.retrieveProfilePic())
-            .apply(options)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
-            .into(proflie_fragment_user_picture_image_view)
+        if(utils.retrieveProfilePic().isNullOrEmpty()) {
+            Glide.with(this)
+                .load(profilePicUploader)
+                .apply(options)
+                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .into(proflie_fragment_user_picture_image_view)
+        }else {
+            Glide.with(this)
+                .load(utils.retrieveProfilePic())
+                .apply(options)
+                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .into(proflie_fragment_user_picture_image_view)
+        }
 
         proflie_fragment_user_picture_image_view.setOnClickListener {
             getImage()

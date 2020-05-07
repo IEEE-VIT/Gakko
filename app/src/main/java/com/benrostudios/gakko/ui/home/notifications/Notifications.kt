@@ -17,6 +17,8 @@ import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.notifications_fragment.*
 import kotlinx.android.synthetic.main.user_set_up_fragment.*
 import kotlinx.coroutines.launch
@@ -48,6 +50,8 @@ class Notifications : ScopedFragment(), KodeinAware {
         super.onActivityCreated(savedInstanceState)
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(NotificationsViewModel::class.java)
+        var storageReference: StorageReference = FirebaseStorage.getInstance().reference
+        val profilePicUploader = storageReference.child("dp/${utils.retrieveMobile()}/dp.jpg")
         request_recycler.layoutManager = LinearLayoutManager(context)
         fetchRequestsList()
         listenRequestsList()
@@ -57,11 +61,19 @@ class Notifications : ScopedFragment(), KodeinAware {
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .circleCrop()
 
-        Glide.with(this)
-            .load(utils.retrieveProfilePic())
-            .apply(options)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
-            .into(usr_image)
+        if(utils.retrieveProfilePic().isNullOrEmpty()) {
+            Glide.with(this)
+                .load(profilePicUploader)
+                .apply(options)
+                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .into(usr_image)
+        }else {
+            Glide.with(this)
+                .load(utils.retrieveProfilePic())
+                .apply(options)
+                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .into(usr_image)
+        }
 
     }
 

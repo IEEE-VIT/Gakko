@@ -29,6 +29,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.classroom_display_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -61,7 +63,8 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        var storageReference: StorageReference = FirebaseStorage.getInstance().reference
+        val profilePicUploader = storageReference.child("dp/${utils.retrieveMobile()}/dp.jpg")
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(ClassroomDisplayViewModel::class.java)
 
@@ -80,11 +83,20 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .circleCrop()
 
-        Glide.with(this)
-            .load(utils.retrieveProfilePic())
-            .apply(options)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
-            .into(usr_profile_pic)
+
+        if(utils.retrieveProfilePic().isNullOrEmpty()) {
+            Glide.with(this)
+                .load(profilePicUploader)
+                .apply(options)
+                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .into(usr_profile_pic)
+        }else {
+            Glide.with(this)
+                .load(utils.retrieveProfilePic())
+                .apply(options)
+                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .into(usr_profile_pic)
+        }
 
 
         join_classroom_btn.setOnClickListener {

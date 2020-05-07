@@ -2,6 +2,7 @@ package com.benrostudios.gakko.ui.home.members
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.MembersDisplayAdapter
 import com.benrostudios.gakko.data.models.Classroom
+import com.benrostudios.gakko.data.models.Members
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.members_fragment.*
@@ -20,14 +22,15 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-class MembersFragment : ScopedFragment(),KodeinAware {
+class MembersFragment : ScopedFragment(), KodeinAware {
 
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: MembersViewModelFactory by instance()
     private val utils: Utils by instance()
-    private lateinit var classroom: Classroom
+    private var classroom: Classroom = Classroom()
     private lateinit var studentsAdapter: MembersDisplayAdapter
     private lateinit var teachersAdapter: MembersDisplayAdapter
+    private var localStudents = emptyList<Members>()
 
 
     companion object {
@@ -45,7 +48,7 @@ class MembersFragment : ScopedFragment(),KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this,viewModelFactory).get(MembersViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MembersViewModel::class.java)
 
         fetchClassroom()
         memebrs_students_recycler.layoutManager = LinearLayoutManager(context)
@@ -56,7 +59,8 @@ class MembersFragment : ScopedFragment(),KodeinAware {
         super.onViewCreated(view, savedInstanceState)
 
         add_members_icon.setOnClickListener {
-            val shareBody: String = "Use this code to join \"" + classroom.name + "\" class in Gakko \n\n" + classroom.classroomID
+            val shareBody: String =
+                "Use this code to join \"" + classroom.name + "\" class in Gakko \n\n" + classroom.classroomID
             val subject: String = "Use this code to join " + classroom.name + " class in Gakko"
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
@@ -66,24 +70,36 @@ class MembersFragment : ScopedFragment(),KodeinAware {
         }
     }
 
-    private fun fetchClassroom() = launch{
+    private fun fetchClassroom() = launch {
         viewModel.getClassroom(utils.retrieveCurrentClassroom() ?: "")
         viewModel.classroom.observe(viewLifecycleOwner, Observer {
             classroom = it
-            getStudents()
+            if (classroom.students.isNullOrEmpty()) {
+                //Log.d("Trigger","Empty List")
+                memebrs_students_recycler.adapter = MembersDisplayAdapter(emptyList())
+            } else {
+                getStudents()
+            }
             getTeachers()
+
         })
 
     }
 
-    private fun getStudents() =launch {
+    private fun getStudents() = launch {
         viewModel.getStudentsList(classroom.students)
         viewModel.studentsList.observe(viewLifecycleOwner, Observer {
-            studentsAdapter = MembersDisplayAdapter(it)
-            memebrs_students_recycler.adapter = studentsAdapter
-            populateUI()
+            //Log.d("Trigger", "$it , classroom = ${classroom.students}")
+            if (it != localStudents) {
+                localStudents = it
+                studentsAdapter = MembersDisplayAdapter(it)
+                memebrs_students_recycler.adapter = studentsAdapter
+
+            }
         })
+
     }
+
     private fun getTeachers() = launch {
         viewModel.getTeachersList(classroom.teachers)
         viewModel.teachersList.observe(viewLifecycleOwner, Observer {
@@ -94,7 +110,7 @@ class MembersFragment : ScopedFragment(),KodeinAware {
 
     }
 
-    private fun populateUI(){
+    private fun populateUI() {
         members_progress.visibility = View.GONE
         members_teacher_recycler.visibility = View.VISIBLE
         members_students_title.visibility = View.VISIBLE
