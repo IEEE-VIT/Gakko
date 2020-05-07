@@ -9,4 +9,5 @@ interface ChatRepository {
     val recipientUser: LiveData<User>
     suspend fun sendMessage(message: ChatMessage)
     suspend fun receiveMessage()
+    suspend fun resetChat()
 }

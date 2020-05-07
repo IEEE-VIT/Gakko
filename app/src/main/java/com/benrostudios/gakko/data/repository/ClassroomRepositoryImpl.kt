@@ -52,11 +52,14 @@ class ClassroomRepositoryImpl(
 
             override fun onDataChange(p0: DataSnapshot) {
                 classroomIds = mutableListOf()
-                classList = mutableListOf<Classroom>()
-                for (x in p0.children) {
-                    classroomIds.add(x.value.toString())
-                    _classroomIds.postValue(classroomIds)
-                    classroomLoader(x.value.toString())
+                if (p0.exists()) {
+                    for (x in p0.children) {
+                        classroomIds.add(x.value.toString())
+                        _classroomIds.postValue(classroomIds)
+                        classroomLoader(x.value.toString())
+                    }
+                }else{
+                    _classrooms.postValue(emptyList())
                 }
             }
         }

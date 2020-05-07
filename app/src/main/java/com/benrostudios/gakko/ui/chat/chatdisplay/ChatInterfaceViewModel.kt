@@ -28,4 +28,7 @@ class ChatInterfaceViewModel(
     suspend fun sendMessage(message: ChatMessage){
         chatRepository.sendMessage(message)
     }
+    suspend fun resetChat(){
+        chatRepository.resetChat()
+    }
 }

@@ -20,6 +20,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.ClassroomDisplayAdapter
+import com.benrostudios.gakko.data.models.Classroom
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import com.benrostudios.gakko.ui.classroom.createclassroom.CreateClassroom
@@ -110,6 +111,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchClassrooms()
+        classroom_display_recycler.visibility = View.GONE
         navController = Navigation.findNavController(view)
         usr_profile_pic.setOnClickListener {
             navController.navigate(R.id.action_classroomDisplay_to_profileFragment)
@@ -118,13 +120,17 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
 
     private fun fetchClassrooms() = launch {
         viewModel.test()
+        classroom_display_progress.visibility = View.GONE
         viewModel.classroom.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
+                classroom_display_progress.visibility = View.GONE
                 not_part_of_any_class_image.visibility = View.GONE
                 not_part_of_class_title.visibility = View.GONE
                 adapter = ClassroomDisplayAdapter(it)
+                adapter.notifyDataSetChanged()
                 populateUI(adapter)
             } else {
+                classroom_display_progress.visibility = View.GONE
                 not_part_of_any_class_image.visibility = View.VISIBLE
                 not_part_of_class_title.visibility = View.VISIBLE
             }
@@ -133,6 +139,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
     }
 
     private fun populateUI(adapter: ClassroomDisplayAdapter) {
+        classroom_display_recycler.visibility = View.VISIBLE
         classroom_display_recycler.layoutManager = LinearLayoutManager(context)
         classroom_display_recycler.adapter = adapter
     }

@@ -41,6 +41,11 @@ class ChatInterface : ScopedFragment(), KodeinAware {
         fun newInstance() = ChatInterface()
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        resetChat()
+    }
+
     private lateinit var viewModel: ChatInterfaceViewModel
 
     override fun onCreateView(
@@ -52,7 +57,7 @@ class ChatInterface : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,viewModelFactory).get(ChatInterfaceViewModel::class.java)
-
+        Log.d("Selected Classroom","${utils.retrieveCurrentClassroom()}")
         receiveMessages()
         retriveRecipientUser()
         chat_display_recycler.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,true)
@@ -75,6 +80,7 @@ class ChatInterface : ScopedFragment(), KodeinAware {
         })
     }
 
+
     private fun sendMessage() = launch {
         val unixTime = System.currentTimeMillis() / 1000L
         val chatMessage = ChatMessage("text","",usr_message_text.text.toString(),utils.retrieveCurrentClassroom()!!,utils.retrieveCurrentChat()!!,false,utils.retrieveMobile()!!,true,unixTime)
@@ -95,5 +101,9 @@ class ChatInterface : ScopedFragment(), KodeinAware {
                 .into(chat_recipient_image)
             chat_recipient_name.text = it.name
         })
+    }
+
+    private fun resetChat() = launch {
+        viewModel.resetChat()
     }
 }

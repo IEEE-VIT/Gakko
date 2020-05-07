@@ -38,11 +38,13 @@ class MembersRepositoryImpl : MembersRepository {
                     val user = p0.getValue(User::class.java)
                     member = Members(user!!.name, user.profileImage, user.id)
                     if (type == "teacher") {
+                        if(!teachers.contains(member)){
                         teachers.add(member)
-                        _teacherList.postValue(teachers)
+                        _teacherList.postValue(teachers)}
                     } else {
+                        if(!students.contains(member)){
                         students.add(member)
-                        _studentsList.postValue(students)
+                        _studentsList.postValue(students)}
                     }
                 }
             }

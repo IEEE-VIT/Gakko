@@ -18,7 +18,7 @@ class ChatRepositoryImpl(
     private val utils: Utils
 ) : ChatRepository {
 
-    private val currentClassroom = utils.retrieveCurrentClassroom()
+    private var currentClassroom = utils.retrieveCurrentClassroom()
     private var usrChats = mutableListOf<ChatMessage>()
     private var _recipientUser = MutableLiveData<User>()
     private lateinit var chatLink: String
@@ -38,6 +38,7 @@ class ChatRepositoryImpl(
     }
 
     override suspend fun receiveMessage() {
+        currentClassroom = utils.retrieveCurrentClassroom()
         formLink()
         fetchRecipientUser()
         databaseReference = Firebase.database.getReference("/chats/$currentClassroom/$chatLink")
@@ -45,15 +46,24 @@ class ChatRepositoryImpl(
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onDataChange(p0: DataSnapshot) {
+                Log.d("From Chat","$currentClassroom")
                 usrChats = mutableListOf<ChatMessage>()
-                for(messages in p0.children){
-                    var chatMessage = messages.getValue(ChatMessage::class.java)
-                    usrChats.add(chatMessage!!)
-                    _usrChatMessages.postValue(usrChats)
+                if(p0.exists()) {
+                    for (messages in p0.children) {
+                        var chatMessage = messages.getValue(ChatMessage::class.java)
+                        usrChats.add(chatMessage!!)
+                        _usrChatMessages.postValue(usrChats)
+                    }
+                }else{
+                    _usrChatMessages.postValue(emptyList())
                 }
             }
         }
         databaseReference.addValueEventListener(chatReceiver)
+    }
+
+    override suspend fun resetChat() {
+        _usrChatMessages.postValue(emptyList())
     }
 
     private fun formLink(){

@@ -167,8 +167,8 @@ class ProfileFragment : ScopedFragment(), KodeinAware {
     private fun logout() = launch{
         utils.nukeSharedPrefs()
         val intent = Intent(context, AuthActivity::class.java)
-        activity?.finish()
         startActivity(intent)
+        activity?.finish()
     }
 
 
