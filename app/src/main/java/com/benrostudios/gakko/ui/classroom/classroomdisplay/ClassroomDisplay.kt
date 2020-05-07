@@ -111,6 +111,9 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
         super.onViewCreated(view, savedInstanceState)
         fetchClassrooms()
         navController = Navigation.findNavController(view)
+        usr_profile_pic.setOnClickListener {
+            navController.navigate(R.id.action_classroomDisplay_to_profileFragment)
+        }
     }
 
     private fun fetchClassrooms() = launch {

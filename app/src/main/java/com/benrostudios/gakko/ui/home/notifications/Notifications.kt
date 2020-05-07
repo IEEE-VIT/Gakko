@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.benrostudios.gakko.R
@@ -27,6 +29,7 @@ class Notifications : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: NotificationsViewModelFactory by instance()
     private val utils: Utils by instance()
+    private lateinit var navController: NavController
 
     companion object {
         fun newInstance() = Notifications()
@@ -60,6 +63,14 @@ class Notifications : ScopedFragment(), KodeinAware {
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .into(usr_image)
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+        usr_image.setOnClickListener {
+            navController.navigate(R.id.action_notifications_to_profileFragment)
+        }
     }
 
     private fun fetchRequestsList() = launch {

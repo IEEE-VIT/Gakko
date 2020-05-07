@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
@@ -37,6 +40,7 @@ class TodoFragment : ScopedFragment(), KodeinAware {
     @SuppressLint("SimpleDateFormat")
     private var simpleDateFormat: SimpleDateFormat = SimpleDateFormat("MM MMMM")
     private lateinit var adapter: TodoDisplayAdapter
+    private lateinit var navController: NavController
 
     companion object {
         fun newInstance() = TodoFragment()
@@ -56,7 +60,10 @@ class TodoFragment : ScopedFragment(), KodeinAware {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getCurrentUser(utils.retrieveMobile()!!)
+        todo_fragment_profile_picture.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_todo_to_profileFragment)
+        }
+        //getCurrentUser(utils.retrieveMobile()!!)
     }
 
     private fun getCurrentUser(userId: String) = launch {

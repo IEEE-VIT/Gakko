@@ -131,7 +131,7 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
     @SuppressLint("SimpleDateFormat")
     private fun dateValidation(dueDateString: String): Boolean {
         val answer: Boolean
-        if(dueDateString.matches("([0-9][1-9])/([0-1][1-2])/([0-9]{4})".toRegex())) {
+        if(dueDateString.matches("([0-9][0-9])/([0-1][0-2])/([0-9]{4})".toRegex())) {
             val sdf: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
             val currentDateTime: Date = Calendar.getInstance().time
             val currentDateString: String = sdf.format(currentDateTime)

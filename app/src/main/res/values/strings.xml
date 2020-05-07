@@ -75,5 +75,9 @@
     //Pinboard Fragment
     <string name="demo_pinboard_text">No work have been created yet</string>
 
+    //ProfileFragment
+    <string name="back_title_text">Back</string>
+    <string name="profile_title_text">Profile</string>
+
 
 </resources>
