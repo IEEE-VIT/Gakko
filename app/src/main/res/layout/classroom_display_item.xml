@@ -21,12 +21,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/clasroom_display_item_bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:text="TextView"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,26 +54,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:text="TextView"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/classroom_display_item_classroom_id"
-                app:layout_constraintEnd_toEndOf="@+id/classroom_display_item_title"
-                app:layout_constraintStart_toStartOf="@+id/classroom_display_item_title"
-                app:layout_constraintTop_toBottomOf="@+id/classroom_display_item_title" />
-
-            <TextView
-                android:id="@+id/classroom_display_item_classroom_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="TextView"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/classroom_display_item_course_code"
-                app:layout_constraintStart_toStartOf="@+id/classroom_display_item_course_code" />
+                app:layout_constraintEnd_toEndOf="@+id/classroom_display_item_title"
+                app:layout_constraintStart_toStartOf="@+id/classroom_display_item_title"
+                app:layout_constraintTop_toBottomOf="@+id/classroom_display_item_title"
+                app:layout_constraintVertical_bias="0.04000002" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

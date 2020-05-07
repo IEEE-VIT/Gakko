@@ -1,5 +1,6 @@
 package com.benrostudios.gakko.ui.home.members
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.MembersDisplayAdapter
 import com.benrostudios.gakko.data.models.Classroom
@@ -52,6 +52,20 @@ class MembersFragment : ScopedFragment(),KodeinAware {
         members_teacher_recycler.layoutManager = LinearLayoutManager(context)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        add_members_icon.setOnClickListener {
+            val shareBody: String = "Use this code to join \"" + classroom.name + "\" class in Gakko \n\n" + classroom.classroomID
+            val subject: String = "Use this code to join " + classroom.name + " class in Gakko"
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            startActivity(Intent.createChooser(sharingIntent, "Tag"))
+        }
+    }
+
     private fun fetchClassroom() = launch{
         viewModel.getClassroom(utils.retrieveCurrentClassroom() ?: "")
         viewModel.classroom.observe(viewLifecycleOwner, Observer {
@@ -86,6 +100,7 @@ class MembersFragment : ScopedFragment(),KodeinAware {
         members_students_title.visibility = View.VISIBLE
         members_teacher_title.visibility = View.VISIBLE
         memebrs_students_recycler.visibility = View.VISIBLE
+        add_members_icon.visibility = View.VISIBLE
     }
 
 }

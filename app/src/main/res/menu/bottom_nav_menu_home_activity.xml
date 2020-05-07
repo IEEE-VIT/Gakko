@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/classroomDisplay"
-        android:icon="@drawable/theads_icon"
+        android:icon="@drawable/ic_class_icon"
         android:title="@string/classes_title" />
     <item
         android:id="@+id/todo"
-        android:icon="@drawable/pinboard_icon"
+        android:icon="@drawable/ic_todo_icon"
         android:title="@string/to_do_title" />
     <item
         android:id="@+id/notifications"
-        android:icon="@drawable/member_icon"
+        android:icon="@drawable/ic_notification_icon"
         android:title="@string/notifications_title" />
 </menu>

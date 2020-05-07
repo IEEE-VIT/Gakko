@@ -31,7 +31,6 @@ class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
     override fun onBindViewHolder(holder: ClassroomDisplayViewHolder, position: Int) {
         holder.title.text = classrooms[position].name
         holder.courseCode.text = classrooms[position].courseCode
-        holder.classroomID.text = classrooms[position].classroomID
         holder.background.setImageResource(alternateImage())
         holder.cardContainer.setOnClickListener {
             utils.saveCurrentClassroom(classrooms[position].classroomID)
@@ -55,7 +54,6 @@ class ClassroomDisplayAdapter(private val classrooms: List<Classroom>):
         val title = view.classroom_display_item_title
         val cardContainer = view.classroom_display_item_card
         val courseCode = view.classroom_display_item_course_code
-        val classroomID = view.classroom_display_item_classroom_id
         val background = view.clasroom_display_item_bg
     }
 }
