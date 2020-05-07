@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.MembersDisplayAdapter
 import com.benrostudios.gakko.data.models.Classroom
+import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.members_fragment.*
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class MembersFragment : ScopedFragment(),KodeinAware {
 
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: MembersViewModelFactory by instance()
+    private val utils: Utils by instance()
     private lateinit var classroom: Classroom
     private lateinit var studentsAdapter: MembersDisplayAdapter
     private lateinit var teachersAdapter: MembersDisplayAdapter
@@ -44,12 +46,14 @@ class MembersFragment : ScopedFragment(),KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,viewModelFactory).get(MembersViewModel::class.java)
+
         fetchClassroom()
         memebrs_students_recycler.layoutManager = LinearLayoutManager(context)
         members_teacher_recycler.layoutManager = LinearLayoutManager(context)
     }
 
     private fun fetchClassroom() = launch{
+        viewModel.getClassroom(utils.retrieveCurrentClassroom() ?: "")
         viewModel.classroom.observe(viewLifecycleOwner, Observer {
             classroom = it
             getStudents()

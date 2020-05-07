@@ -127,6 +127,7 @@ class ClassroomRepositoryImpl(
                     utils.saveTeacherList(teachersList)
                     Log.d("classroom fetcher","teacher of: ${classroom.classroomID}")
                 }
+                if(!classList.contains(classroom))
                 classList.add(classroom!!)
                 _classrooms.postValue(classList)
             }

@@ -7,6 +7,7 @@ import com.benrostudios.gakko.data.models.Classroom
 import com.benrostudios.gakko.data.models.Members
 import com.benrostudios.gakko.data.repository.MembersRepository
 import com.benrostudios.gakko.data.repository.ThreadsRepository
+import kotlin.concurrent.thread
 
 class MembersViewModel(
     private val threadsRepository: ThreadsRepository,
@@ -34,6 +35,10 @@ class MembersViewModel(
 
     suspend fun getStudentsList(phoneList: List<String>){
         membersRepository.getMembers(phoneList, "student")
+    }
+
+    suspend fun getClassroom(classroomId: String){
+        threadsRepository.getThreadsClassroom(classroomId)
     }
 
 }
