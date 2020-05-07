@@ -42,8 +42,9 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:text="TextView"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="22sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -53,13 +54,29 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="48dp"
+                android:layout_marginBottom="16dp"
                 android:text="TextView"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/classroom_display_item_classroom_id"
                 app:layout_constraintEnd_toEndOf="@+id/classroom_display_item_title"
                 app:layout_constraintStart_toStartOf="@+id/classroom_display_item_title"
                 app:layout_constraintTop_toBottomOf="@+id/classroom_display_item_title" />
+
+            <TextView
+                android:id="@+id/classroom_display_item_classroom_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/classroom_display_item_course_code"
+                app:layout_constraintStart_toStartOf="@+id/classroom_display_item_course_code" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
