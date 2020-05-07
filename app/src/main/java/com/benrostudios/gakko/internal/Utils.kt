@@ -62,6 +62,8 @@ class Utils(
 
     fun retrieveProfilePic(): String? = sharedPreferences.getString(SHARED_PREFERENCE_PROFILE_PIC_URL,null)
 
+    fun nukeSharedPrefs() = editor.clear().commit()
+
 }
 
 

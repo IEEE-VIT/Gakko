@@ -78,6 +78,8 @@
     //ProfileFragment
     <string name="back_title_text">Back</string>
     <string name="profile_title_text">Profile</string>
+    <string name="logout_button">Log Out</string>
+    <string name="update_profile_pic">Update Profile</string>
 
 
 </resources>

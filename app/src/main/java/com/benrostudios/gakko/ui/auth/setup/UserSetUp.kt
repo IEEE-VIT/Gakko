@@ -53,6 +53,17 @@ class UserSetUp : ScopedFragment(),KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,viewModelFactory).get(UserSetUpViewModel::class.java)
+        var options: RequestOptions = RequestOptions()
+            .error(R.drawable.ic_defualt_profile_pic)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .circleCrop()
+
+        Glide.with(this)
+            .load(utils.retrieveProfilePic())
+            .apply(options)
+            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .into(usr_profile_image)
+
         user_register_button.setOnClickListener {
             validate()
         }
