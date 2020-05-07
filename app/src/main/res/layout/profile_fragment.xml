@@ -72,7 +72,7 @@
             android:id="@+id/back_image_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="4dp"
             app:srcCompat="@drawable/ic_arrow"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="28dp" />
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:text="@string/back_title_text"
             android:textColor="@color/primary_green"
-            android:textSize="30sp"
+            android:textSize="20sp"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="18dp" />
 
@@ -116,10 +116,10 @@
 
     <ImageView
         android:id="@+id/profile_fragment_change_profile_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/camera_round_background"
-        android:padding="16dp"
+        android:padding="8dp"
         android:src="@drawable/ic_camera"
         app:layout_constraintBottom_toBottomOf="@+id/proflie_fragment_user_picture_image_view"
         app:layout_constraintEnd_toEndOf="@+id/proflie_fragment_user_picture_image_view" />

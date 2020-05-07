@@ -120,7 +120,6 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
 
     private fun fetchClassrooms() = launch {
         viewModel.test()
-        classroom_display_progress.visibility = View.GONE
         viewModel.classroom.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
                 classroom_display_progress.visibility = View.GONE
