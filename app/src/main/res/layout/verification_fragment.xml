@@ -103,6 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:padding="8dp"
         android:text="@string/didnt_receive_sms"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/verification_button"

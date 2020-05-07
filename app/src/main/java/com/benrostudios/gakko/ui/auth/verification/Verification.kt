@@ -2,6 +2,7 @@ package com.benrostudios.gakko.ui.auth.verification
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ class Verification : ScopedFragment(), KodeinAware {
     private lateinit var phoneNumber: String
     private lateinit var navController: NavController
     private val VERIFICATION_FRAG = "verificationfrag"
+    private var lastClickTime: Long = 0L
 
     companion object {
         fun newInstance() = Verification()
@@ -59,11 +61,17 @@ class Verification : ScopedFragment(), KodeinAware {
         if (savedInstanceState != null) {
             verificationInProgress = savedInstanceState.getBoolean(VERIFICATION_FRAG)
         }
-        if(!verificationInProgress){
+        if(!verificationInProgress) {
             initiateSignIn(phoneNumber)
             getAuthResponse()
             didnt_receive_sms.setOnClickListener {
-                resendVerificationCode(phoneNumber,resendToken)
+                if (SystemClock.elapsedRealtime() - lastClickTime >= 60000) {
+                    Toast.makeText(requireContext(), "Otp send.", Toast.LENGTH_SHORT).show()
+                    lastClickTime = SystemClock.elapsedRealtime();
+                    resendVerificationCode(phoneNumber,resendToken)
+                } else {
+                    Toast.makeText(requireContext(), "Try after 1 minute.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         verification_button.setOnClickListener {
