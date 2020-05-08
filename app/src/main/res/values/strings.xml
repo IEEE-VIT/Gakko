@@ -80,6 +80,7 @@
     <string name="profile_title_text">Profile</string>
     <string name="logout_button">Log Out</string>
     <string name="update_profile_pic">Update Profile</string>
+    <string name="demo_todo_text">You are all caught up!</string>
 
 
 </resources>
