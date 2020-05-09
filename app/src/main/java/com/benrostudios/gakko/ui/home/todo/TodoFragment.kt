@@ -35,7 +35,7 @@ class TodoFragment : ScopedFragment(), KodeinAware {
     private lateinit var viewModel: TodoViewModel
     private val utils: Utils by instance()
     private var classIdList = mutableListOf<String>()
-    private var classrooms = mutableListOf<Classroom>()
+    var materials = mutableListOf<Material>()
     private var todoIdList = mutableListOf<String>()
     private var todoList = mutableListOf<Material>()
     private var todoMap: HashMap<String, List<Material>> = HashMap()
@@ -101,24 +101,15 @@ class TodoFragment : ScopedFragment(), KodeinAware {
 
 
    private fun getClassrooms(classIdList: List<String>) = launch {
-       classrooms.clear()
-       var counter = 0
-       for(classId: String in classIdList) {
-           viewModel.getClassroom(classId)
+           viewModel.getClassroom(classIdList)
            viewModel.classroom.observe(viewLifecycleOwner, Observer {
-               classrooms.add(it)
-               counter++
-               if(counter == classIdList.size) {
-                   getTodos(classrooms)
-               }
+                   getTodos(it)
            })
-       }
    }
 
     private fun getTodos(classrooms: List<Classroom>) = launch {
         todoIdList.clear()
         todoMap.clear()
-        var flag = 0
 
         for(classroom: Classroom in classrooms) {
             if(classroom.createdBy != utils.retrieveMobile()!!) {
@@ -127,44 +118,34 @@ class TodoFragment : ScopedFragment(), KodeinAware {
         }
 
         if(todoIdList.isNotEmpty()) {
-            for (todoId: String in todoIdList) {
-                viewModel.getTodo(todoId)
-                viewModel.todo.observe(viewLifecycleOwner, Observer {
-                    if (it != null) {
-                        todoMap[todoId] = it
-                    }
-                    flag++
-                    if (flag == todoIdList.size) {
-                        if (todoMap.isNotEmpty()) {
-                            updateUI(todoMap)
-                        } else {
-                            defaultUI()
-                        }
-                    }
-                })
-            }
-        } else {
-            defaultUI()
+            viewModel.getTodo(todoIdList)
+            viewModel.todo.observe(viewLifecycleOwner, Observer {
+                if (! it.isNullOrEmpty()) {
+                    updateUI(it)
+                } else {
+                    defaultUI()
+                }
+            })
         }
     }
 
-    private fun updateUI(todoMap: HashMap<String, List<Material>>) {
+    private fun updateUI(materialList: List<Material>) {
         todoList.clear()
-        for (entry: Map.Entry<String, List<Material>> in todoMap.entries) {
 
-            for (material: Material in entry.value) {
-                val sdf = SimpleDateFormat("dd/MM/yyyy")
-                val currentDateTime: Date = Calendar.getInstance().time
-                val currentDate = sdf.parse(sdf.format(currentDateTime))
-                val dueDate = sdf.parse(sdf.format(Date(material.deadline * 1000)))
+        for (material: Material in materialList) {
+            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            val currentDateTime: Date = Calendar.getInstance().time
+            val currentDate = sdf.parse(sdf.format(currentDateTime))
+            val dueDate = sdf.parse(sdf.format(Date(material.deadline * 1000)))
 
-                if (dueDate.after(currentDate)) {
-                    todoList.add(material)
-                }
+            if (dueDate.after(currentDate) && ! todoList.contains(material)) {
+                todoList.add(material)
             }
         }
 
         if(todoList.isNotEmpty()) {
+            demo_todo_image_view.visibility = View.GONE
+            demo_todo_text_view.visibility = View.GONE
             adapter = TodoDisplayAdapter(todoList)
             todo_recycler_view.adapter = adapter
             todo_recycler_view.layoutManager = LinearLayoutManager(requireContext())

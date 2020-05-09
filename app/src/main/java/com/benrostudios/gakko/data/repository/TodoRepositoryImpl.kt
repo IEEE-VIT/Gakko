@@ -9,13 +9,15 @@ import com.google.firebase.database.*
 
 class TodoRepositoryImpl : TodoRepository {
     private val _user = MutableLiveData<User>()
-    private val _classroom = MutableLiveData<Classroom>()
+    private val _classroom = MutableLiveData<List<Classroom>>()
     private val _todo = MutableLiveData<List<Material>>()
     private lateinit var databaseReference: DatabaseReference
+    private var classroomsList = mutableListOf<Classroom>()
+    private var todoList = mutableListOf<Material>()
 
     override val user: LiveData<User>
         get() = _user
-    override val classroom: LiveData<Classroom>
+    override val classroom: LiveData<List<Classroom>>
         get() = _classroom
     override val todo: LiveData<List<Material>>
         get() = _todo
@@ -34,36 +36,46 @@ class TodoRepositoryImpl : TodoRepository {
         databaseReference.addValueEventListener(valueEventListener)
     }
 
-    override suspend fun getClassrooms(classId: String) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("classrooms/$classId/")
-        val valueEventListener: ValueEventListener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+    override suspend fun getClassrooms(classIdList: List<String>) {
+        classroomsList.clear()
+        for(classId: String in classIdList) {
+            databaseReference = FirebaseDatabase.getInstance().getReference("classrooms/$classId/")
+            val valueEventListener: ValueEventListener = object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
 
-            override fun onDataChange(p0: DataSnapshot) {
-                _classroom.postValue(p0.getValue(Classroom::class.java))
+                override fun onDataChange(p0: DataSnapshot) {
+                    if(! classroomsList.contains(p0.getValue(Classroom::class.java))) {
+                        classroomsList.add(p0.getValue(Classroom::class.java)!!)
+                        _classroom.postValue(classroomsList)
+                    }
+                }
             }
+            databaseReference.addValueEventListener(valueEventListener)
         }
-        databaseReference.addValueEventListener(valueEventListener)
-
     }
 
-    override suspend fun getTodo(todoId: String) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("pinboards/$todoId/")
-        val valueEventListener: ValueEventListener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val materialList = mutableListOf<Material>()
-                for(x: DataSnapshot in p0.children) {
-                    materialList.add(x.getValue(Material::class.java)!!)
+    override suspend fun getTodo(todoIdList: List<String>) {
+        todoList.clear()
+        for (todoId: String in todoIdList) {
+            databaseReference = FirebaseDatabase.getInstance().getReference("pinboards/$todoId/")
+            val valueEventListener: ValueEventListener = object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
-                _todo.postValue(materialList)
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    for (x: DataSnapshot in p0.children) {
+                        if(! todoList.contains(p0.getValue(Material::class.java))) {
+                            todoList.add(x.getValue(Material::class.java)!!)
+                            _todo.postValue(todoList)
+
+                        }
+                    }
+                }
             }
+            databaseReference.addValueEventListener(valueEventListener)
         }
-        databaseReference.addValueEventListener(valueEventListener)
     }
 }
