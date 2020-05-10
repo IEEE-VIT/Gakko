@@ -75,6 +75,7 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
                 Toast.makeText(requireContext(), "Please enter valid date in the required format (dd/mm/yyyy)", Toast.LENGTH_SHORT).show()
             }
             else {
+                this.isCancelable=false
                 uploadMaterial()
             }
         }

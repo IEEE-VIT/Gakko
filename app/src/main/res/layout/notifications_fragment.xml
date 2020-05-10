@@ -45,7 +45,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:backgroundTint="@color/primary_green"
-        android:src="@drawable/ic_no_notifications"
+        android:src="@drawable/empty_inbox"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

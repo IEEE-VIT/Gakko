@@ -9,6 +9,7 @@ class JoinClassroomViewModel (
 ): ViewModel() {
     val _user_classroom_ids = MutableLiveData<List<String>>()
     val usrJoinClassroomResponse = MutableLiveData<Boolean>()
+    val classExsistenceResponse = MutableLiveData<Boolean>()
 
     init {
         classroomRepository.userClassroomIds.observeForever {
@@ -16,6 +17,9 @@ class JoinClassroomViewModel (
         }
         classroomRepository.joinClassroomResponse.observeForever {
             usrJoinClassroomResponse.postValue(it)
+        }
+        classroomRepository.classroomExistenceResponse.observeForever {
+            classExsistenceResponse.postValue(it)
         }
     }
 

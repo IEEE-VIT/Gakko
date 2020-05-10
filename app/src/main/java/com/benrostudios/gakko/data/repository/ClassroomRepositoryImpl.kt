@@ -23,10 +23,15 @@ class ClassroomRepositoryImpl(
     private val _classrooms = MutableLiveData<List<Classroom>>()
     private val _classroomIds = MutableLiveData<List<String>>()
     private val _join_classroom_response = MutableLiveData<Boolean>()
+    private val _classroomExistenceResponse = MutableLiveData<Boolean>()
     private lateinit var databaseReference: DatabaseReference
     private var classroomIds = mutableListOf<String>()
     private var classList = mutableListOf<Classroom>()
     private val teachersList = utils.retrieveTeachersList() ?: mutableSetOf<String>()
+
+
+    override val classroomExistenceResponse: LiveData<Boolean>
+        get() = _classroomExistenceResponse
 
 
     override val classrooms: LiveData<List<Classroom>>
@@ -86,27 +91,31 @@ class ClassroomRepositoryImpl(
 
             override fun onDataChange(p0: DataSnapshot) {
                 val classroom = p0.getValue(Classroom::class.java)
-                if (classroom?.privacy == false) {
-                    databaseReference = Firebase.database.getReference("/classrooms/$classCode")
-                    val students: MutableList<String> = classroom.students.toMutableList()
-                        ?: mutableListOf(utils.retrieveMobile()!!)
-                    if (students.isEmpty()) {
-                        students.add(utils.retrieveMobile()!!)
-                        databaseReference.child("students").setValue(students)
-                    } else {
-                        students.add(utils.retrieveMobile()!!)
-                        databaseReference.child("students").setValue(students)
+                if (p0.exists()) {
+                    if (classroom?.privacy == false) {
+                        databaseReference = Firebase.database.getReference("/classrooms/$classCode")
+                        val students: MutableList<String> = classroom.students.toMutableList()
+                            ?: mutableListOf(utils.retrieveMobile()!!)
+                        if (students.isEmpty()) {
+                            students.add(utils.retrieveMobile()!!)
+                            databaseReference.child("students").setValue(students)
+                        } else {
+                            students.add(utils.retrieveMobile()!!)
+                            databaseReference.child("students").setValue(students)
+                        }
+                        updateUserClassroom(classCode)
+                        _join_classroom_response.postValue(true)
+                    } else if (classroom?.privacy == true) {
+                        var requests: MutableList<Map<String, String>> =
+                            classroom.requests.toMutableList()
+                        val unixTime = System.currentTimeMillis() / 1000L
+                        requests.add(mapOf(Pair(utils.retrieveMobile() ?: "", unixTime.toString())))
+                        databaseReference = Firebase.database.getReference("/classrooms/$classCode")
+                        databaseReference.child("requests").setValue(requests)
+                        _join_classroom_response.postValue(false)
                     }
-                    updateUserClassroom(classCode)
-                    _join_classroom_response.postValue(true)
-                } else if(classroom?.privacy == true) {
-                    var requests: MutableList<Map<String, String>> =
-                        classroom.requests.toMutableList()
-                    val unixTime = System.currentTimeMillis() / 1000L
-                    requests.add(mapOf(Pair(utils.retrieveMobile() ?: "", unixTime.toString())))
-                    databaseReference = Firebase.database.getReference("/classrooms/$classCode")
-                    databaseReference.child("requests").setValue(requests)
-                    _join_classroom_response.postValue(false)
+                }else{
+                    _classroomExistenceResponse.postValue(false)
                 }
             }
         }

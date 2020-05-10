@@ -105,6 +105,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
                 activity?.supportFragmentManager!!,
                 bottomSheetFragment.tag
             )
+
         }
 
         create_classroom_btn.setOnClickListener {

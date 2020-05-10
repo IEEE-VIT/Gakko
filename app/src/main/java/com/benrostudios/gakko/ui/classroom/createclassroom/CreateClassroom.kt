@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -60,6 +61,7 @@ class CreateClassroom() : BottomSheetDialogFragment(), KodeinAware{
             validation = false
         }
         if (validation) {
+            this.isCancelable = false
             create_classroom_progress.visibility = View.VISIBLE
             fetchClassroomId()
         }

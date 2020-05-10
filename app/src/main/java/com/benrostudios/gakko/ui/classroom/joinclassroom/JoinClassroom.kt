@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -59,6 +60,7 @@ class JoinClassroom : BottomSheetDialogFragment(), KodeinAware {
             validation = false
         }
         if (validation) {
+            this.isCancelable = false
             join_progress.visibility = View.VISIBLE
             checkEligibility(classCode)
         }
@@ -92,8 +94,18 @@ class JoinClassroom : BottomSheetDialogFragment(), KodeinAware {
                 Toast.makeText(context,"You request to join this classroom has been sent!",Toast.LENGTH_LONG).show()
             }
             dismiss()
+
+        })
+
+        viewModel.classExsistenceResponse.observe(viewLifecycleOwner, Observer {
+            if(!it){
+                Toast.makeText(context,"This Classroom doesn't exists", Toast.LENGTH_SHORT).show()
+                dismiss()
+            }
         })
     }
+
+
 
 
 }
