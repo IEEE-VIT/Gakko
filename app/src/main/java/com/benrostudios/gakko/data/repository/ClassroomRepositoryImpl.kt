@@ -139,6 +139,7 @@ class ClassroomRepositoryImpl(
             }
 
             override fun onDataChange(p0: DataSnapshot) {
+                var validation = true
                 val classroom = p0.getValue(Classroom::class.java)
                 Log.d("classroom fetcher", classroom.toString())
                 if(classroom?.teachers?.contains(utils.retrieveMobile()) == true && classroom.privacy){
@@ -146,9 +147,17 @@ class ClassroomRepositoryImpl(
                     utils.saveTeacherList(teachersList)
                     Log.d("classroom fetcher","teacher of: ${classroom.classroomID}")
                 }
-                if(!classList.contains(classroom))
-                classList.add(classroom!!)
-                _classrooms.postValue(classList)
+                classList.forEach {
+                   if(it.classroomID == classroom!!.classroomID){
+                       if(it.courseCode == classroom!!.courseCode){
+                           validation = false
+                       }
+                   }
+                }
+                if(validation) {
+                    classList.add(classroom!!)
+                    _classrooms.postValue(classList)
+                }
             }
         }
         databaseReference.addListenerForSingleValueEvent(classroomLoader)

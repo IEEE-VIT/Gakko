@@ -94,7 +94,9 @@ class NotificationsRepoImpl : NotificationsRepo {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
             override fun onDataChange(p0: DataSnapshot) {
-                var classList = p0.value as MutableList<String>
+                var classList = mutableListOf<String>()
+                if(p0.exists()){
+                classList = p0.value as MutableList<String>}
                 classList.add(classroom)
                 databaseReference = Firebase.database.getReference("/users/$person/classrooms")
                 databaseReference.setValue(classList)

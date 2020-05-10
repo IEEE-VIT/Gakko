@@ -139,7 +139,6 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
                 not_part_of_any_class_image.visibility = View.GONE
                 not_part_of_class_title.visibility = View.GONE
                 adapter = ClassroomDisplayAdapter(it)
-                adapter.notifyDataSetChanged()
                 populateUI(adapter)
             } else {
                 classroom_display_progress.visibility = View.GONE
