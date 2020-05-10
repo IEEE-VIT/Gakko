@@ -13,23 +13,27 @@ class CreateClassroomViewModel(
     private var newClassroomId: String = ""
     val fetchClassroomIdResponse = MutableLiveData<GetClassroomIdResponse>()
     val createClassroomResponse = MutableLiveData<Boolean>()
+    private var classroomIds: List<String> = emptyList()
 
     init {
         classroomRepository.createClassroomId.observeForever {
             fetchClassroomIdResponse.postValue(it)
-            Log.d("FetchIdResponse",it.classroomId)
+            Log.d("FetchIdResponse", it.classroomId)
         }
         classroomRepository.userClassroomIds.observeForever {
+            classroomIds = it
             if (it.contains(newClassroomId)) {
                 createClassroomResponse.postValue(true)
-                Log.d("createResponse",it.toString())
+                Log.d("createResponse", it.toString())
             }
         }
     }
 
     suspend fun createClassroom(newClassroom: Classroom) {
-        classroomRepository.createClassroom(newClassroom)
-        newClassroomId = newClassroom.classroomID
+        if (!classroomIds.contains(newClassroom.classroomID)) {
+            classroomRepository.createClassroom(newClassroom)
+            newClassroomId = newClassroom.classroomID
+        }
     }
 
     suspend fun fetchNewClassroomId() {

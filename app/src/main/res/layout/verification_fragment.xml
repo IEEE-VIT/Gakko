@@ -99,6 +99,7 @@
         app:layout_constraintVertical_bias="0.915" />
 
     <TextView
+        android:visibility="invisible"
         android:id="@+id/didnt_receive_sms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

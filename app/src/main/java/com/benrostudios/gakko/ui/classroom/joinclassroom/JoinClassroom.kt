@@ -1,21 +1,17 @@
 package com.benrostudios.gakko.ui.classroom.joinclassroom
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.internal.Utils
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.join_classroom_fragment.*
 import kotlinx.coroutines.launch
@@ -67,14 +63,18 @@ class JoinClassroom : BottomSheetDialogFragment(), KodeinAware {
     }
 
     private fun checkEligibility(classCode: String)  = viewLifecycleOwner.lifecycleScope.launch{
+        Log.d("JoinClassroom","hello")
         viewModel._user_classroom_ids.observe(viewLifecycleOwner, Observer {
+            Log.d("JoinClassroom","The recieved list is $it")
             var eligible = true
             if(it.contains(classCode)){
                 Toast.makeText(context,"You are already part of this class",Toast.LENGTH_SHORT).show()
                 eligible = false
             }
+            Log.d("JoinClassroom","The eligibility is $eligible")
             if(eligible){
-                joinClassroomResponseListener()
+                Log.d("JoinClassroom","You are eligible")
+                classroomValidation()
                 joinClassroom(classCode)
             }else{
                 dismiss()
@@ -86,6 +86,18 @@ class JoinClassroom : BottomSheetDialogFragment(), KodeinAware {
         viewModel.joinClass(classCode)
     }
 
+
+    private fun classroomValidation() = viewLifecycleOwner.lifecycleScope.launch {
+        viewModel.classExistenceResponse.observe(viewLifecycleOwner, Observer {
+            if(!it){
+                Toast.makeText(context,"This Classroom doesn't exists", Toast.LENGTH_SHORT).show()
+                dismiss()
+            }else{
+                joinClassroomResponseListener()
+            }
+        })
+    }
+
     private fun joinClassroomResponseListener() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.usrJoinClassroomResponse.observe(viewLifecycleOwner, Observer {
             if(it){
@@ -94,15 +106,9 @@ class JoinClassroom : BottomSheetDialogFragment(), KodeinAware {
                 Toast.makeText(context,"You request to join this classroom has been sent!",Toast.LENGTH_LONG).show()
             }
             dismiss()
-
         })
 
-        viewModel.classExsistenceResponse.observe(viewLifecycleOwner, Observer {
-            if(!it){
-                Toast.makeText(context,"This Classroom doesn't exists", Toast.LENGTH_SHORT).show()
-                dismiss()
-            }
-        })
+
     }
 
 

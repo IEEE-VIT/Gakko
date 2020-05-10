@@ -2,6 +2,7 @@ package com.benrostudios.gakko.ui.auth.verification
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
@@ -41,6 +42,10 @@ class Verification : ScopedFragment(), KodeinAware {
     private lateinit var navController: NavController
     private val VERIFICATION_FRAG = "verificationfrag"
     private var lastClickTime: Long = 0L
+    private var resendTimer: Handler = Handler()
+    private var resendRunnable = Runnable {
+        didnt_receive_sms.visibility = View.VISIBLE
+    }
 
     companion object {
         fun newInstance() = Verification()
@@ -64,6 +69,7 @@ class Verification : ScopedFragment(), KodeinAware {
         if(!verificationInProgress) {
             initiateSignIn(phoneNumber)
             getAuthResponse()
+            resendTimer.postDelayed(resendRunnable,3000L)
             didnt_receive_sms.setOnClickListener {
                 if (SystemClock.elapsedRealtime() - lastClickTime >= 60000) {
                     Toast.makeText(requireContext(), "Otp send.", Toast.LENGTH_SHORT).show()
@@ -81,6 +87,11 @@ class Verification : ScopedFragment(), KodeinAware {
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        resendTimer.removeCallbacks(resendRunnable)
+        super.onDestroy()
     }
 
     private fun initiateSignIn(phoneNumber: String) {

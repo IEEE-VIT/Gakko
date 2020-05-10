@@ -60,12 +60,16 @@ class ClassroomRepositoryImpl(
                 if (p0.exists()) {
                     for (x in p0.children) {
                         classroomIds.add(x.value.toString())
-                        _classroomIds.postValue(classroomIds)
                         classroomLoader(x.value.toString())
+                        Log.d("ClassroomRepo","Posted Logic")
                     }
+                    _classroomIds.postValue(classroomIds)
                 }else{
+                    _classroomIds.postValue(emptyList())
                     _classrooms.postValue(emptyList())
+                    Log.d("ClassroomRepo","Posted EmptyList")
                 }
+
             }
         }
         databaseReference.addValueEventListener(classroomFetcher)
@@ -84,6 +88,7 @@ class ClassroomRepositoryImpl(
 
     override suspend fun joinClassroom(classCode: String) {
         databaseReference = Firebase.database.getReference("/classrooms/$classCode")
+        Log.d("ClassroomRepo","The JOIN id is $classCode")
         val joinClassroomFetcher = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -92,6 +97,8 @@ class ClassroomRepositoryImpl(
             override fun onDataChange(p0: DataSnapshot) {
                 val classroom = p0.getValue(Classroom::class.java)
                 if (p0.exists()) {
+                    _classroomExistenceResponse.postValue(true)
+                    Log.d("ClassroomRepo","Class does exists")
                     if (classroom?.privacy == false) {
                         databaseReference = Firebase.database.getReference("/classrooms/$classCode")
                         val students: MutableList<String> = classroom.students.toMutableList()

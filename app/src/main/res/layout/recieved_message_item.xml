@@ -37,7 +37,6 @@
         android:text="11:40"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/received_message_body"
-        app:layout_constraintLeft_toRightOf="@+id/sent_message_body"
         app:layout_constraintStart_toEndOf="@+id/received_message_body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
