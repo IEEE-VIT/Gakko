@@ -69,7 +69,7 @@ class Verification : ScopedFragment(), KodeinAware {
         if(!verificationInProgress) {
             initiateSignIn(phoneNumber)
             getAuthResponse()
-            resendTimer.postDelayed(resendRunnable,3000L)
+            resendTimer.postDelayed(resendRunnable,15000L)
             didnt_receive_sms.setOnClickListener {
                 if (SystemClock.elapsedRealtime() - lastClickTime >= 60000) {
                     Toast.makeText(requireContext(), "Otp send.", Toast.LENGTH_SHORT).show()
