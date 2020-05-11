@@ -126,6 +126,8 @@ class TodoFragment : ScopedFragment(), KodeinAware {
                     defaultUI()
                 }
             })
+        } else {
+            defaultUI()
         }
     }
 

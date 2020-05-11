@@ -17,6 +17,7 @@ class CommentViewModel(private val commentsRepository: CommentsRepository, priva
     private val _specificThread = MutableLiveData<Threads>()
     private val _classroom = MutableLiveData<Classroom>()
     private val _commenter = MutableLiveData<User>()
+    private val _threadUser = MutableLiveData<User>()
 
     val specificThread: LiveData<Threads>
         get() = _specificThread
@@ -24,17 +25,22 @@ class CommentViewModel(private val commentsRepository: CommentsRepository, priva
         get() = _classroom
     val commenter: LiveData<User>
         get() = _commenter
+    val threadUser: LiveData<User>
+        get() = _threadUser
 
     init {
-        threadsRepository.threadClassroom.observeForever(Observer {
+        threadsRepository.threadClassroom.observeForever {
             _classroom.postValue(it)
-        })
-        commentsRepository.commentUser.observeForever(Observer {
+        }
+        commentsRepository.commentUser.observeForever {
             _commenter.postValue(it)
-        })
-        commentsRepository.specificThread.observeForever(Observer {
+        }
+        commentsRepository.specificThread.observeForever {
             _specificThread.postValue(it)
-        })
+        }
+        commentsRepository.threadUser.observeForever {
+            _threadUser.postValue(it)
+        }
     }
 
     suspend fun getSpecificThread(threadId: String, specificThreadId: String) {
@@ -45,5 +51,8 @@ class CommentViewModel(private val commentsRepository: CommentsRepository, priva
     }
     suspend fun getCommentUser(userId: String) {
         commentsRepository.getCommentUser(userId)
+    }
+    suspend fun getThreadUser(userId: String) {
+        commentsRepository.getThreadUser(userId)
     }
 }

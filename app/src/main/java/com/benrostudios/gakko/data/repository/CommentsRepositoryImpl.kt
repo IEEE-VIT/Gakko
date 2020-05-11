@@ -11,6 +11,7 @@ class CommentsRepositoryImpl : CommentsRepository {
 
     private val _specificThread = MutableLiveData<Threads>()
     private val _commentUser = MutableLiveData<User>()
+    private val _threadUser = MutableLiveData<User>()
     private lateinit var databaseReference: DatabaseReference
 
 
@@ -18,6 +19,8 @@ class CommentsRepositoryImpl : CommentsRepository {
         get() = _specificThread
     override val commentUser: LiveData<User>
         get() = _commentUser
+    override val threadUser: LiveData<User>
+        get() = _threadUser
 
 
     override suspend fun getCommentUser(userID: String) {
@@ -28,6 +31,19 @@ class CommentsRepositoryImpl : CommentsRepository {
             }
             override fun onDataChange(p0: DataSnapshot) {
                 _commentUser.postValue(p0.getValue(User::class.java))
+            }
+        }
+        databaseReference.addValueEventListener(valueEventListener)
+    }
+
+    override suspend fun getThreadUser(userID: String) {
+        databaseReference = FirebaseDatabase.getInstance().getReference("/users/$userID/")
+        val valueEventListener: ValueEventListener = object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+            override fun onDataChange(p0: DataSnapshot) {
+                _threadUser.postValue(p0.getValue(User::class.java))
             }
         }
         databaseReference.addValueEventListener(valueEventListener)

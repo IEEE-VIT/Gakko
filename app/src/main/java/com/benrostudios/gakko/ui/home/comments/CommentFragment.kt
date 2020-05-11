@@ -109,17 +109,40 @@ class CommentFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun getThreadUser(userId: String, comments: List<Comments>) = launch {
-        commentsViewModel.getCommentUser(userId)
-        commentsViewModel.commenter.observe(viewLifecycleOwner, Observer {
+        commentsViewModel.getThreadUser(userId)
+        commentsViewModel.threadUser.observe(viewLifecycleOwner, Observer {
             if(it != null) {
                 threadUser = it
                 if(!comments.isNullOrEmpty()) {
                     getCommenters(comments)
+                    val options: RequestOptions = RequestOptions()
+                        .error(R.drawable.ic_defualt_profile_pic)
+                        .placeholder(R.drawable.ic_defualt_profile_pic)
+                        .circleCrop()
+
+                    Glide.with(requireContext())
+                        .load(threadUser.profileImage)
+                        .apply(options)
+                        .placeholder(R.drawable.ic_defualt_profile_pic)
+                        .into(comments_fragment_profile_picture)
+
+                    comments_fragment_person_name.text = threadUser.name
+                    comments_fragment_person_designation.text = if(teacherList.contains(threadUser.id)) "Teacher" else "Student"
+                    comments_fragment_person_day.text = dateFormatter.format(Date(currentThread.timestamp))
+                    comments_fragment_thread_body.text = currentThread.body
+                    comments_progress_bar.visibility = View.GONE
+
                 }
                 else {
-                    GlideApp.with(requireContext())
+
+                    val options: RequestOptions = RequestOptions()
+                        .error(R.drawable.ic_defualt_profile_pic)
+                        .placeholder(R.drawable.ic_defualt_profile_pic)
+                        .circleCrop()
+
+                    Glide.with(requireContext())
                         .load(threadUser.profileImage)
-                        .centerCrop()
+                        .apply(options)
                         .placeholder(R.drawable.ic_defualt_profile_pic)
                         .into(comments_fragment_profile_picture)
                     comments_fragment_person_name.text = threadUser.name
@@ -127,6 +150,7 @@ class CommentFragment : ScopedFragment(), KodeinAware {
                     comments_fragment_person_day.text = dateFormatter.format(Date(currentThread.timestamp))
                     comments_fragment_thread_body.text = currentThread.body
                     comments_progress_bar.visibility = View.GONE
+
                 }
             }
         })
@@ -140,30 +164,16 @@ class CommentFragment : ScopedFragment(), KodeinAware {
                 if(it != null) {
                     map[it.id] = it
                     counter++
+
+                    if(counter == comments.size) {
+                        updateUI()
+                    }
                 }
             })
-            if(counter == comments.size) {
-                updateUI()
-            }
         }
     }
 
     private fun updateUI() {
-        val options: RequestOptions = RequestOptions()
-            .error(R.drawable.ic_defualt_profile_pic)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
-            .circleCrop()
-
-        Glide.with(this)
-            .load(utils.retrieveProfilePic())
-            .apply(options)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
-            .into(comments_fragment_profile_picture)
-
-        comments_fragment_person_name.text = threadUser.name
-        comments_fragment_person_designation.text = if(teacherList.contains(threadUser.id)) "Teacher" else "Student"
-        comments_fragment_person_day.text = dateFormatter.format(Date(currentThread.timestamp))
-        comments_fragment_thread_body.text = currentThread.body
         adapter = CommentsDisplayAdapter(ArrayList<Comments>(currentThread.comments.values), map, utils)
         comments_recycler_view.adapter = adapter
         comments_recycler_view.layoutManager = LinearLayoutManager(requireContext())

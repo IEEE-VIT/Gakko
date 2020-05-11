@@ -69,9 +69,12 @@ class TodoRepositoryImpl : TodoRepository {
                     for (x: DataSnapshot in p0.children) {
                         if(! todoList.contains(p0.getValue(Material::class.java))) {
                             todoList.add(x.getValue(Material::class.java)!!)
-                            _todo.postValue(todoList)
-
                         }
+                    }
+                    if(todoList.isNullOrEmpty()) {
+                        _todo.postValue(null)
+                    } else {
+                        _todo.postValue(todoList)
                     }
                 }
             }

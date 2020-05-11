@@ -63,7 +63,7 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
             .circleCrop()
 
         Glide.with(context)
-            .load(utils.retrieveProfilePic())
+            .load(threadUser.profileImage)
             .apply(options)
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .into(holder.profilePicture)

@@ -45,7 +45,7 @@ class CommentsDisplayAdapter(private val comments: List<Comments>, private val m
             .circleCrop()
 
         Glide.with(context)
-            .load(utils.retrieveProfilePic())
+            .load(user.profileImage)
             .apply(options)
             .placeholder(R.drawable.ic_defualt_profile_pic)
             .into(holder.profilePicture)
