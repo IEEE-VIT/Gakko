@@ -26,6 +26,7 @@
             android:id="@+id/create_class_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="60dp"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,6 +48,7 @@
             android:id="@+id/create_class_course_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="60dp"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 

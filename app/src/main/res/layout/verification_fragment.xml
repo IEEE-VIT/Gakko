@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
-            android:maxLength="6"
+            android:maxHeight="60dp"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 

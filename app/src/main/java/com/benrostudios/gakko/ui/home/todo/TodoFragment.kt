@@ -143,7 +143,7 @@ class TodoFragment : ScopedFragment(), KodeinAware {
             }
         }
 
-        if(todoList.isNotEmpty()) {
+        if(! todoList.isNullOrEmpty()) {
             demo_todo_image_view.visibility = View.GONE
             demo_todo_text_view.visibility = View.GONE
             adapter = TodoDisplayAdapter(todoList)

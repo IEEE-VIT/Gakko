@@ -66,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
+            android:maxHeight="60dp"
             android:maxLength="13"
             android:text="+91"
             android:textColor="@color/white" />

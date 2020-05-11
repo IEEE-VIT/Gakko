@@ -29,7 +29,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/usr_message_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxHeight="60dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView

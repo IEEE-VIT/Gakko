@@ -40,6 +40,7 @@
             android:id="@+id/user_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="60dp"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,6 +64,7 @@
             android:id="@+id/user_display_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="60dp"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
