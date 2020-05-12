@@ -73,7 +73,7 @@
     <string name="material_topic_hint">Topic</string>
 
     //Pinboard Fragment
-    <string name="demo_pinboard_text">No work have been created yet</string>
+    <string name="demo_pinboard_text">No work has been created yet</string>
 
     //ProfileFragment
     <string name="back_title_text">Back</string>

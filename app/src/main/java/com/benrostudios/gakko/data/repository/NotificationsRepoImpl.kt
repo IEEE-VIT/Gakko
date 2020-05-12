@@ -78,8 +78,10 @@ class NotificationsRepoImpl : NotificationsRepo {
                     classroomName
                 )
                 Log.d("Notification Fetcher", "Formed Class : ${classroomJoinRequest}")
-                _requestBuffer.add(classroomJoinRequest)
-                _requests.postValue(_requestBuffer)
+                if(!_requestBuffer.contains(classroomJoinRequest)) {
+                    _requestBuffer.add(classroomJoinRequest)
+                    _requests.postValue(_requestBuffer)
+                }
             }
 
         }

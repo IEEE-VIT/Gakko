@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -103,10 +104,12 @@ class Notifications : ScopedFragment(), KodeinAware {
                     RequestsAdapter(it, object : RequestsAdapter.ClickListener {
                         override fun acceptTrigger(posistion: Int) {
                             acceptRequest(it[posistion].classroomId, it[posistion].phone)
+                            Toast.makeText(context,"${it[posistion].name} has joined ${it[posistion].classroomName}",Toast.LENGTH_SHORT).show()
                         }
 
                         override fun declineTrigger(posistion: Int) {
                             declineRequest(it[posistion].classroomId, it[posistion].phone)
+                            Toast.makeText(context,"${it[posistion].name} has been declined to join ${it[posistion].classroomName}",Toast.LENGTH_SHORT).show()
                         }
                     })
             }

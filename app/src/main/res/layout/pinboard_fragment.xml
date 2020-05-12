@@ -107,7 +107,7 @@
         android:id="@+id/default_pinboard_image_view"
         android:layout_width="278dp"
         android:layout_height="228dp"
-        android:src="@drawable/ic_no_notifications"
+        android:src="@drawable/note_taking"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
