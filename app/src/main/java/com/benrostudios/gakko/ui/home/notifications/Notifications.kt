@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.RequestsAdapter
+import com.benrostudios.gakko.internal.AvatarConstants
+import com.benrostudios.gakko.internal.AvatarGenerator
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import com.bumptech.glide.Glide
@@ -58,21 +60,21 @@ class Notifications : ScopedFragment(), KodeinAware {
         listenRequestsList()
 
         var options: RequestOptions = RequestOptions()
-            .error(R.drawable.ic_defualt_profile_pic)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .error(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
+            .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
             .circleCrop()
 
         if(utils.retrieveProfilePic().isNullOrEmpty()) {
             Glide.with(this)
                 .load(profilePicUploader)
                 .apply(options)
-                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
                 .into(usr_image)
         }else {
             Glide.with(this)
                 .load(utils.retrieveProfilePic())
                 .apply(options)
-                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
                 .into(usr_image)
         }
 

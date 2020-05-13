@@ -8,7 +8,7 @@
         android:id="@+id/specific_comment_user_profile_picture"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"

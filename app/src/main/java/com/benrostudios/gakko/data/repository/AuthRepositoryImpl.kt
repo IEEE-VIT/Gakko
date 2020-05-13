@@ -63,6 +63,7 @@ class AuthRepositoryImpl(
                     _userResponse.postValue(false)
                 }else{
                     _userResponse.postValue(true)
+                    utils.saveCurrentUserName(p0.getValue(User::class.java)!!.name)
                 }
             }
         }

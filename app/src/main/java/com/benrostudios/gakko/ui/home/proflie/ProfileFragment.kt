@@ -20,6 +20,8 @@ import androidx.navigation.Navigation
 
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.User
+import com.benrostudios.gakko.internal.AvatarConstants
+import com.benrostudios.gakko.internal.AvatarGenerator
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.auth.AuthActivity
 import com.benrostudios.gakko.ui.base.ScopedFragment
@@ -71,21 +73,21 @@ class ProfileFragment : ScopedFragment(), KodeinAware {
         fetchUser()
 
         var options: RequestOptions = RequestOptions()
-            .error(R.drawable.ic_defualt_profile_pic)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .error(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
+            .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
             .circleCrop()
 
         if(utils.retrieveProfilePic().isNullOrEmpty()) {
             Glide.with(this)
                 .load(profilePicUploader)
                 .apply(options)
-                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
                 .into(proflie_fragment_user_picture_image_view)
         }else {
             Glide.with(this)
                 .load(utils.retrieveProfilePic())
                 .apply(options)
-                .placeholder(R.drawable.ic_defualt_profile_pic)
+                .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
                 .into(proflie_fragment_user_picture_image_view)
         }
 
@@ -132,6 +134,7 @@ class ProfileFragment : ScopedFragment(), KodeinAware {
         }
         if(validation){
             updateProfilePic(name ,displayname)
+            utils.saveCurrentUserName(name)
             profile_progress.visibility = View.VISIBLE
         }
 

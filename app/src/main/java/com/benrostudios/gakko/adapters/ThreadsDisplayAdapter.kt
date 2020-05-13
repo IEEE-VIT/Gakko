@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Threads
 import com.benrostudios.gakko.data.models.User
+import com.benrostudios.gakko.internal.AvatarConstants
+import com.benrostudios.gakko.internal.AvatarGenerator
 import com.benrostudios.gakko.internal.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -57,16 +59,18 @@ class ThreadsDisplayAdapter(private val threadsList: List<Threads>,
             thread.comments.size.toString() + " Class Comment"
         }
 
-        val options: RequestOptions = RequestOptions()
-            .error(R.drawable.ic_defualt_profile_pic)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
-            .circleCrop()
+        if(! threadUser.name.isNullOrEmpty()) {
+            val options: RequestOptions = RequestOptions()
+                .error(AvatarGenerator.avatarImage(context, 200, AvatarConstants.CIRCLE, threadUser.name))
+                .placeholder(AvatarGenerator.avatarImage(context, 200, AvatarConstants.CIRCLE, threadUser.name))
+                .circleCrop()
 
-        Glide.with(context)
-            .load(threadUser.profileImage)
-            .apply(options)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
-            .into(holder.profilePicture)
+            Glide.with(context)
+                .load(threadUser.profileImage)
+                .apply(options)
+                .placeholder(AvatarGenerator.avatarImage(context, 200, AvatarConstants.CIRCLE, threadUser.name))
+                .into(holder.profilePicture)
+        }
 
         holder.personName.text = threadUser.name
         holder.designation.text = designation

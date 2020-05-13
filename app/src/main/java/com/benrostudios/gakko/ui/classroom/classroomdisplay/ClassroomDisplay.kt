@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.adapters.ClassroomDisplayAdapter
 import com.benrostudios.gakko.data.models.Classroom
+import com.benrostudios.gakko.internal.AvatarConstants
+import com.benrostudios.gakko.internal.AvatarGenerator
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
 import com.benrostudios.gakko.ui.classroom.createclassroom.CreateClassroom
@@ -78,26 +80,26 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
             }
         }
 
-        var options: RequestOptions = RequestOptions()
-            .error(R.drawable.ic_defualt_profile_pic)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
-            .circleCrop()
 
+            var options: RequestOptions = RequestOptions()
+                .error(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
+                .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
+                .circleCrop()
 
-        if(utils.retrieveProfilePic().isNullOrEmpty()) {
-            Glide.with(this)
-                .load(profilePicUploader)
-                .apply(options)
-                .placeholder(R.drawable.ic_defualt_profile_pic)
-                .into(usr_profile_pic)
-        }else {
-            Glide.with(this)
-                .load(utils.retrieveProfilePic())
-                .apply(options)
-                .placeholder(R.drawable.ic_defualt_profile_pic)
-                .into(usr_profile_pic)
-        }
-
+            if (utils.retrieveProfilePic().isNullOrEmpty()) {
+                Glide.with(this)
+                    .load(profilePicUploader)
+                    .apply(options)
+                    .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!)
+                    )
+                    .into(usr_profile_pic)
+            } else {
+                Glide.with(this)
+                    .load(utils.retrieveProfilePic())
+                    .apply(options)
+                    .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, utils.retrieveCurrentUserName()!!))
+                    .into(usr_profile_pic)
+            }
 
         join_classroom_btn.setOnClickListener {
             val bottomSheetFragment = JoinClassroom()

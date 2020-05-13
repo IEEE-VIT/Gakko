@@ -24,6 +24,7 @@ class Utils(
         const val SHARED_PREFERENCE_CURRENT_THREAD = "currentThread"
         const val SHARED_PREFERENCE_CURRENT_TEACHER = "currentTeacher"
         const val SHARED_PREFERENCE_CURRENT_SUBJECT = "currentSubject"
+        const val SHARED_PREFERENCE_CURRENT_USER_NAME = "currentUserName"
     }
 
     fun saveMobile(mobile: String) = editor.putString(SHARED_PREFERENCE_MOBILE, mobile).commit()
@@ -33,6 +34,10 @@ class Utils(
     fun saveTeacher(teacherId: String) = editor.putString(SHARED_PREFERENCE_CURRENT_TEACHER, teacherId).commit()
 
     fun retrieveCurrentTeacher(): String? = sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_TEACHER, null)
+
+    fun saveCurrentUserName(userName: String) = editor.putString(SHARED_PREFERENCE_CURRENT_USER_NAME, userName).commit()
+
+    fun retrieveCurrentUserName(): String? = sharedPreferences.getString(SHARED_PREFERENCE_CURRENT_USER_NAME, null)
 
     fun saveSubject(subject: String) = editor.putString(SHARED_PREFERENCE_CURRENT_SUBJECT, subject).commit()
 

@@ -88,13 +88,13 @@ class UserSetUp : ScopedFragment(),KodeinAware {
         }
         if(validation){
             setup_progress.visibility = View.VISIBLE
+            utils.saveCurrentUserName(name)
             if(!uriString.isNullOrEmpty()){
                 uploadProfilePicture(uri)
                 createUserObject(name , displayName,true)
             }else{
                 createUserObject(name , displayName,false)
             }
-
         }
     }
 

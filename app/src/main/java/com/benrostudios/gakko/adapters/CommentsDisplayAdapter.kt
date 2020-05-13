@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.benrostudios.gakko.R
 import com.benrostudios.gakko.data.models.Comments
 import com.benrostudios.gakko.data.models.User
+import com.benrostudios.gakko.internal.AvatarConstants
+import com.benrostudios.gakko.internal.AvatarGenerator
 import com.benrostudios.gakko.internal.GlideApp
 import com.benrostudios.gakko.internal.Utils
 import com.bumptech.glide.Glide
@@ -40,14 +42,14 @@ class CommentsDisplayAdapter(private val comments: List<Comments>, private val m
         val user: User = map[comment.user.toString()] ?: User(emptyList(), "", "", "", false, "")
 
         val options: RequestOptions = RequestOptions()
-            .error(R.drawable.ic_defualt_profile_pic)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .error(AvatarGenerator.avatarImage(context, 200, AvatarConstants.CIRCLE, user.name))
+            .placeholder(AvatarGenerator.avatarImage(context, 200, AvatarConstants.CIRCLE, user.name))
             .circleCrop()
 
         Glide.with(context)
             .load(user.profileImage)
             .apply(options)
-            .placeholder(R.drawable.ic_defualt_profile_pic)
+            .placeholder(AvatarGenerator.avatarImage(context, 200, AvatarConstants.CIRCLE, user.name))
             .into(holder.profilePicture)
 
         holder.userName.text = user.name

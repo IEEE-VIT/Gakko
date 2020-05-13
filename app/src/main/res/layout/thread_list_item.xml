@@ -34,7 +34,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/threads_background" />
+                app:srcCompat="@drawable/ic_defualt_profile_pic" />
 
             <TextView
                 android:id="@+id/threads_name_text_view"

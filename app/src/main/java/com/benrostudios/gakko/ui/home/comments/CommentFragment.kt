@@ -17,6 +17,8 @@ import com.benrostudios.gakko.adapters.CommentsDisplayAdapter
 import com.benrostudios.gakko.data.models.Comments
 import com.benrostudios.gakko.data.models.Threads
 import com.benrostudios.gakko.data.models.User
+import com.benrostudios.gakko.internal.AvatarConstants
+import com.benrostudios.gakko.internal.AvatarGenerator
 import com.benrostudios.gakko.internal.GlideApp
 import com.benrostudios.gakko.internal.Utils
 import com.benrostudios.gakko.ui.base.ScopedFragment
@@ -116,14 +118,14 @@ class CommentFragment : ScopedFragment(), KodeinAware {
                 if(!comments.isNullOrEmpty()) {
                     getCommenters(comments)
                     val options: RequestOptions = RequestOptions()
-                        .error(R.drawable.ic_defualt_profile_pic)
-                        .placeholder(R.drawable.ic_defualt_profile_pic)
+                        .error(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, threadUser.name))
+                        .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, threadUser.name))
                         .circleCrop()
 
                     Glide.with(requireContext())
                         .load(threadUser.profileImage)
                         .apply(options)
-                        .placeholder(R.drawable.ic_defualt_profile_pic)
+                        .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, threadUser.name))
                         .into(comments_fragment_profile_picture)
 
                     comments_fragment_person_name.text = threadUser.name
