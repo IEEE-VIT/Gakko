@@ -91,10 +91,10 @@ class MembersFragment : ScopedFragment(), KodeinAware {
         viewModel.studentsList.observe(viewLifecycleOwner, Observer {
             //Log.d("Trigger", "$it , classroom = ${classroom.students}")
             if (it != localStudents) {
-                localStudents = it
-                studentsAdapter = MembersDisplayAdapter(it)
+                var sortedList: List<Members> = it.sortedBy { it.name }
+                localStudents = sortedList
+                studentsAdapter = MembersDisplayAdapter(sortedList)
                 memebrs_students_recycler.adapter = studentsAdapter
-
             }
         })
 

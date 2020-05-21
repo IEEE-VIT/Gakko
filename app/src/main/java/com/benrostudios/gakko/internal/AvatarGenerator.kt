@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.text.TextPaint
+import androidx.core.content.ContextCompat
+import com.benrostudios.gakko.R
 
 class AvatarGenerator {
     companion object {
@@ -22,7 +24,7 @@ class AvatarGenerator {
             val areaRect = Rect(0, 0, width, width)
 
             if (shape == 0) {
-                painter.color = RandomColors().getColor()
+                painter.color = ContextCompat.getColor(context, R.color.primary_green)
             } else {
                 painter.color = Color.TRANSPARENT
             }
@@ -35,7 +37,7 @@ class AvatarGenerator {
             if (shape == 0) {
                 painter.color = Color.TRANSPARENT
             } else {
-                painter.color = RandomColors().getColor()
+                painter.color = ContextCompat.getColor(context, R.color.primary_green)
             }
 
             val bounds = RectF(areaRect)
