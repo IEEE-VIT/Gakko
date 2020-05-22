@@ -72,7 +72,7 @@ class Verification : ScopedFragment(), KodeinAware {
             resendTimer.postDelayed(resendRunnable,15000L)
             didnt_receive_sms.setOnClickListener {
                 if (SystemClock.elapsedRealtime() - lastClickTime >= 60000) {
-                    Toast.makeText(requireContext(), "Otp send.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Check your SMS. We've sent you an OTP!", Toast.LENGTH_SHORT).show()
                     lastClickTime = SystemClock.elapsedRealtime();
                     resendVerificationCode(phoneNumber,resendToken)
                 } else {
