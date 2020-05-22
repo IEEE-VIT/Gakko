@@ -2,13 +2,13 @@
     <string name="app_name">Gakko</string>
     //AuthActivity
     //SignIn
-    <string name="whats_your_num">What is your phone number?</string>
-    <string name="whats_your_num_subdesc">Tap "Continue" to get an SMS confirmation to help you use Gakko. We would like your phone number.</string>
+    <string name="whats_your_num">Enter your phone number</string>
+    <string name="whats_your_num_subdesc">To continue using Gakko, we\'d like to send you an OTP to register your phone number</string>
     <string name="phone_hint">Phone Number</string>
     <string name="continue_btn">Continue</string>
     //Verify
     <string name="verify_title">Verify phone number</string>
-    <string name="verify_desc">Check your SMS we\'ve sent you the pin at</string>
+    <string name="verify_desc">Check your SMS. We\'ve sent you an OTP at</string>
     <string name="didnt_receive_sms">Didn\'t receive SMS? <b>Resend Code</b></string>
     <string name="verify_btn">Verify</string>
     <string name="otp_hint">Enter OTP</string>
