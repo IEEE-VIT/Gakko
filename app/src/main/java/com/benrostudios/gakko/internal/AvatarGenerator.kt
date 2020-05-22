@@ -69,7 +69,7 @@ class AvatarGenerator {
         }
 
         private fun calTextSize(size: Int): Float {
-            return (size / 3.125).toFloat()
+            return (size / 4.125).toFloat()
         }
     }
 
