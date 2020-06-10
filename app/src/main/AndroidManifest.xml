@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.benrostudios.gakko">
+    package="com.ieeevit.gakko">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".GakkoApplication"
+        android:name="com.ieeevit.gakko.GakkoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,19 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".ui.chat.Chat"
+        <activity android:name="com.ieeevit.gakko.ui.chat.Chat"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name="com.ieeevit.gakko.ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.home.HomeActivity"
+        <activity android:name="com.ieeevit.gakko.ui.home.HomeActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.auth.AuthActivity"
+        <activity android:name="com.ieeevit.gakko.ui.auth.AuthActivity"
             android:screenOrientation="portrait"/>
     </application>
 

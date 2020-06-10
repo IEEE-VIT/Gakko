@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/chatInterface"
-        android:name="com.benrostudios.gakko.ui.chat.chatdisplay.ChatInterface"
+        android:name="com.ieeevit.gakko.ui.chat.chatdisplay.ChatInterface"
         android:label="chat_interface_fragment"
         tools:layout="@layout/chat_interface_fragment" />
 </navigation>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signIn"
-        android:name="com.benrostudios.gakko.ui.auth.signin.SignIn"
+        android:name="com.ieeevit.gakko.ui.auth.signin.SignIn"
         android:label="sign_in_fragment"
         tools:layout="@layout/sign_in_fragment" >
         <action
@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/userSetUp"
-        android:name="com.benrostudios.gakko.ui.auth.setup.UserSetUp"
+        android:name="com.ieeevit.gakko.ui.auth.setup.UserSetUp"
         android:label="user_set_up_fragment"
         tools:layout="@layout/user_set_up_fragment" />
     <fragment
         android:id="@+id/verification"
-        android:name="com.benrostudios.gakko.ui.auth.verification.Verification"
+        android:name="com.ieeevit.gakko.ui.auth.verification.Verification"
         android:label="verification_fragment"
         tools:layout="@layout/verification_fragment" >
         <action
