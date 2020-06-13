@@ -3,6 +3,7 @@ package com.ieeevit.gakko.ui.auth.signin
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +64,9 @@ class SignIn : ScopedFragment(), KodeinAware {
 
     private fun validatePhoneNumber(): Boolean {
         phoneNumber = phone_input.text.toString()
-        if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length < 13) {
+        val phoneNumeric = phoneNumber.substring(1 until phoneNumber.length)
+        Log.d("Numeric","$phoneNumeric , $phoneNumber")
+        if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length < 13 || phoneNumeric.toBigIntegerOrNull() == null) {
             phone_input.error = "Invalid phone number."
             return false
         }

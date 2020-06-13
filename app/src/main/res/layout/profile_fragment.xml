@@ -27,6 +27,9 @@
             android:id="@+id/profile_display_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:lines="1"
             android:enabled="false"
             android:maxHeight="60dp"
             android:textColor="@color/black" />
@@ -52,6 +55,9 @@
             android:id="@+id/profile_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:lines="1"
             android:enabled="false"
             android:maxHeight="60dp"
             android:textColor="@color/black" />

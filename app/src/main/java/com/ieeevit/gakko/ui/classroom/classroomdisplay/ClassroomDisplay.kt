@@ -65,13 +65,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
             ViewModelProvider(this, viewModelFactory).get(ClassroomDisplayViewModel::class.java)
 
         add_classroom_btn.setOnClickListener {
-            showClassroomButtonOptions = if (showClassroomButtonOptions) {
-                showAddClassroomOptions()
-                false
-            } else {
-                showAddClassroomOptions()
-                true
-            }
+            animateAddClassroom()
         }
 
 
@@ -96,6 +90,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
             }
 
         join_classroom_btn.setOnClickListener {
+            animateAddClassroom()
             val bottomSheetFragment = JoinClassroom()
             bottomSheetFragment.show(
                 activity?.supportFragmentManager!!,
@@ -106,6 +101,7 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
 
         create_classroom_btn.setOnClickListener {
             //navController.navigate(R.id.action_classroomDisplay_to_createClassroom)
+            animateAddClassroom()
             val bottomSheetFragment = CreateClassroom()
             bottomSheetFragment.show(
                 activity?.supportFragmentManager!!,
@@ -197,6 +193,16 @@ class ClassroomDisplay : ScopedFragment(), KodeinAware {
             line_division.visibility = View.GONE
             create_classroom_btn.visibility = View.INVISIBLE
 
+        }
+    }
+
+    private fun animateAddClassroom(){
+        showClassroomButtonOptions = if (showClassroomButtonOptions) {
+            showAddClassroomOptions()
+            false
+        } else {
+            showAddClassroomOptions()
+            true
         }
     }
 
