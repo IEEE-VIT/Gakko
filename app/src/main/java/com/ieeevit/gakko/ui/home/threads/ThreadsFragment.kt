@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.*
 import com.ieeevit.gakko.R
 import com.ieeevit.gakko.adapters.ThreadsDisplayAdapter
 import com.ieeevit.gakko.data.models.Threads
@@ -29,8 +30,10 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
     private var threadList = mutableListOf<Threads>()
     private var studentsList = mutableListOf<String>()
     private var teachersList = mutableListOf<String>()
+    private var phoneNumberList = mutableListOf<String>()
     private lateinit var adapter: ThreadsDisplayAdapter
     private var map: HashMap<String, User> = HashMap()
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,7 +80,7 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
         threadsViewModel.threads.observe(viewLifecycleOwner, Observer {
             threadList = it as MutableList<Threads>
             if(threadList.isNotEmpty()) {
-                getThreadUsers(threadList)
+                getThreadUser(threadList)
             } else {
                 threads_recycler_view.visibility = View.GONE
                 threads_default_image_background.visibility = View.VISIBLE
@@ -87,21 +90,31 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
         })
     }
 
-    private fun getThreadUsers(threadList: List<Threads>) = launch {
-        map.clear()
-        var counter = 0
-        for(thread: Threads in threadList) {
-            threadsViewModel.getThreadUser(thread.user)
-            threadsViewModel.threadUser.observe(viewLifecycleOwner, Observer {
-               if(it != null) {
-                   map[it.id] = it
-                   counter++
-               }
-                if(counter == threadList.size) {
-                    getThreadClassroom(utils.retrieveCurrentClassroom()?:"")
-                }
-            })
+
+    private fun getThreadUser(threadList: List<Threads>) {
+        for(thread: Threads in  threadList) {
+            phoneNumberList.add(thread.user)
         }
+        getThreadUsers(phoneNumberList)
+    }
+
+    private fun getThreadUsers(userIds: List<String>) {
+        map.clear()
+        for(userId: String in userIds) {
+            databaseReference = FirebaseDatabase.getInstance().getReference("/users/$userId/")
+            val valueEventListener: ValueEventListener = object: ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+                    val user = p0.getValue(User::class.java)
+                    map[user!!.id] = user
+                }
+            }
+            databaseReference.addValueEventListener(valueEventListener)
+        }
+
+        getThreadClassroom(utils.retrieveCurrentClassroom() ?: " ")
     }
 
     private fun getThreadClassroom(classroomId: String) = launch {

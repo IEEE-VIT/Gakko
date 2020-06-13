@@ -54,7 +54,11 @@ class AvatarGenerator {
         }
 
         private fun firstCharacter(name: String): String {
-            return name.first().toString().toUpperCase()
+            var str : String = "N"
+            if(name.isNotEmpty()) {
+                str = name.first().toString().toUpperCase()
+            }
+            return str
         }
 
         private fun textPainter(): TextPaint {

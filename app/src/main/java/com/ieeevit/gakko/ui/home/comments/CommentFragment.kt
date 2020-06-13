@@ -114,6 +114,7 @@ class CommentFragment : ScopedFragment(), KodeinAware {
         commentsViewModel.threadUser.observe(viewLifecycleOwner, Observer {
             if(it != null) {
                 threadUser = it
+
                 if(!comments.isNullOrEmpty()) {
                     getCommenters(comments)
                     val options: RequestOptions = RequestOptions()
@@ -137,15 +138,16 @@ class CommentFragment : ScopedFragment(), KodeinAware {
                 else {
 
                     val options: RequestOptions = RequestOptions()
-                        .error(R.drawable.ic_defualt_profile_pic)
-                        .placeholder(R.drawable.ic_defualt_profile_pic)
+                        .error(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, threadUser.name))
+                        .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, threadUser.name))
                         .circleCrop()
 
                     Glide.with(requireContext())
                         .load(threadUser.profileImage)
                         .apply(options)
-                        .placeholder(R.drawable.ic_defualt_profile_pic)
+                        .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, threadUser.name))
                         .into(comments_fragment_profile_picture)
+
                     comments_fragment_person_name.text = threadUser.name
                     comments_fragment_person_designation.text = if(teacherList.contains(threadUser.id)) "Teacher" else "Student"
                     comments_fragment_person_day.text = dateFormatter.format(Date(currentThread.timestamp))
