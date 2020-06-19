@@ -23,6 +23,7 @@ import com.ieeevit.gakko.internal.Utils
 import com.ieeevit.gakko.ui.base.ScopedFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.comment_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -42,8 +43,10 @@ class CommentFragment : ScopedFragment(), KodeinAware {
     private lateinit var commentsViewModel: CommentViewModel
     private val viewModelFactory: CommentViewModelFactory by instance()
     private val utils: Utils by instance()
+    private var phoneNumberList = mutableListOf<String>()
     private val map: HashMap<String, User> = HashMap()
     private lateinit var adapter: CommentsDisplayAdapter
+    private lateinit var databaseReference: DatabaseReference
     @SuppressLint("SimpleDateFormat")
     private var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
     private lateinit var navController: NavController
@@ -116,7 +119,7 @@ class CommentFragment : ScopedFragment(), KodeinAware {
                 threadUser = it
 
                 if(!comments.isNullOrEmpty()) {
-                    getCommenters(comments)
+                    getCommentUser(comments)
                     val options: RequestOptions = RequestOptions()
                         .error(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, threadUser.name))
                         .placeholder(AvatarGenerator.avatarImage(requireContext(), 200, AvatarConstants.CIRCLE, threadUser.name))
@@ -159,21 +162,40 @@ class CommentFragment : ScopedFragment(), KodeinAware {
         })
     }
 
-    private fun getCommenters(comments: List<Comments>) = launch {
-        var counter = 0
+    private fun getCommentUser(comments: List<Comments>) {
+        phoneNumberList.clear()
         for(comment: Comments in comments) {
-            commentsViewModel.getCommentUser(comment.user.toString())
-            commentsViewModel.commenter.observe(viewLifecycleOwner, Observer {
-                if(it != null) {
-                    map[it.id] = it
+            phoneNumberList.add(comment.user)
+        }
+        getCommenters(phoneNumberList)
+    }
+
+    private fun getCommenters(userIds: List<String>) {
+        map.clear()
+        var counter = 0
+        for(userId: String in userIds) {
+            databaseReference = FirebaseDatabase.getInstance().getReference("/users/$userId/")
+            val valueEventListener: ValueEventListener = object: ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+                    val user = p0.getValue(User::class.java)
+                    map[user!!.id] = user
                     counter++
 
-                    if(counter == comments.size) {
+                    if(counter == userIds.size) {
                         updateUI()
                     }
                 }
-            })
+            }
+            databaseReference.addValueEventListener(valueEventListener)
         }
+    }
+
+    private fun timeUtilization() {
+        var i = 0
+
     }
 
     private fun updateUI() {

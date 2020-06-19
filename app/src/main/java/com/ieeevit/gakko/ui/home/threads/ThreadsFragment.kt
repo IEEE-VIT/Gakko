@@ -100,6 +100,7 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
 
     private fun getThreadUsers(userIds: List<String>) {
         map.clear()
+        var counter = 0
         for(userId: String in userIds) {
             databaseReference = FirebaseDatabase.getInstance().getReference("/users/$userId/")
             val valueEventListener: ValueEventListener = object: ValueEventListener {
@@ -109,12 +110,15 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
                 override fun onDataChange(p0: DataSnapshot) {
                     val user = p0.getValue(User::class.java)
                     map[user!!.id] = user
+                    counter++
+
+                    if(counter == userIds.size) {
+                        getThreadClassroom(utils.retrieveCurrentClassroom() ?: " ")
+                    }
                 }
             }
             databaseReference.addValueEventListener(valueEventListener)
         }
-
-        getThreadClassroom(utils.retrieveCurrentClassroom() ?: " ")
     }
 
     private fun getThreadClassroom(classroomId: String) = launch {
