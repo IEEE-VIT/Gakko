@@ -14,6 +14,8 @@ import com.ieeevit.gakko.data.models.Classroom
 import com.ieeevit.gakko.data.models.Members
 import com.ieeevit.gakko.internal.Utils
 import com.ieeevit.gakko.ui.base.ScopedFragment
+import com.ieeevit.gakko.ui.classroom.joinclassroom.JoinClassroom
+import com.ieeevit.gakko.ui.home.exitclassroom.ExitClassroom
 import kotlinx.android.synthetic.main.members_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -67,6 +69,14 @@ class MembersFragment : ScopedFragment(), KodeinAware {
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
             startActivity(Intent.createChooser(sharingIntent, "Tag"))
         }
+
+        exit_icon.setOnClickListener {
+            val bottomSheetFragment = ExitClassroom()
+            bottomSheetFragment.show(
+                activity?.supportFragmentManager!!,
+                bottomSheetFragment.tag
+            )
+        }
     }
 
     private fun fetchClassroom() = launch {
@@ -116,6 +126,7 @@ class MembersFragment : ScopedFragment(), KodeinAware {
         members_teacher_title.visibility = View.VISIBLE
         memebrs_students_recycler.visibility = View.VISIBLE
         add_members_icon.visibility = View.VISIBLE
+        exit_icon.visibility = View.VISIBLE
     }
 
 }
