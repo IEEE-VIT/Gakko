@@ -28,6 +28,7 @@ class ClassroomRepositoryImpl(
     private var classroomIds = mutableListOf<String>()
     private var classList = mutableListOf<Classroom>()
     private val teachersList = utils.retrieveTeachersList() ?: mutableSetOf<String>()
+    private val _exitClassroomStatus = MutableLiveData<Boolean>()
 
 
     override val classroomExistenceResponse: LiveData<Boolean>
@@ -61,13 +62,13 @@ class ClassroomRepositoryImpl(
                     for (x in p0.children) {
                         classroomIds.add(x.value.toString())
                         classroomLoader(x.value.toString())
-                        Log.d("ClassroomRepo","Posted Logic")
+                        Log.d("ClassroomRepo", "Posted Logic")
                     }
                     _classroomIds.postValue(classroomIds)
-                }else{
+                } else {
                     _classroomIds.postValue(emptyList())
                     _classrooms.postValue(emptyList())
-                    Log.d("ClassroomRepo","Posted EmptyList")
+                    Log.d("ClassroomRepo", "Posted EmptyList")
                 }
 
             }
@@ -88,7 +89,7 @@ class ClassroomRepositoryImpl(
 
     override suspend fun joinClassroom(classCode: String) {
         databaseReference = Firebase.database.getReference("/classrooms/$classCode")
-        Log.d("ClassroomRepo","The JOIN id is $classCode")
+        Log.d("ClassroomRepo", "The JOIN id is $classCode")
         val joinClassroomFetcher = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -98,7 +99,7 @@ class ClassroomRepositoryImpl(
                 val classroom = p0.getValue(Classroom::class.java)
                 if (p0.exists()) {
                     _classroomExistenceResponse.postValue(true)
-                    Log.d("ClassroomRepo","Class does exists")
+                    Log.d("ClassroomRepo", "Class does exists")
                     if (classroom?.privacy == false) {
                         databaseReference = Firebase.database.getReference("/classrooms/$classCode")
                         val students: MutableList<String> = classroom.students.toMutableList()
@@ -121,13 +122,14 @@ class ClassroomRepositoryImpl(
                         databaseReference.child("requests").setValue(requests)
                         _join_classroom_response.postValue(false)
                     }
-                }else{
+                } else {
                     _classroomExistenceResponse.postValue(false)
                 }
             }
         }
         databaseReference.addListenerForSingleValueEvent(joinClassroomFetcher)
     }
+
 
     fun classroomLoader(ids: String) {
         databaseReference = Firebase.database.getReference("/classrooms/$ids")
@@ -142,19 +144,19 @@ class ClassroomRepositoryImpl(
                 var validation = true
                 val classroom = p0.getValue(Classroom::class.java)
                 Log.d("classroom fetcher", classroom.toString())
-                if(classroom?.teachers?.contains(utils.retrieveMobile()) == true && classroom.privacy){
+                if (classroom?.teachers?.contains(utils.retrieveMobile()) == true && classroom.privacy) {
                     teachersList.add(classroom.classroomID)
                     utils.saveTeacherList(teachersList)
-                    Log.d("classroom fetcher","teacher of: ${classroom.classroomID}")
+                    Log.d("classroom fetcher", "teacher of: ${classroom.classroomID}")
                 }
                 classList.forEach {
-                   if(it.classroomID == classroom!!.classroomID){
-                       if(it.courseCode == classroom!!.courseCode){
-                           validation = false
-                       }
-                   }
+                    if (it.classroomID == classroom!!.classroomID) {
+                        if (it.courseCode == classroom!!.courseCode) {
+                            validation = false
+                        }
+                    }
                 }
-                if(validation) {
+                if (validation) {
                     classList.add(classroom!!)
                     _classrooms.postValue(classList)
                 }
@@ -168,5 +170,40 @@ class ClassroomRepositoryImpl(
         classroomIds.add(classCode)
         databaseReference.child("classrooms").setValue(classroomIds)
     }
+
+    override suspend fun exitClassroom(classCode: String) {
+        databaseReference = Firebase.database.getReference("/users/${utils.retrieveMobile()}")
+        classroomIds.remove(classCode)
+        databaseReference.child("classrooms").setValue(classroomIds)
+        exitClassroomOperation(classCode)
+    }
+
+     private fun   exitClassroomOperation(classCode: String) {
+        databaseReference = Firebase.database.getReference("/classrooms/$classCode")
+        val exitClassroomExecutor = object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                _exitClassroomStatus.postValue(false)
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val classroom = p0.getValue(Classroom::class.java)
+                if (p0.exists()) {
+                    databaseReference = Firebase.database.getReference("/classrooms/$classCode")
+                    val students: MutableList<String> = classroom?.students?.toMutableList()
+                        ?: mutableListOf(utils.retrieveMobile()!!)
+                    students.remove(utils.retrieveMobile()!!)
+                    databaseReference.child("students").setValue(students)
+                    updateUserClassroom(classCode)
+                    _exitClassroomStatus.postValue(true)
+                }else{
+                    _exitClassroomStatus.postValue(false)
+                }
+            }
+        }
+        databaseReference.addListenerForSingleValueEvent(exitClassroomExecutor)
+    }
+
+    override val classroomExitStatus: LiveData<Boolean>
+        get() = _exitClassroomStatus
 
 }

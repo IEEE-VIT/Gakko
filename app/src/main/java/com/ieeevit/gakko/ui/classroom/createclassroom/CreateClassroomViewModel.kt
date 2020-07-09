@@ -13,6 +13,8 @@ class CreateClassroomViewModel(
     private var newClassroomId: String = ""
     val fetchClassroomIdResponse = MutableLiveData<GetClassroomIdResponse>()
     val createClassroomResponse = MutableLiveData<Boolean>()
+    val exitClassroomStatus
+        get() = classroomRepository.classroomExitStatus
     private var classroomIds: List<String> = emptyList()
 
     init {
@@ -38,6 +40,10 @@ class CreateClassroomViewModel(
 
     suspend fun fetchNewClassroomId() {
         classroomRepository.fetchClassroomId()
+    }
+
+    suspend fun exitClassroom(classcode: String){
+        classroomRepository.exitClassroom(classcode)
     }
 
 }

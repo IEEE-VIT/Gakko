@@ -81,6 +81,15 @@
     <string name="logout_button">Log Out</string>
     <string name="update_profile_pic">Update Profile</string>
     <string name="demo_todo_text">You are all caught up!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //ExitClassroom
+    <string name="exit_title">Exit Classroom</string>
+    <string name="exit_title_sub">Are you sure do you want to quit this classroom?</string>
+    <string name="exit_btn">Exit</string>
+    <string name="cancel_btn">Cancel</string>
+
 
 
 </resources>

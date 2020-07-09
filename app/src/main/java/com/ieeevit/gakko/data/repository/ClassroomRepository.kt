@@ -10,10 +10,12 @@ interface ClassroomRepository {
     val userClassroomIds: LiveData<List<String>>
     val joinClassroomResponse: LiveData<Boolean>
     val classroomExistenceResponse: LiveData<Boolean>
+    val classroomExitStatus: LiveData<Boolean>
     suspend fun getClassrooms()
     suspend fun fetchClassroomId()
     suspend fun createClassroom(classroom: Classroom)
     suspend fun joinClassroom(classCode: String)
+    suspend fun exitClassroom(classCode: String)
 
 
 }
