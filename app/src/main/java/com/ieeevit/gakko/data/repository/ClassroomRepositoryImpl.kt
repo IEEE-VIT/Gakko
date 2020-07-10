@@ -60,6 +60,7 @@ class ClassroomRepositoryImpl(
             override fun onDataChange(p0: DataSnapshot) {
                 classroomIds = mutableListOf()
                 if (p0.exists()) {
+                    classList = mutableListOf()
                     for (x in p0.children) {
                         classroomIds.add(x.value.toString())
                         classroomLoader(x.value.toString())
@@ -152,15 +153,17 @@ class ClassroomRepositoryImpl(
                 }
                 classList.forEach {
                     if (it.classroomID == classroom!!.classroomID) {
-                        if (it.courseCode == classroom!!.courseCode) {
+                        if (it.courseCode == classroom.courseCode) {
                             validation = false
                         }
                     }
                 }
-                if (validation) {
+                if(validation){
                     classList.add(classroom!!)
                     _classrooms.postValue(classList)
                 }
+
+
             }
         }
         databaseReference.addListenerForSingleValueEvent(classroomLoader)
