@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_homeHostFragment_to_commentFragment"
             app:destination="@id/commentFragment" />
+        <action
+            android:id="@+id/action_homeHostFragment_to_classroomDisplay"
+            app:destination="@id/classroomDisplay" />
     </fragment>
     <fragment
         android:id="@+id/notifications"

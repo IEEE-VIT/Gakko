@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.ieeevit.gakko.data.models.User
 
 class ClassroomRepositoryImpl(
     private val utils: Utils,
@@ -178,7 +179,7 @@ class ClassroomRepositoryImpl(
         exitClassroomOperation(classCode)
     }
 
-     private fun   exitClassroomOperation(classCode: String) {
+    private fun exitClassroomOperation(classCode: String) {
         databaseReference = Firebase.database.getReference("/classrooms/$classCode")
         val exitClassroomExecutor = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -190,12 +191,21 @@ class ClassroomRepositoryImpl(
                 if (p0.exists()) {
                     databaseReference = Firebase.database.getReference("/classrooms/$classCode")
                     val students: MutableList<String> = classroom?.students?.toMutableList()
-                        ?: mutableListOf(utils.retrieveMobile()!!)
-                    students.remove(utils.retrieveMobile()!!)
-                    databaseReference.child("students").setValue(students)
-                    updateUserClassroom(classCode)
-                    _exitClassroomStatus.postValue(true)
-                }else{
+                        ?: mutableListOf()
+                    if (classroom?.teachers?.contains(utils.retrieveMobile()) == true) {
+                        if (students.isEmpty()) {
+                            databaseReference.removeValue()
+                            _exitClassroomStatus.postValue(true)
+                        } else {
+                            bulkClassRemover(classCode, students)
+                        }
+                    } else {
+
+                        students.remove(utils.retrieveMobile()!!)
+                        databaseReference.child("students").setValue(students)
+                        _exitClassroomStatus.postValue(true)
+                    }
+                } else {
                     _exitClassroomStatus.postValue(false)
                 }
             }
@@ -203,7 +213,29 @@ class ClassroomRepositoryImpl(
         databaseReference.addListenerForSingleValueEvent(exitClassroomExecutor)
     }
 
+    private fun bulkClassRemover(classCode: String, students: List<String>) {
+        for (x in students) {
+            databaseReference = Firebase.database.getReference("/users/$x")
+            val classroomFetcher = object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.exists()) {
+                        val user: User? = p0.getValue(User::class.java)
+                        var classrooms = user?.classrooms?.toMutableList() ?: mutableListOf()
+                        classrooms.remove(classCode)
+                        databaseReference.child("classrooms").setValue(classrooms)
+                    }
+                }
+
+            }
+            databaseReference.addListenerForSingleValueEvent(classroomFetcher)
+        }
+        _exitClassroomStatus.postValue(true)
+    }
+
     override val classroomExitStatus: LiveData<Boolean>
         get() = _exitClassroomStatus
-
 }

@@ -16,6 +16,7 @@ import com.ieeevit.gakko.ui.chat.chatdisplay.ChatInterfaceViewModelFactory
 import com.ieeevit.gakko.ui.classroom.createclassroom.CreateClassroomViewModelFactory
 import com.ieeevit.gakko.ui.classroom.joinclassroom.JoinClassroomViewModelFactory
 import com.ieeevit.gakko.ui.home.comments.CommentViewModelFactory
+import com.ieeevit.gakko.ui.home.homehost.HomeHostViewModelFactory
 import com.ieeevit.gakko.ui.home.material.MaterialViewModelFactory
 import com.ieeevit.gakko.ui.home.members.MembersViewModelFactory
 import com.ieeevit.gakko.ui.home.notifications.NotificationsViewModelFactory
@@ -70,5 +71,6 @@ class GakkoApplication : Application(), KodeinAware {
         bind() from provider { NotificationsViewModelFactory(instance()) }
         bind() from provider { MaterialViewModelFactory(instance())}
         bind() from provider { ProfileViewModelFactory(instance())}
+        bind() from provider { HomeHostViewModelFactory()}
     }
 }

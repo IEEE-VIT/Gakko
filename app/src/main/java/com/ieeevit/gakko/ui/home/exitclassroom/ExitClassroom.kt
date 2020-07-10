@@ -9,12 +9,16 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ieeevit.gakko.R
 import com.ieeevit.gakko.internal.Utils
 import com.ieeevit.gakko.ui.base.ScopedFragment
 import com.ieeevit.gakko.ui.classroom.createclassroom.CreateClassroomViewModel
 import com.ieeevit.gakko.ui.classroom.createclassroom.CreateClassroomViewModelFactory
+import com.ieeevit.gakko.ui.home.homehost.HomeHostViewModel
+import com.ieeevit.gakko.ui.home.homehost.HomeHostViewModelFactory
 import kotlinx.android.synthetic.main.fragment_exit_classroom.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -27,9 +31,10 @@ class ExitClassroom : BottomSheetDialogFragment(),KodeinAware {
 
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: CreateClassroomViewModelFactory by instance()
+    private val fragmentViewModelFactory: HomeHostViewModelFactory by instance()
     private val utils: Utils by instance()
     private lateinit var viewModel: CreateClassroomViewModel
-
+    private lateinit var viewModel2: HomeHostViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,6 +52,7 @@ class ExitClassroom : BottomSheetDialogFragment(),KodeinAware {
         super.onActivityCreated(savedInstanceState)
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(CreateClassroomViewModel::class.java)
+        viewModel2 = ViewModelProvider(this , fragmentViewModelFactory).get(HomeHostViewModel::class.java)
         exit_classroom_btn.setOnClickListener {
             exitClassroom()
         }
@@ -61,12 +67,20 @@ class ExitClassroom : BottomSheetDialogFragment(),KodeinAware {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     private fun exitClassroom() = viewLifecycleOwner.lifecycle.coroutineScope.launch {
         utils.retrieveCurrentClassroom()?.let { viewModel.exitClassroom(it) }
         viewModel.exitClassroomStatus.observe(viewLifecycleOwner, Observer {
             if(it){
                 Toast.makeText(requireActivity(),"Exited Classroom!",Toast.LENGTH_SHORT).show()
-                requireActivity().finish()
+                dismiss()
+                viewModel2.goBackToClassroom(true)
+            }else{
+                Toast.makeText(requireActivity(),"Error Exiting Classroom!",Toast.LENGTH_SHORT).show()
+                dismiss()
             }
         })
     }
