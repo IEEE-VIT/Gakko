@@ -27,6 +27,7 @@
             android:id="@+id/join_class_code_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:maxHeight="60dp"
             android:singleLine="true"
             android:inputType="numberSigned"
