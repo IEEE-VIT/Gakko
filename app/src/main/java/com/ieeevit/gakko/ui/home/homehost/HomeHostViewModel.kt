@@ -1,16 +1,16 @@
 package com.ieeevit.gakko.ui.home.homehost
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ieeevit.gakko.data.repository.ListenerRepo
 
-class HomeHostViewModel : ViewModel() {
-
-    val goBackToClassroomDisplay = MutableLiveData<Boolean>()
-
-
-    fun goBackToClassroom(truth : Boolean){
-        if(truth){
-            goBackToClassroomDisplay.postValue(true)
-        }
+class HomeHostViewModel(
+    private val listenerRepo: ListenerRepo
+) : ViewModel() {
+    val goBackToClassroomDisplay
+        get() = listenerRepo.switchToClassroomDisplay
+    fun setClassroomSwitch(truth : Boolean){
+        listenerRepo.switchClassroomDisplay(truth)
     }
 }

@@ -55,6 +55,7 @@ class GakkoApplication : Application(), KodeinAware {
         bind<MembersRepository>() with singleton { MembersRepositoryImpl() }
         bind<ChatRepository>() with singleton { ChatRepositoryImpl(instance()) }
         bind<NotificationsRepo>() with singleton { NotificationsRepoImpl() }
+        bind<ListenerRepo>() with singleton { ListenerRepoImpl() }
         bind() from provider { SplashViewModelFactory(instance()) }
         bind() from provider { TodoViewModelFactory(instance()) }
         bind() from provider { PinboardViewModelFactory(instance()) }
@@ -63,7 +64,7 @@ class GakkoApplication : Application(), KodeinAware {
         bind() from provider { UserSetUpViewModelFactory(instance()) }
         bind() from provider { ClassroomDisplayViewModelFactory(instance()) }
         bind() from provider { ThreadsViewModelFactory(instance()) }
-        bind() from provider { CreateClassroomViewModelFactory(instance()) }
+        bind() from provider { CreateClassroomViewModelFactory(instance(),instance()) }
         bind() from provider { JoinClassroomViewModelFactory(instance()) }
         bind() from provider { MembersViewModelFactory(instance(), instance()) }
         bind() from provider { ChatInterfaceViewModelFactory(instance()) }
@@ -71,6 +72,6 @@ class GakkoApplication : Application(), KodeinAware {
         bind() from provider { NotificationsViewModelFactory(instance()) }
         bind() from provider { MaterialViewModelFactory(instance())}
         bind() from provider { ProfileViewModelFactory(instance())}
-        bind() from provider { HomeHostViewModelFactory()}
+        bind() from provider { HomeHostViewModelFactory(instance())}
     }
 }

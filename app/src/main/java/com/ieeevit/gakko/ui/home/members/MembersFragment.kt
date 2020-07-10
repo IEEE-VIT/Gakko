@@ -82,15 +82,16 @@ class MembersFragment : ScopedFragment(), KodeinAware {
     private fun fetchClassroom() = launch {
         viewModel.getClassroom(utils.retrieveCurrentClassroom() ?: "")
         viewModel.classroom.observe(viewLifecycleOwner, Observer {
-            classroom = it
-            if (classroom.students.isNullOrEmpty()) {
-                //Log.d("Trigger","Empty List")
-                memebrs_students_recycler.adapter = MembersDisplayAdapter(emptyList())
-            } else {
-                getStudents()
+            if(it != null){
+                classroom = it
+                if (classroom.students.isNullOrEmpty()) {
+                    //Log.d("Trigger","Empty List")
+                    memebrs_students_recycler.adapter = MembersDisplayAdapter(emptyList())
+                } else {
+                    getStudents()
+                }
+                getTeachers()
             }
-            getTeachers()
-
         })
 
     }

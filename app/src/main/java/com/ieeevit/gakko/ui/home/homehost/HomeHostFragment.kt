@@ -1,6 +1,7 @@
 package com.ieeevit.gakko.ui.home.homehost
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +15,15 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ieeevit.gakko.R
 import com.ieeevit.gakko.adapters.FragmentAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.ieeevit.gakko.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.trial_fragment.*
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-class HomeHostFragment : Fragment(), KodeinAware {
+    class HomeHostFragment : ScopedFragment(), KodeinAware {
     private lateinit var viewPager2: ViewPager2
     private lateinit var navController: NavController
     override val kodein: Kodein by closestKodein()
@@ -53,10 +56,11 @@ class HomeHostFragment : Fragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,viewModelFactory).get(HomeHostViewModel::class.java)
-       goBackToClassroomListener()
+        viewModel.setClassroomSwitch(false)
+        goBackToClassroomListener()
     }
 
-    private fun goBackToClassroomListener(){
+    private fun goBackToClassroomListener() = launch{
         viewModel.goBackToClassroomDisplay.observe(viewLifecycleOwner, Observer {
             if(it){
                 navController.navigate(R.id.action_homeHostFragment_to_classroomDisplay)

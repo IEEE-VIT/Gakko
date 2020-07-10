@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.ieeevit.gakko.data.models.Classroom
 import com.ieeevit.gakko.data.network.response.GetClassroomIdResponse
 import com.ieeevit.gakko.data.repository.ClassroomRepository
+import com.ieeevit.gakko.data.repository.ListenerRepo
 
 class CreateClassroomViewModel(
-    private val classroomRepository: ClassroomRepository
+    private val classroomRepository: ClassroomRepository,
+    private val listenerRepo: ListenerRepo
 ) : ViewModel() {
     private var newClassroomId: String = ""
     val fetchClassroomIdResponse = MutableLiveData<GetClassroomIdResponse>()
@@ -44,6 +46,10 @@ class CreateClassroomViewModel(
 
     suspend fun exitClassroom(classcode: String){
         classroomRepository.exitClassroom(classcode)
+    }
+
+    fun switchToClassroomDisplay(truth: Boolean){
+        listenerRepo.switchClassroomDisplay(truth)
     }
 
 }

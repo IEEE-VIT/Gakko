@@ -126,8 +126,11 @@ class ThreadsFragment : ScopedFragment(), KodeinAware {
         studentsList.clear()
         threadsViewModel.getThreadClassroom(classroomId)
         threadsViewModel.threadClassroom.observe(viewLifecycleOwner, Observer {
-            teachersList = it.teachers as MutableList<String>
-            updateUI(threadList, teachersList, map)
+            if(it != null){
+                teachersList = it.teachers as MutableList<String>
+                updateUI(threadList, teachersList, map)
+            }
+
         })
     }
 

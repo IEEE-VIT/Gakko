@@ -31,10 +31,8 @@ class ExitClassroom : BottomSheetDialogFragment(),KodeinAware {
 
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: CreateClassroomViewModelFactory by instance()
-    private val fragmentViewModelFactory: HomeHostViewModelFactory by instance()
     private val utils: Utils by instance()
     private lateinit var viewModel: CreateClassroomViewModel
-    private lateinit var viewModel2: HomeHostViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,7 +50,6 @@ class ExitClassroom : BottomSheetDialogFragment(),KodeinAware {
         super.onActivityCreated(savedInstanceState)
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(CreateClassroomViewModel::class.java)
-        viewModel2 = ViewModelProvider(this , fragmentViewModelFactory).get(HomeHostViewModel::class.java)
         exit_classroom_btn.setOnClickListener {
             exitClassroom()
         }
@@ -60,24 +57,21 @@ class ExitClassroom : BottomSheetDialogFragment(),KodeinAware {
             dismiss()
         }
     }
-
     companion object {
         fun newInstance() {
 
         }
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
-
     private fun exitClassroom() = viewLifecycleOwner.lifecycle.coroutineScope.launch {
         utils.retrieveCurrentClassroom()?.let { viewModel.exitClassroom(it) }
         viewModel.exitClassroomStatus.observe(viewLifecycleOwner, Observer {
             if(it){
                 Toast.makeText(requireActivity(),"Exited Classroom!",Toast.LENGTH_SHORT).show()
+                viewModel.switchToClassroomDisplay(true)
                 dismiss()
-                viewModel2.goBackToClassroom(true)
             }else{
                 Toast.makeText(requireActivity(),"Error Exiting Classroom!",Toast.LENGTH_SHORT).show()
                 dismiss()
