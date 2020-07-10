@@ -2,11 +2,14 @@ package com.ieeevit.gakko.ui.home.material
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.content.ContentResolver
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract.Attendees.query
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +17,10 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ieeevit.gakko.R
 import com.ieeevit.gakko.data.models.Material
 import com.ieeevit.gakko.internal.Utils
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.material_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -39,6 +42,10 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
     private lateinit var viewModel: MaterialViewModel
     private lateinit var uri: Uri
     private var displayName: String? = null
+    private var sizeIndex: Int = 0
+    private var fileSizeInBytes: Long = 0
+    private var fileSizeInKB: Long = 0
+    private var fileSizeInMB: Long = -1
     private var stringUri: String? = null
     override val kodein: Kodein by closestKodein()
     private val utils: Utils by instance()
@@ -158,27 +165,35 @@ class MaterialFragment : BottomSheetDialogFragment(), KodeinAware {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null && data.data != null) { //if a file is selected
             if (data.data != null) {
-                uri = data.data!!
-                stringUri = uri.toString()
-                val myFile = File(stringUri!!)
                 displayName = null
+                uri = data.data!!
+                val myFile = File(uri.toString())
+                stringUri = uri.toString()
 
                 if (stringUri!!.startsWith("content://")) {
                     var cursor: Cursor? = null
                     try {
                         cursor = activity?.contentResolver?.query(uri, null, null, null, null)
                         if (cursor != null && cursor.moveToFirst()) {
-                            displayName =
-                                cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                            displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                            sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+                            fileSizeInBytes = cursor.getLong(sizeIndex)
+                            fileSizeInKB = fileSizeInBytes / 1024
+                            fileSizeInMB = fileSizeInKB / 1024
                         }
                     } finally {
                         cursor?.close();
                     }
                 } else if (stringUri!!.startsWith("file://")) {
-                    displayName = myFile.name;
+                    displayName = myFile.name
                 }
-                Toast.makeText(requireContext(), "$displayName file chosen", Toast.LENGTH_SHORT)
-                    .show()
+
+                if(fileSizeInMB <= 6) {
+                    Toast.makeText(requireContext(), "$displayName file chosen", Toast.LENGTH_SHORT).show()
+                } else {
+                    stringUri = null
+                    Toast.makeText(requireContext(), "$displayName file's size is greater than 6 MB", Toast.LENGTH_LONG).show()
+                }
             }
         } else {
             Toast.makeText(requireContext(), "No file chosen", Toast.LENGTH_LONG).show()
