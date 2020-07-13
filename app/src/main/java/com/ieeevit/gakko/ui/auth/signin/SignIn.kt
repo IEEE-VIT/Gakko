@@ -64,13 +64,18 @@ class SignIn : ScopedFragment(), KodeinAware {
 
     private fun validatePhoneNumber(): Boolean {
         phoneNumber = phone_input.text.toString()
-        val phoneNumeric = phoneNumber.substring(1 until phoneNumber.length)
-        Log.d("Numeric","$phoneNumeric , $phoneNumber")
-        if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length < 13 || phoneNumeric.toBigIntegerOrNull() == null) {
+        if(phoneNumber.isNotEmpty()){
+            val phoneNumeric = phoneNumber.substring(1 until phoneNumber.length)
+            Log.d("Numeric","$phoneNumeric , $phoneNumber")
+            if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length < 13 || phoneNumeric.toBigIntegerOrNull() == null) {
+                phone_input.error = "Invalid phone number."
+                return false
+            }
+            return true
+        }else{
             phone_input.error = "Invalid phone number."
             return false
         }
-        return true
     }
 
 
