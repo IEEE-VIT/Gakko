@@ -3,8 +3,11 @@
 outside their education institution. It promises a completely virtual classroom experience and helps faculties and students learn outside 
 of the classroom. It's stacked with helpful features aimed at improving your productivity and communication.
 
+## Screenshots
+![Gakko Screenshots](assets/screenshots.png)
+
 ## How is this built?
-This app is 100% written in **Kotlin**. Used **MVVM architecture** with **Android Architecture Components** and **Kodein** for dependency injeciton.
+This app is 100% written in **Kotlin**.  **MVVM architecture** is used with **Android Architecture Components** and **Kodein** for dependency injection.
 
 ## Features
 * Simply invite students to join a class through their phone numbers.
@@ -15,9 +18,9 @@ This app is 100% written in **Kotlin**. Used **MVVM architecture** with **Androi
 
 ## Components used
 * **Lifecycle** - Used by LiveData.
-* **LiveData** - For observing upon data in ViewModel.
+* **LiveData** - For observing the data in ViewModel.
 * **ViewModel** - For managing UI data.
-* **Navigation** - For simplifying navigation using Fragment.
+* **Navigation** - For simplifyed navigation through fragments.
 
 ## Other libraries/services used
 * **Glide** - For loading images into ImageView.
@@ -31,4 +34,18 @@ This app is 100% written in **Kotlin**. Used **MVVM architecture** with **Androi
 
 ## Designers
 * **Harsha Kumar** [(@HarshaKumar23)](https://github.com/HarshaKumar23)
-* **Madhav Rajesh**
+* **Madhav Rajesh** [(@snupls)](https://github.com/snupls)
+
+### [Download this app from Google Play Store](https://play.google.com/store/apps/details?id=com.ieeevit.gakko&hl=en_US)
+
+## License
+Copyright 2020 IEEE-VIT
+
+Licensed under MIT License :  https://opensource.org/licenses/MIT
+
+<br>
+<br>
+
+<p align="center">
+	Made with :heart: by IEEE-VIT
+</p>
