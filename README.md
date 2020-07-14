@@ -34,7 +34,7 @@ This app is 100% written in **Kotlin**.  **MVVM architecture** is used with **An
 
 ## Designers
 * **Harsha Kumar** [(@HarshaKumar23)](https://github.com/HarshaKumar23)
-* **Madhav Rajesh** [(@snuplz)](https://github.com/snuplz)
+* **Madhav Rajesh** [(@snupls)](https://github.com/snupls)
 
 ### [Download this app from Google Play Store](https://play.google.com/store/apps/details?id=com.ieeevit.gakko&hl=en_US)
 
@@ -47,5 +47,5 @@ Licensed under MIT License :  https://opensource.org/licenses/MIT
 <br>
 
 <p align="center">
-	Made with :heart: by IEEE - VIT
+	Made with :heart: by IEEE-VIT
 </p>
