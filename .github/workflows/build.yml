@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: App Brickie
+    steps:
+      - uses: actions/checkout@v2
+      - name: AppBrickie
+        id: appBrickieBuild
+        uses: DarthBenro008/app-brickie@v2.0
+        with:
+          type: "native"
+          chatid: "bt2koqahuckbaa0mh2j0"
+          packagename: "Gakko"
+      - name: Get Automated Result
+        run: echo "${{ steps.appBrickieBuild.outputs.result }}"
