@@ -14,10 +14,15 @@ jobs:
       - uses: actions/checkout@v2
       - name: AppBrickie
         id: appBrickieBuild
-        uses: DarthBenro008/app-brickie@v2.0
+        uses: DarthBenro008/app-brickie@v3.0
         with:
           type: "native"
           chatid: "bt2koqahuckbaa0mh2j0"
           packagename: "Gakko"
+          firebase: ${{ secrets.FIREBASE }}
+          keystore: ${{ secrets.KEYSTORE }}
+          keystorePassword: ${{ secrets.KEYSTORE_PASS }}
+          keyAlias: ${{ secrets.KEY_ALIAS }}
+          keyPassword: ${{ secrets.KEYSTORE_PASS }}
       - name: Get Automated Result
         run: echo "${{ steps.appBrickieBuild.outputs.result }}"
